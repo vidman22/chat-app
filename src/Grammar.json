@@ -1,0 +1,57 @@
+{
+ "Grammar": {
+	"simple-present": [
+		{ 
+			"sentence": "I usually go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		},
+		{ 
+			"sentence": "It normally goes to the store.", 
+			"a" : "goes",
+			"b" : "go"
+		},{ 
+			"sentence": "She rarely goes to the store.", 
+			"a" : "goes",
+			"b" : "go"
+		},{ 
+			"sentence": "We frequently go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		},{ 
+			"sentence": "I seldom go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		},{ 
+			"sentence": "He often goes to the store.", 
+			"a" : "goes",
+			"b" : "go"
+		},{ 
+			"sentence": "I hardly ever go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		},{ 
+			"sentence": "I would like to go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		},{ 
+			"sentence": "I prefer not to go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		},{ 
+			"sentence": "I find a way to go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		},{ 
+			"sentence": "I will go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		},{ 
+			"sentence": "I should go to the store.", 
+			"a" : "go",
+			"b" : "goes"
+		}
+	]
+  }
+
+}

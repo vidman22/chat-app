@@ -1,0 +1,67 @@
+.Waiting {
+	display: inline-block;
+	width: 90%;
+	margin:20px 10px 12px 50px; 
+	border: 1px solid grey;
+	box-shadow: 1px 2px 3px #ccc;
+	border-radius: 4px;
+	padding: 16px;
+	text-align: center;
+	font-family: 'Helvetica', sans-serif;
+	background: white;
+	color: black;
+}
+
+.Waiting h1{
+	margin-left: 50px;
+	float: left;
+}
+
+.Waiting h2{
+	font-weight: lighter;
+	clear: both;
+}
+
+.Waiting h3{
+	font-family: 'Helvetica', sans-serif;
+	font-weight: lighter;
+	font-size: 40px;
+
+}
+
+.Waiting button{
+	font-kerning: normal;
+}
+
+
+.Team {
+
+	display: inline-block;
+	justify-content: center;
+	width: 25%;
+	margin:20px; 
+	border: 1px solid grey;
+	box-shadow: 1px 2px 3px #ccc;
+	border-radius: 4px;
+	padding: 16px;
+	text-align: center;
+	font-family: 'Helvetica', sans-serif;
+	background: white;
+	color: black;
+}
+
+.Player {
+	border: 2px solid grey;
+	border-radius: 8px;
+	
+	text-align: center;
+	margin: 3px;
+	font-family: 'Open Sans', sans-serif;
+
+}
+
+.Player p{
+	font-size: 18px;
+	margin: 12px 10px 12px 0px;
+
+}
