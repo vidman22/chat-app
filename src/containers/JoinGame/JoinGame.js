@@ -14,13 +14,14 @@ export default class CreateGame extends Component {
 		super(props);
 
 		this.state = {
-			name:"",
-			room:"",
-			error:"",
+			name:'',
+			room:'',
+			error:'',
 			action:'code',
 			activePlayer:'',
 			players: [],
-			game: ""
+			game: '',
+			winner:''
 
 		}
 	}
@@ -35,6 +36,20 @@ export default class CreateGame extends Component {
 		socket.on('JOINED', () => {
 			console.log('joined room');
 			
+		});
+
+		socket.on('WINNER', (user) => {
+			console.log("state name " + this.state.name);
+			if (user === this.state.name) {
+			this.setState({
+				winner: 'You won!'
+			});
+
+		} else {
+			this.setState({
+				winner: 'You lost'
+			})
+		}
 		});
 
 		socket.on('START_GAME', ( game ) => {
@@ -59,8 +74,7 @@ export default class CreateGame extends Component {
 			});
 			} else {
 				this.setState({
-					action: 'name'		
-					
+					action: 'name'			
 				});
 			}
 			
@@ -76,13 +90,19 @@ export default class CreateGame extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		socket.emit('NEW_PLAYER', this.state.room, this.state.name);
-
-		this.setState({
-			action: 'waiting'
-
+		socket.emit('NEW_PLAYER', this.state.room, this.state.name, (res) => {
+			if ( res ) {
+				this.setState({
+					error: res
+				});
+			} else {
+				this.setState({
+					action: 'waiting'
+				});
+			}
 		});
 
+		
 	}
 
 	handleChange = (e) => {
@@ -130,7 +150,7 @@ export default class CreateGame extends Component {
 						onChange={this.handleChange}
 						placeholder={'Name'}
 					/>
-					
+					<div className="error">{this.state.error ? this.state.error : null}</div>
 					</form>
 				</div>
 					)
@@ -142,7 +162,7 @@ export default class CreateGame extends Component {
 			break;
 			case 'game':
 				result = (
-					<GamePlay game={this.state.game} /> 
+					<GamePlay room={this.state.room} game={this.state.game} name={this.state.name} winner={this.state.winner}/> 
 					)
 			break;
 			default:

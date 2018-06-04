@@ -1,6 +1,6 @@
 .Sentence {
 	display: block;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Helvetica', sans-serif;
 	font-size: 25px;
 	text-align: center;
 	justify-content: center;
@@ -10,9 +10,8 @@
 }
 
 .Sentence h2 {
+	font-weight: lighter;
 	display: block;
-	
-
 }
 
 
@@ -24,18 +23,18 @@
 }
 
 .enter input{
-	font-family: 'Montserrat', sans-serif;
+	
 	justify-content: center;
-	max-width:15%;
+	max-width:45%;
 	margin-top: 0;
 	border-top:none;
 	border-left:none;
 	border-right:none;
 	background: none;
 	text-align: center;
-	height:47px;
+	height:35px;
 	line-height:20px;
-	font-size:40px;
+	font-size:30px;
 	border-bottom:solid 2px #b3b2ca;
 	transition:all .23s ease-in
 }

@@ -5,7 +5,7 @@ import './Tile.css';
 
 const tile = ( props ) => {
 	return (
-		<div className="Tile">
+		<div className="Tile" onClick={props.onclick} >
 			<h2>{props.name}</h2>
 
 

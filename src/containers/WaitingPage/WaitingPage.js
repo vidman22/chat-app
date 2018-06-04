@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import Players from '../../components/Players/Players';
+import Teams from '../../components/Team/Team';
+import GameBoard from '../GameBoard/GameBoard';
 
 import Grammar from '../../Grammar.json';
 
@@ -20,11 +22,12 @@ class WaitingPage extends Component {
 		this.state = {
 			gameName: null,
 			gameSentences: null,
-			activeGame: null,
 			room: '',
 			players: [],
 			disabled:true,
-			arrayOfTeams: null
+			arrayOfTeams: null,
+			button: 'buttons',
+			action: 'players'
 		}
 	}
 
@@ -34,30 +37,17 @@ class WaitingPage extends Component {
 		this.initSocket();
 	}
 
-	componentDidUpdate() {
-		this.loadGame();
+	// componentDidUpdate() {
+	// 	this.loadGame();
 
-	}
+	// }
 	
 	loadGame() {
-
-		if ( this.props.match.params.id ) {
-			// eslint-disable-next-line
-			if (!this.state.activeGame || (this.state.activeGame !== this.props.match.params.id) ) {
-				for ( let i = 0; i < this.props.games.length; i++ ) {
-					// eslint-disable-next-line
-					if (this.props.games[i].id == this.props.match.params.id ) {
-						const activeGame = this.props.games[i].id;
-						const gameSentences = GrammarTest[activeGame];
-						this.setState({ 
-										activeGame,
-										gameSentences,
-										gameName: this.props.games[i].name 
-									 });
-					}
-				}
-	  		}
-		}
+				const gameSentences = GrammarTest[this.props.activegame].sentence
+				this.setState({ 
+						gameSentences,
+						gameName: GrammarTest[this.props.activegame].name 
+					});
     };
 
 	initSocket() {
@@ -79,12 +69,25 @@ class WaitingPage extends Component {
 			this.setState({
 				players
 			});
-		
-			if (players.length > 3) {
+			console.log("players in state ", this.state.players);
+			if (players.length >= 1) {
 				this.setState({
 					disabled: false
 				});
 			}
+		socket.on('WINNER', (user) =>{
+			console.log("our winner is " + user);
+		});
+		});
+
+		socket.on('SCORE', (users) => {
+			let players = [...this.state.players];
+			players = users;
+
+			this.setState({
+				players
+			});
+			console.log("successful score ", this.state.players);
 		})
 	};
 
@@ -99,12 +102,16 @@ class WaitingPage extends Component {
 	}
 
 	shuffleTeams() {
-		const players = this.state.players;
+		console.log("shuffle teams clicked");
+		console.log("players in shuffle", this.state.players);
+		const players = [...this.state.players];
 		const room = this.state.room;
 
 		socket.emit('SHUFFLE', room, players, (res) =>{
 			this.setState({
-				arrayOfTeams: res
+				arrayOfTeams: res,
+				button:'Start',
+				action:'teams'
 			});
 
 		});
@@ -113,65 +120,71 @@ class WaitingPage extends Component {
 
 	start(e) {
 		e.preventDefault();
-		const players = this.state.players;
+		const players = [...this.state.players];
 		const room = this.state.room;
-		const activeGame = this.state.activeGame;
-		console.log("start game clicked");
+		const activeGame = this.props.activegame;
+		
 		socket.emit('START_GAME', room, players, activeGame);
+		this.setState({
+			action:'gameboard'
+		});
+	}
+
+	button() {
+
+		this.setState({
+			button: null
+		})
+	}
+
+	addComponent() {
+		let result;
+		switch(this.state.action) {
+			case 'players':
+			result = (
+					<Players 
+						players={this.state.players} 
+						room={this.state.room} 
+						gamename={this.state.gameName} 
+						shuffleteams={this.shuffleTeams.bind(this)} 
+						back={this.props.back} 
+						start={this.start.bind(this)} 
+						disabled={this.state.disabled} 
+						buttonstate={this.state.button} 
+						button={this.button.bind(this)} 
+					/>
+				)
+			break;
+			case 'teams':
+			result = (
+					<Teams 
+						arrayofteams={this.state.arrayOfTeams} 
+						room={this.state.room} 
+						gamename={this.state.gameName} 
+						back={this.props.back} 
+						start={this.start.bind(this)} 
+						disabled={this.state.disabled}
+					/>
+				)
+			break;
+			case 'gameboard':
+			result = (
+					<GameBoard players={this.state.players} arrayofteams={this.state.arrayOfTeams} />
+				)
+			break;
+			default:
+			result = (<div>Uh oh!</div>)
+
+		}
+		return result;
 	}
 
 
-
 	render() {
-		let players = (
-				<div>
-					{this.state.players.map((player, index) => {
-					return (
-						<div className="Player" key={index}>
-							<p>{index + 1}  {player}</p>
-						</div>
-					)
-					})}
-				</div>
-		);
-
-		let teams = null;
-		if ( this.state.arrayOfTeams ) {
-			teams = (
-			 <div>
-		  		{this.state.arrayOfTeams.map((team, index) => {
-		  		return (
-		  			<div className="Team" key={index} >
-						<p>{index + 1}</p>{ team.map((player, indx ) => {
-							return (
-								<div className = "Player" key={indx}>
-									{player}
-								</div>
-								);
-						})}
-					</div>
-				)
-		  		})}
-		  	 </div>	
-		    );
-		}
-
-		let button = (
-				<Link to={'/game-board/'}><button onClick={this.start.bind(this)}>Start</button></Link>
-			)
-
-		
 		
 		return(
-			<div className="Waiting">
-				<h1>{this.state.gameName}</h1>
-				<h2>Go to <em>www.eggames.com/join-game</em></h2>
-				<h2>Add the code below to play!</h2>
-				<h3>{this.state.room}</h3>
-				
-				{ teams ? teams : players }
-				<button disabled={this.state.disabled} onClick={this.shuffleTeams.bind(this)}>Shuffle</button>
-				{ teams ? button : null }
+			<div>
+				{this.addComponent()}
 			</div>
 			)
 	}

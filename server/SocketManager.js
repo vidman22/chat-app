@@ -10,11 +10,8 @@ class SessionObject {
 		this.connectedUsers = [],
 		this.turn = 0,
 		this.room = '';
-	}
-
-	
+	}	
 }
-
 
 
 module.exports = function(socket) {
@@ -35,6 +32,7 @@ module.exports = function(socket) {
 		
 		let temp_room = '';
 		let message = '';
+		console.log("sessions in join ", sessions);
 		for ( let i = 0; i < sessions.length; i++) {
 			if ( sessions[i].room === room) {
 				temp_room = room;
@@ -46,21 +44,38 @@ module.exports = function(socket) {
 			message = 'no game by that code';
 		}
 		callback(message);
+
+		io.to(room).emit('JOINED');
 	});
 
-	socket.on('NEW_PLAYER', (room, name) => {
-
+	socket.on('NEW_PLAYER', (room, name, callback) => {
+		console.log("name " + name);
 		const index = searchSessions( room );
-		const users = sessions[index].connectedUsers;
 
+		const users = sessions[index].connectedUsers;
+		
+		let message = '';
+		
 		const user = {
-			name: name,
+			playerName: name,
 			id: socket.id,
 			score: 0
-		}
+		};
+	
 		users.push(user);
+		console.log("users " , users);
 		
+			for ( let i = 0; i < users.length; i++ ){
+				if (users[i].playerName.length > 9 || users[i].playerName === name ) {
+					message ='try a different name';
+					users = users[i].filter((user) => user.playerName !== name );
+					io.to(room).emit('UPDATED_PLAYERS', (room, users ));
+					break;
+				}
+			}
 		io.to(room).emit('UPDATED_PLAYERS', (room, users ));
+		callback(message);
+		
 	});
 
 
@@ -83,12 +98,16 @@ module.exports = function(socket) {
 		const index = searchSessions(room);
 
 		let connectedUsers = sessions[index].connectedUsers;
-		console.log("connected users ln 86", connectedUsers);
+		console.log("connected users ln 99", connectedUsers);
 		for ( let i = 0; i < connectedUsers.length; i ++) {
-			if ( connectedUsers[i].name === name ) {
+			if ( connectedUsers[i].playerName === name ) {
 				connectedUsers[i].score++;
 				io.to(room).emit('SCORE', connectedUsers);
-				console.log("connected users after success " , connectedUsers);
+				if (connectedUsers[i].score == 12) {
+
+					io.to(room).emit('WINNER', connectedUsers[i].playerName);
+					console.log("we have a winner " + connectedUsers[i].playerName);
+				}
 			}
 		}
 		
@@ -152,7 +171,7 @@ randomizeArray = (users) => {
 }
 
 createTeams = ( users ) => {
-	console.log("create teams triggered");
+	
 	const numberOfTeams = Math.ceil(users.length/4); 
 	const array = randomizeArray(users);
 	
@@ -161,16 +180,16 @@ createTeams = ( users ) => {
 	let newBreak = Math.floor(array.length/numberOfTeams);
 
 	let teams = [];
-	console.log("number of teams " + numberOfTeams );
+	
 	for ( let i = 0; i < numberOfTeams; i++) {
 		const team = array.slice(firstBreak, newBreak);
 		newBreak = newBreak + firstSegment;
 		firstBreak = firstBreak + firstSegment;
 		teams.push(team);
-		console.log("team ", team);
+		
 	}
 	return teams;
-	console.log("create teams ", teams);
+	
 }
 
 createTwoTeams = ( users ) => {

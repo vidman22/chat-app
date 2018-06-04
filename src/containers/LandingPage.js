@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
-
+import logo from "../assets/svg/targetlogo4.svg";
 import './LandingPage.css';
 import CreateGame from './CreateGame/CreateGame';
 // import GameBoard from '../components/GameBoard/GameBoard';
 import Home from '../components/Home/Home';
-import JoinGame from './JoinGame/JoinGame';
 import Lessons from './Lessons/Lessons';
-import SoloPlay from './SoloPlay/SoloPlay';
+import SoloPage from './SoloPage/SoloPage';
 
 
 // import WaitingPage from './WaitingPage/WaitingPage';
@@ -19,24 +18,38 @@ class LandingPage extends Component {
            <div className="Landing">
             <div className="Wrapper">
                 <header className="Header">
+                    <img 
+
+                        src={logo}
+                        width="100px" 
+                        height="120px"
+                        alt="logo" 
+                    />
+
                     <NavLink to={{
                         pathname: '/'
-                    }}><h1>English Grammar Games</h1></NavLink>
+                    }}exact><h1>English Grammar Games</h1></NavLink>
                 
 
                         <nav>
                             <ul>
-                             <li><NavLink to={{
-                                pathname: '/host-game'
-                             }}><h3 id='first'>Host Game</h3></NavLink></li>
+                             <li><NavLink 
+                             to="/host-game"
+                             activeStyle={{
+                                color:'#323232'}} id='first'>Host Game</NavLink></li>
 
                              <li><NavLink to={{
-                                pathname: '/join-game'
-                             }}><h3>Join Game</h3></NavLink></li>
+                                pathname: '/solo-play'
+                             }}
+                             activeStyle={{
+                                color:'#323232'}}>Solo Play</NavLink></li>
 
                              <li><NavLink to={{
                                 pathname: '/lessons'       
-                             }}><h3 id='last'>Lessons</h3></NavLink></li>
+                             }}
+                             activeStyle={{
+                                color:'#323232'
+                                }}className='last'>Lessons</NavLink></li>
                             </ul>
                         </nav>
 
@@ -45,10 +58,12 @@ class LandingPage extends Component {
                <Switch> 
                 
                 
-                <Route path="/join-game" component={JoinGame} />
-                <Route path="/solo-play" component={SoloPlay} />
+                
+                <Route path="/solo-play" component={SoloPage} />
+
                 <Route path="/lessons" component={Lessons} />
                 <Route path="/host-game" component={CreateGame}/>
+                
                 {/*<Route path="/game-board" component={GameBoard}/>*/}
                 <Route path="/" component={Home}/>
                 

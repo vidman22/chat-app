@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route,  Link } from 'react-router-dom';
+
 import WaitingPage from '../WaitingPage/WaitingPage';
 import Tile from '../../components/Tile/Tile';
 
@@ -32,15 +32,15 @@ export default class CreateGame extends Component {
 				url: '../'
 			}, {
 				name: "Modals",
-				id: 'present-perfect-continuous',
+				id: 'modals',
 				url: '../'
 			}, {
 				name: "Past Modals",
-				id: 'past-perfect',
+				id: 'past-modals',
 				url: '../'
 			}, {
 				name: "Narrative Tenses",
-				id: 'past-perfect-continuous',
+				id: 'narrative-tenses',
 				url: '../'
 			}, {
 				name: "Gerunds and Infinitives",
@@ -59,7 +59,10 @@ export default class CreateGame extends Component {
 				id: 'awl-families',
 				url: '../'
 			}],
+			activeGame: null
 		}
+
+		this.back = this.back.bind(this);
 	}
 	
 
@@ -85,40 +88,38 @@ export default class CreateGame extends Component {
 			return result;
 	}
 
-	gameSelectedHandler = ( game ) => {
-
+	gameSelectedHandler = ( game, e ) => {
+		e.preventDefault();
+		console.log("clicked");
 		this.setState({ 
 			activeGame: game
 			})
 	}
 
 	
+	back() {
+		this.setState({
+			activeGame: null
+		})
+	}
 
 	render() {	
 	
 		const games = this.state.games.map((game, index) => {
 			return (
-				 <Link to={'/host-game/' + game.id} key={index}>
-
 				 	<Tile 
-						clicked={() => this.gameSelectedHandler( game.name )}
+						onclick={(e) => this.gameSelectedHandler(game.id, e)}
 						name = {game.name}
-						url = {game.url}
 						key = {game.id}
-						action={this.start}
 					/>
-				 </Link>
-					
-
-			
-	    );
+	    		);
 	});
 		
 		return (
 			<div className="create">
-				<Route path={this.props.match.url + '/:id'}  
-                      exact render={(props) => <WaitingPage {...props} activegame={this.state.activeGame} games={this.state.games} />} />
-				{games}
+				
+				{ !this.state.activeGame ? games : <WaitingPage activegame={this.state.activeGame} back={this.back} games={this.state.games} /> }
+				
 				
 			</div>
 		);

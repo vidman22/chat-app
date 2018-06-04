@@ -1,3 +1,19 @@
+.BackButton {
+	font-size: 22px;
+	border: none;
+	background: none;
+	color: gray;
+	float: left;
+	}
+
+.BackButton:hover {
+	
+	color: black;
+	box-shadow: none;
+
+}
+
+
 .Waiting {
 	display: inline-block;
 	width: 90%;
@@ -13,8 +29,8 @@
 }
 
 .Waiting h1{
-	margin-left: 50px;
-	float: left;
+	text-align: center;
+	clear: both;
 }
 
 .Waiting h2{

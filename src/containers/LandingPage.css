@@ -71,40 +71,56 @@ html, body {
 }
 
 
+.Header img {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	float: left;
+	margin-top: 14px;
+	margin-left: 30px;
+
+}
 
 .Header h1 {
 	color: white;
 	float: left;
-	margin-left: 80px;
+	margin-left: 2px;
 }
 
 .Header ul {
+	list-style: none;
 	float: right;
 	padding-right: 60px;
-	margin-top: 4px;
+	margin-top: 18px;
 }
 .Header li {
 	display: inline-block;
 	margin: 10px;
-	font-family: 'Open Sans', sans-serif;
-}
-
-.Header h3 {
+	
 	padding-right: 20px;
-	border-right: 2px solid #cecece;
-	color: white;
-
+	/*border-right: 2px solid #cecece;*/
+	
 }
 
-.Header #last {
+.Header a{
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+}
+
+
+li .last{
 	border: none;
 	padding-right: 70px;
 }
 
 
-.Header h3:hover {
+.Header:hover {
 	color: #323232 /*#191919*/ /*#23D5AB*/ /*#FFF800*/;
 }
+
+/*a.active {
+	color: #323232;
+}*/
 
 @media screen and (max-width: 640px) {
 	.Header {
@@ -131,15 +147,11 @@ html, body {
 		display: inline-block;
 		margin: 0;
 		font-family: 'Open Sans', sans-serif;
-	}
-
-	.Header h3 {
 		padding-right: 16px;
 		margin-left: 12px;
 		padding-left: 4px;
-		/*border: none;*/
-		
 	}
+
 
 	.Header #first {
 		padding-left: 0;

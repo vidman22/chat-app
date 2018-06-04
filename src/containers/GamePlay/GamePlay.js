@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Sentence from '../../components/Sentence/Sentence';
 
+import './GamePlay.css';
+
 import Grammar from '../../Grammar.json';
 
 import io from 'socket.io-client';
@@ -10,66 +12,173 @@ const GrammarTest = Grammar.Grammar;
 const socketUrl = "http://localhost:5000";
 const socket = io(socketUrl);
 
+let index = 0;
 export default class GamePlay extends Component {
 
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			game:"",
-			gameSentences:[]
+			gameSentences:[],
+			activeSentence:'',
+			answer:'',
+			error:''
 		}
 	}
 
-	componentDidMount() {
+	UNSAFE_componentWillMount() {
 		console.log(this.props.game);
-		const gameSentences = GrammarTest[this.props.game];
+		let gameSentences = GrammarTest[this.props.game].sentences;
+		gameSentences = this.shuffle(gameSentences);
+		gameSentences = gameSentences.slice(0, 12);
 		console.log(" game sentences ", gameSentences);
-		this.initSocket();
-		this.setState({
-			game: this.props.game,
-			gameSentences
-		});
-	}
+
+		const activeSentence = gameSentences[0];
 
 	
+		this.setState({
+			gameSentences,
+			activeSentence
+		});
+	};
 
-	initSocket() {
-		socket.on('NEW_ROUND', () => {
-			console.log("new round");
-		})
-	}
+	componentDidUpdate() {
+
+		this.winner();
+
+	};
+
+	shuffle(array) {
+		let currentIndex = array.length, temporaryValue, randomIndex;
+
+		while (0 !== currentIndex) {
+
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
+
+		return array;
+	} 
+	
+
+	winner() {
+		// if (this.props.winner){
+		// 	if (this.props.winner  === props.name) {
+		// 		this.setState({
+		// 			completed:'You are the winner!'
+		// 		});
+		// 	} else {
+		// 		this.setState({
+		// 			completed:this.props.winner + ' won!'
+		// 		});
+		// 	}
+		// }
+	};
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		console.log("peace");
 
+		let answer = this.state.answer;
+		answer = answer.toLowerCase().trim();
+
+		
+		if (answer === this.state.activeSentence.a ||answer === this.state.activeSentence.c || answer === this.state.activeSentence.d ||answer === this.state.activeSentence.e ||answer === this.state.activeSentence.f)  {
+			console.log("peace");
+
+			socket.emit('SUCCESS', this.props.room, this.props.name);
+
+			this.setState({
+				correct:'Correct!'
+			});
+
+			setTimeout(this.correct.bind(this), 333);
+			
+			
+
+		} else {
+			socket.emit('FAILURE', this.props.room);
+			this.setState({
+				error:'wrong answer!'
+			});
+			setTimeout(this.wrongAnswer.bind(this), 1000);
+			console.log("strife");
+		}
+		
+
+	}
+
+	correct() {
+		if (index < this.state.gameSentences.length - 1 ) {
+				index++;
+				const activeSentence = this.state.gameSentences[index];
+
+				this.setState({
+					activeSentence,
+					answer:'',
+					correct:''
+				});
+			} else {
+				socket.emit('COMPLETED', this.props.room);
+				this.setState({
+					correct:'',
+				
+				})
+			}
+	}
+
+	wrongAnswer() {
+		const gameSentences = [...this.state.gameSentences];
+
+		const wrongSentence = gameSentences[index];
+
+		gameSentences.push(wrongSentence);
+		this.setState({
+			gameSentences
+		});
+
+		index++;
+		const activeSentence = this.state.gameSentences[index];
+
+		this.setState({
+			activeSentence,
+			answer:'',
+			error:''
+		});
 	}
 
 	handleChange = (e) => {
 
-		this.setState({ name: e.target.value });
+		this.setState({ answer: e.target.value });
 	}
-
-
 
 	render() {
 
-		const sentences = this.state.gameSentences.map((sentence, index) =>{
-			return (
+		const sentence = this.state.activeSentence;
+		console.log(sentence);
+		
+		return (
+			<div className="GamePlay">
+			  <div className="GameHeader">
+				<h2>{GrammarTest[this.props.game].name}</h2>
+			  </div>
+			  			
+			  		<div className="completed">{this.props.winner ? this.props.winner : null}</div>
 					<Sentence 
-						key={index}
 						sentence={sentence.sentence}
 						correct={sentence.a}
+						placeholder={sentence.b}
+						value={this.state.answer}
 						handlesubmit={this.handleSubmit}
 						handlechange={this.handleChange}
 					/>
-				)
-		})
-
-
-		return (
-			<h1>{sentences}</h1>
+					<div className="error">{this.state.error ? this.state.error : null}</div>
+					<div className="correct">{this.state.correct ? this.state.correct: null}</div>
+					
+			</div>
 			)
 	}
 
