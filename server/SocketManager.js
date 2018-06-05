@@ -51,30 +51,38 @@ module.exports = function(socket) {
 	socket.on('NEW_PLAYER', (room, name, callback) => {
 		console.log("name " + name);
 		const index = searchSessions( room );
-
 		const users = sessions[index].connectedUsers;
-		
 		let message = '';
-		
 		const user = {
 			playerName: name,
 			id: socket.id,
 			score: 0
 		};
-	
-		users.push(user);
-		console.log("users " , users);
-		
-			for ( let i = 0; i < users.length; i++ ){
-				if (users[i].playerName.length > 9 || users[i].playerName === name ) {
-					message ='try a different name';
-					users = users[i].filter((user) => user.playerName !== name );
-					io.to(room).emit('UPDATED_PLAYERS', (room, users ));
-					break;
+		console.log("users" , users);
+		if ( name.length < 8 ) {
+			if ( users.length !== 0 ) {
+				for ( let i = 0; i < users.length; i++) {
+					if (users[i].playerName === name ) {
+						message = 'try a different name';
+					} if (message ==='') {
+						console.log("first else");
+						users.push(user);
+						message = '';
+						io.to(room).emit('UPDATED_PLAYERS', (room, users ));	
+					}
+				break;
 				}
+			} else {
+				console.log("middle else");
+				users.push(user);
+				io.to(room).emit('UPDATED_PLAYERS', (room, users ));
+				message = '';
 			}
-		io.to(room).emit('UPDATED_PLAYERS', (room, users ));
+		} else {
+			message = 'try a shorter name';
+		}
 		callback(message);
+		
 		
 	});
 
