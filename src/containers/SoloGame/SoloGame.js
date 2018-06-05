@@ -20,7 +20,8 @@ class SoloGame extends Component {
 			activeGame: null,
 			button: 'buttons',
 			activeSentence: {},
-			answer:''
+			answer:'',
+			error:''
 		}
 	}
 
@@ -85,10 +86,33 @@ class SoloGame extends Component {
 
 		} else {
 			
-			console.log("strife");
+			this.setState({
+				error: 'Incorrect'
+			});
+			setTimeout(this.wrongAnswer.bind(this), 1000);
 		}
 		
 
+	}
+
+	wrongAnswer() {
+		const gameSentences = [...this.state.gameSentences];
+
+		const wrongSentence = gameSentences[index];
+
+		gameSentences.push(wrongSentence);
+		this.setState({
+			gameSentences
+		});
+
+		index++;
+		const activeSentence = this.state.gameSentences[index];
+
+		this.setState({
+			activeSentence,
+			answer:'',
+			error:''
+		});
 	}
 
 	handleChange = (e) => {
@@ -131,7 +155,8 @@ class SoloGame extends Component {
 				
 				
 				{ this.state.button ? buttons : null }
-				{ !this.state.button ? <SoloPlay activesentence={this.state.activeSentence} back={this.props.back} handlechange={this.handleChange} answer={this.state.answer} handlesubmit={this.handleSubmit} game={this.props.game} /> : null }
+				{ !this.state.button ? <SoloPlay activesentence={this.state.activeSentence} back={this.props.back} handlechange={this.handleChange} answer={this.state.answer} handlesubmit={this.handleSubmit} game={this.props.game} error={this.state.error}/> : null }
+				
 			</div>
 			)
 	}

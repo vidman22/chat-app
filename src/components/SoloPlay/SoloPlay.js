@@ -24,6 +24,7 @@ export default class SoloPlay extends Component {
 						handlesubmit={this.props.handlesubmit}
 						handlechange={this.props.handlechange}
 					/>
+					<div className="error">{this.props.error ? this.props.error : null}</div>
 					<button onClick={this.props.back}>Exit</button>
 			</div>
 			)
