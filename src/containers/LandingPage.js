@@ -18,17 +18,18 @@ class LandingPage extends Component {
            <div className="Landing">
             <div className="Wrapper">
                 <header className="Header">
-                    <img 
+                   
+
+                    <NavLink to={{
+                        pathname: '/'
+                    }}exact> <img 
 
                         src={logo}
                         width="100px" 
                         height="120px"
                         alt="logo" 
-                    />
-
-                    <NavLink to={{
-                        pathname: '/'
-                    }}exact><h1>English Grammar Games</h1></NavLink>
+                    /><h1>Grammify</h1></NavLink>
+                    <p>English Grammar Games</p>
                 
 
                         <nav>
@@ -54,7 +55,7 @@ class LandingPage extends Component {
                         </nav>
 
                 </header>
-            </div>
+            
                <Switch> 
                 
                 
@@ -68,6 +69,7 @@ class LandingPage extends Component {
                 <Route path="/" component={Home}/>
                 
                </Switch>
+              </div>
             <footer className="Footer">
                     <ul>
                         <li><NavLink to={{
@@ -83,8 +85,8 @@ class LandingPage extends Component {
                         }}><h3>Tutor</h3></NavLink></li>
                     </ul> 
             </footer>
-                
-            </div>
+                  
+        </div>
         );
     }
 }

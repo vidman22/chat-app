@@ -12,3 +12,22 @@
 	color: black;
 
 }
+
+.SoloWaiting h1{
+	clear: both;
+}
+
+.AnswersButton {
+	font-size: 22px;
+	border: none;
+	background: none;
+	color: gray;
+	float: right;
+	}
+
+.AnswersButton:hover {
+	
+	color: black;
+	box-shadow: none;
+
+}

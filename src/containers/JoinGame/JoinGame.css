@@ -74,3 +74,89 @@ button:disabled:hover {
 }
 
 
+.title {
+    display: flex;
+    justify-content: space-around;
+    display: -webkit-flex;
+    -webkit-justify-content: space-around;
+    margin-top: 40px;
+    
+
+}
+
+
+.text {
+  color: #23D5AB;
+  font-size: 65px;
+  font-weight: 650;
+  font-family: Helvetica;
+  position: relative;
+  -webkit-animation: jump 2.5s ease-out infinite ;
+  animation: jump 2.5s ease-out infinite; 
+  
+}
+
+.text-w {
+    animation-delay:250ms;
+  }.text-a {
+    animation-delay:450ms;
+  }.text-i {
+    animation-delay:650ms;
+  }.text-t {
+    animation-delay:850ms;
+  }.text-i2 {
+    animation-delay:1050ms;
+  }.text-n {
+    animation-delay:1250ms;
+  }.text-g {
+    animation-delay:1450ms;
+  }.text-1 {
+    animation-delay:1650ms;
+  }.text-2 {
+    animation-delay:1850ms;
+  }.text-3 {
+    animation-delay:2050ms;
+  }
+
+@keyframes jump {
+    0% {
+            color: #23D5AB;
+            top: 0px;
+        }
+    25% {
+          top: 0px;
+    }
+    50% {  
+            
+            top: 0px;
+        }
+    75% {
+          top: 0px;
+    }
+
+    90% {
+          color: #23A6D5;
+          top: -30px;
+    }
+    100% {  
+            color: #23D5AB;
+            top: 0px;
+        }
+}
+
+@-webkit-keyframes jump {
+     0% {
+            color: #23D5AB;
+            top: 0px;
+        }
+    50% {  
+            color: #23A6D5;
+            top: -30px;
+        }
+
+    100% {  
+            color: #23D5AB;
+            top: 0px;
+        }
+}
+

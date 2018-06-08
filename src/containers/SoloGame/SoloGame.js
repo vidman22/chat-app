@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 import SoloPlay from '../../components/SoloPlay/SoloPlay';
+import Carousel from "../../components/Carousel/Carousel";
 
 import './SoloGame.css'
+
 
 
 
@@ -18,8 +20,9 @@ class SoloGame extends Component {
 			gameName: null,
 			gameSentences: null,
 			activeGame: null,
-			button: 'buttons',
+			action: 'start',
 			activeSentence: {},
+			carousel: true,
 			answer:'',
 			error:''
 		}
@@ -121,42 +124,70 @@ class SoloGame extends Component {
 	}
 
 	
-	
-
-	start(e) {
-		e.preventDefault();
-		console.log("start game clicked");
-	}
 
 	button() {
-		console.log("clicked");
+		
 		this.setState({
-			button: null
+			action: 'play'
 		})
 	}
 
+	answers() {
+		this.setState({
+			action:'answers'
+		});
+	}
+
+	addComponent() {
+		let result;
+		switch(this.state.action) {
+			case 'start':
+				result = (
+					<div>
+				{/*<button onClick={this.props.back}>Back</button>*/}
+				<button onClick={this.button.bind(this)}>Start</button> 
+			</div>
+
+
+
+				)
+			break;
+			case 'play':
+				result = (
+					<SoloPlay 
+					activesentence={this.state.activeSentence} 
+					back={this.props.back} 
+					handlechange={this.handleChange} 
+					answer={this.state.answer} 
+					handlesubmit={this.handleSubmit} 
+					game={this.props.game} 
+					error={this.state.error}
+					/>
+					)
+			break;
+			case 'answers':
+				result = (
+
+					<Carousel sentences={this.state.gameSentences} />
+
+					)
+			break;
+			default:
+			result = <h1>somthing went wrong</h1>
+		}
+		return result;
+	}
 
 
 	render() {
-		console.log(this.state);
 
-		let buttons = (
-			<div>
-				<button onClick={this.props.back}>Back</button>
-				<button onClick={this.button.bind(this)}>Start</button> 
-			</div>
-			)
-
-		
 		
 		return(
 			<div className="SoloWaiting">
+				<button className="BackButton" onClick={this.props.back}>{"<"} Back</button>
+				{this.state.action !=='answers' ? <button className="AnswersButton" onClick={this.answers.bind(this)}>Answers {">"}</button> : null}
 				<h1>{this.props.gamename}</h1>
-				
-				
-				{ this.state.button ? buttons : null }
-				{ !this.state.button ? <SoloPlay activesentence={this.state.activeSentence} back={this.props.back} handlechange={this.handleChange} answer={this.state.answer} handlesubmit={this.handleSubmit} game={this.props.game} error={this.state.error}/> : null }
-				
+				{this.addComponent()}
 			</div>
 			)
 	}

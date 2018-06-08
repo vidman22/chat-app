@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import WaitingPage from '../WaitingPage/WaitingPage';
 import Tile from '../../components/Tile/Tile';
-
+import './CreateGame.css';
 
 export default class CreateGame extends Component {
 	
@@ -117,6 +117,7 @@ export default class CreateGame extends Component {
 		
 		return (
 			<div className="create">
+				{ !this.state.activeGame ? <div className="page_title"><h1>Host Game</h1></div> : null}
 				
 				{ !this.state.activeGame ? games : <WaitingPage activegame={this.state.activeGame} back={this.back} games={this.state.games} /> }
 				

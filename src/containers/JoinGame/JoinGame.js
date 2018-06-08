@@ -157,7 +157,18 @@ export default class CreateGame extends Component {
 			break;
 			case 'waiting':
 				result = (
-					<h1>waiting...</h1>
+				  <div className="title">
+					<div className="text text-w">w</div>
+					<div className="text text-a">a</div>
+					<div className="text text-i">i</div>
+					<div className="text text-t">t</div>
+					<div className="text text-i2">i</div>
+					<div className="text text-n">n</div>
+					<div className="text text-g">g</div>
+					<div className="text text-1">.</div>
+					<div className="text text-2">.</div>
+					<div className="text text-3">.</div>
+				  </div>
 					)
 			break;
 			case 'game':
@@ -177,6 +188,7 @@ export default class CreateGame extends Component {
 		
 		return (
 		  <div>
+		  	
 			{this.addComponent()}
 		  </div>
 		);

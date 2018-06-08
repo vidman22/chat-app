@@ -12,16 +12,11 @@ html, body {
 }
 
 .Wrapper {
-	min-height: 100%;
-
-	margin-bottom: -140px;
+	min-height: calc(100vh - 7em);
 
 }
 
-.Wrapper:after {
-	display: block;
-	content: "";
-}
+
 
 
 
@@ -77,14 +72,24 @@ html, body {
 	height: 50px;
 	float: left;
 	margin-top: 14px;
-	margin-left: 30px;
+	margin-left: 39px;
 
 }
 
 .Header h1 {
+	font-family: 'Helvetica', sans-serif;
+	font-weight: lighter;
 	color: white;
 	float: left;
-	margin-left: 2px;
+	margin-left: 19px;
+}
+
+.Header p {
+	display: inline-block;
+	color: white;
+	float: left;
+	font-size: 16px;
+	margin: 37px 0 0 12px;
 }
 
 .Header ul {
@@ -166,13 +171,11 @@ li .last{
 }
 
 
-.Footer, .Wrapper:after {
-	height: 140px;
-}
 
 .Footer {
-	
-	width: 100%;
+	padding: .5em calc(50% - 400px);
+	height: 6em;
+	width: auto;
 	margin-top: 28px;
 	border-top: 4px solid  #FFF800;
 	background: #23A6D5 /*#23D5AB*/;

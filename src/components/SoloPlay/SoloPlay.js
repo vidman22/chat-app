@@ -16,6 +16,7 @@ export default class SoloPlay extends Component {
 			  <div className="GameHeader">
 				<h2>{this.props.gamename}</h2>
 			  </div>
+			  	{/*<button className="BackButton" onClick={this.props.back}>{"<"} Back</button>*/}
 					<Sentence 
 						sentence={sentence.sentence}
 						correct={sentence.a}
@@ -25,7 +26,7 @@ export default class SoloPlay extends Component {
 						handlechange={this.props.handlechange}
 					/>
 					<div className="error">{this.props.error ? this.props.error : null}</div>
-					<button onClick={this.props.back}>Exit</button>
+					
 			</div>
 			)
 	}

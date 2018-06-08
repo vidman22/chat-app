@@ -184,7 +184,10 @@ class WaitingPage extends Component {
 		
 		return(
 			<div>
-				{this.addComponent()}
+				
+				<div>
+					{this.addComponent()}
+				</div>
 			</div>
 			)
 	}

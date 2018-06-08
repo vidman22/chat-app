@@ -23,7 +23,7 @@ export default class Home extends Component {
 
  					 Sorry, your browser does not support inline SVG.  
 				</svg> 
-				<div className="text">
+				<div className="player_name_score">
 					<div className="name">{this.props.name}</div>
 					<div className="score">{this.props.score + '/12'}</div>
  				</div>
