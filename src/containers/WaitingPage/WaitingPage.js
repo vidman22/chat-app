@@ -33,7 +33,7 @@ class WaitingPage extends Component {
 			openModal: false
 		}
 
-		
+
 	}
 
 
@@ -45,12 +45,29 @@ class WaitingPage extends Component {
 	
 	loadGame() {
 				let gameSentences = GrammarTest[this.props.activegame].sentences;
-				gameSentences = gameSentences.slice(0,12);
+				gameSentences = this.shuffle(gameSentences);
+				gameSentences= gameSentences.slice(0,12);
 				this.setState({ 
 						gameSentences,
 						gameName: GrammarTest[this.props.activegame].name 
 					});
     };
+
+    shuffle(array) {
+		let currentIndex = array.length, temporaryValue, randomIndex;
+
+		while (0 !== currentIndex) {
+
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
+
+		return array;
+	};
 
 	initSocket() {
 		const room = this.randomDigits();
@@ -72,7 +89,7 @@ class WaitingPage extends Component {
 				players
 			});
 			console.log("players in state ", this.state.players);
-			if (players.length >= 1) {
+			if (players.length >= 2) {
 				this.setState({
 					disabled: false
 				});
@@ -95,7 +112,16 @@ class WaitingPage extends Component {
 				players
 			});
 			console.log("successful score ", this.state.players);
-		})
+		});
+
+		socket.on('PLAY_AGAIN', (users) => {
+			let players = [...this.state.players];
+			players = users;
+
+			this.setState({
+				players
+			});
+		});
 	};
 
 	randomDigits() {
@@ -130,8 +156,8 @@ class WaitingPage extends Component {
 		const players = [...this.state.players];
 		const room = this.state.room;
 		const activeGame = this.props.activegame;
-		
-		socket.emit('START_GAME', room, players, activeGame);
+		const gameSentences = this.state.gameSentences; 
+		socket.emit('START_GAME', room, players, activeGame, gameSentences);
 		this.setState({
 			action:'gameboard'
 		});
@@ -145,7 +171,13 @@ class WaitingPage extends Component {
 	};
 
 	playAgain() {
-		this.setState({openModal: false});
+		this.loadGame();
+		this.setState({
+			openModal: false,
+			winner: null,
+
+		});
+		socket.emit('PLAY_AGAIN', this.state.room, this.state.gameSentences );
 	};
 
 	addComponent() {

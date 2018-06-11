@@ -28,9 +28,9 @@ export default class GamePlay extends Component {
 
 	UNSAFE_componentWillMount() {
 		console.log(this.props.game);
-		let gameSentences = GrammarTest[this.props.game].sentences;
+		let gameSentences = this.props.sentences;
 		gameSentences = this.shuffle(gameSentences);
-		gameSentences = gameSentences.slice(0, 12);
+		
 		console.log(" game sentences ", gameSentences);
 
 		const activeSentence = gameSentences[0];
@@ -42,12 +42,19 @@ export default class GamePlay extends Component {
 		});
 	};
 
-	componentDidUpdate() {
+	componentWillReceiveProps(newProps) {
+		if (newProps.sentences !== this.props.sentences) {
+			const activeSentence = newProps.sentences[0];
+			index = 0;
+			this.setState({
+				gameSentences: newProps.sentences,
+				activeSentence,
+				answer: ''
+			});
+		}
+	}
 
-		this.winner();
-
-	};
-
+	
 	shuffle(array) {
 		let currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -65,19 +72,6 @@ export default class GamePlay extends Component {
 	} 
 	
 
-	winner() {
-		// if (this.props.winner){
-		// 	if (this.props.winner  === props.name) {
-		// 		this.setState({
-		// 			completed:'You are the winner!'
-		// 		});
-		// 	} else {
-		// 		this.setState({
-		// 			completed:this.props.winner + ' won!'
-		// 		});
-		// 	}
-		// }
-	};
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -97,8 +91,6 @@ export default class GamePlay extends Component {
 
 			setTimeout(this.correct.bind(this), 333);
 			
-			
-
 		} else {
 			socket.emit('FAILURE', this.props.room);
 			this.setState({

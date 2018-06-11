@@ -21,7 +21,7 @@ export default class Players extends Component {
 
 		let buttons = (
 			<div>
-				<button disabled={this.props.disabled} onClick={this.props.shuffleteams.bind(this)}>Teams</button><button disabled={this.props.disabled} onClick={this.props.button.bind(this)}>Individual</button> 
+				<button disabled="true" onClick={this.props.shuffleteams.bind(this)}>Teams</button><button disabled={this.props.disabled} onClick={this.props.button.bind(this)}>Individual</button> 
 			</div>
 			)
 		

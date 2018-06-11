@@ -97,8 +97,8 @@ module.exports = function(socket) {
 		cb(arrayOfTeams);
 	});
 
-	socket.on('START_GAME', (room, users, game) => {
-		io.to(room).emit('START_GAME', game);
+	socket.on('START_GAME', (room, users, game, sentences) => {
+		io.to(room).emit('START_GAME', game, sentences);
 	});
 
 	socket.on('SUCCESS',  (room, name)  => {
@@ -125,6 +125,17 @@ module.exports = function(socket) {
 	socket.on('FAILURE', room => {
 
 	});
+
+	socket.on('PLAY_AGAIN', (room, sentences) => {
+		const index = searchSessions(room);
+
+		let connectedUsers = sessions[index].connectedUsers;
+		for (let i = 0; i < connectedUsers.length; i++) {
+			connectedUsers[i].score = 0;
+		}
+		io.to(room).emit('PLAY_AGAIN', connectedUsers, sentences);
+
+	})
 
 	socket.on('disconnect', () => {
 	
