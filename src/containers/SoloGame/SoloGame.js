@@ -8,7 +8,8 @@ import './SoloGame.css'
 
 
 
-let index = 0;
+let sentenceIndex = 0;
+let scoreIndex = 0;
 
 class SoloGame extends Component {
 
@@ -24,6 +25,8 @@ class SoloGame extends Component {
 			activeSentence: {},
 			carousel: true,
 			answer:'',
+			index:'',
+			completed: null,
 			error:''
 		}
 	}
@@ -32,6 +35,7 @@ class SoloGame extends Component {
 
 		let gameSentences = this.props.sentences;
 		gameSentences = this.shuffle(gameSentences);
+		gameSentences = gameSentences.slice(0, 12);
 		console.log(" game sentences ", gameSentences);
 
 		const activeSentence = gameSentences[0];
@@ -73,16 +77,24 @@ class SoloGame extends Component {
 			console.log("peace");
 
 			
-			if (index < this.state.gameSentences.length - 1 ) {
-				index++;
-				const activeSentence = this.state.gameSentences[index];
+			if ( scoreIndex < this.state.gameSentences.length - 1 ) {
+				sentenceIndex++;
+				scoreIndex++;
+				const activeSentence = this.state.gameSentences[sentenceIndex];
 
 				this.setState({
 					activeSentence,
-					answer:''
+					answer:'',
+					index: scoreIndex
 				});
 			} else {
-				
+				scoreIndex++;
+				this.setState({
+					index: scoreIndex,
+					completed:'Finished!'
+				});
+
+				setTimeout(this.completed.bind(this), 2000);
 				console.log("all done");
 			}
 			
@@ -98,18 +110,28 @@ class SoloGame extends Component {
 
 	}
 
+	completed() {
+		sentenceIndex = 0;
+		scoreIndex = 0
+		this.setState({
+			index: scoreIndex,
+			completed:null,
+			action: 'answers'
+		});
+	}
+
 	wrongAnswer() {
 		const gameSentences = [...this.state.gameSentences];
 
-		const wrongSentence = gameSentences[index];
+		const wrongSentence = gameSentences[scoreIndex];
 
 		gameSentences.push(wrongSentence);
 		this.setState({
 			gameSentences
 		});
 
-		index++;
-		const activeSentence = this.state.gameSentences[index];
+		sentenceIndex++;
+		const activeSentence = this.state.gameSentences[scoreIndex];
 
 		this.setState({
 			activeSentence,
@@ -162,6 +184,8 @@ class SoloGame extends Component {
 					handlesubmit={this.handleSubmit} 
 					game={this.props.game} 
 					error={this.state.error}
+					index={this.state.index}
+					completed={this.state.completed}
 					/>
 					)
 			break;

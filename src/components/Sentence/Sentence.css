@@ -9,10 +9,13 @@
 
 }
 
-.Sentence h2 {
+.Sentence h3 {
+	margin-top: 5px;
 	font-weight: lighter;
-	display: block;
+	display: inline-block;
 }
+
+
 
 
 .enter{
@@ -48,3 +51,23 @@
 		padding:5px 10px;
 		color:#c92c43
 }
+
+/*@media screen and (max-width: 640px) {
+
+	.enter input {
+		display: block;
+	}
+
+	.enter {
+		display: block;
+	}
+
+	.firstPart {
+		float: none;
+	}
+
+	.secondPart {
+		float: none;
+	}
+
+}*/

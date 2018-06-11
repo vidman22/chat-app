@@ -103,7 +103,7 @@ export default class SoloPage extends Component {
 		
 		return (
 			<div className="create">
-				<div className="page_title"><h1>Solo Game</h1></div>
+				{this.state.action === 'options' ? <div className="page_title"><h1>Solo Game</h1></div> :null}
 				{this.state.action === 'options' ? games : <SoloGame back={this.back} gamename={this.state.gameName} game={this.state.activeGame} sentences={this.state.gameSentences} />}
 				
 			</div>

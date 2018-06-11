@@ -12,14 +12,14 @@ const sentence = ( props ) => {
 	
 	return (
 		<div className="Sentence">
-			<h3>{s1}</h3><form onSubmit={props.handlesubmit} className="enter">
+			<div className="firstPart"><h3>{s1}</h3></div><form onSubmit={props.handlesubmit} className="enter">
 						<input
 						type="text"
 						name="name"
 						value={props.value}
 						onChange={props.handlechange}
 						placeholder={props.placeholder} /></form>
-				<h3>{s2}</h3>
+			<div className="secondPart"><h3>{s2}</h3></div>
 
 		</div>
 		)

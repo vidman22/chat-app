@@ -4,54 +4,54 @@
 		"name": "Simple Present",
 		"sentences":[
 		{ 
-			"sentence": "I usually go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "The people in the city travel downtown for the festival every year.", 
+			"a" : "travel",
+			"b" : "travel"
 		},
 		{ 
-			"sentence": "It normally goes to the store.", 
-			"a" : "goes",
-			"b" : "go"
+			"sentence": "Mary walks to school every day after making her breakfast.", 
+			"a" : "walks",
+			"b" : "walk"
 		},{ 
-			"sentence": "She rarely goes to the store.", 
-			"a" : "goes",
-			"b" : "go"
+			"sentence": "Mr. Hanes cooks for the whole basketball team after each game.", 
+			"a" : "cooks",
+			"b" : "cook"
 		},{ 
-			"sentence": "We frequently go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "They don't go to this supermarket anymore.", 
+			"a" : "don't go",
+			"b" : "not go"
 		},{ 
-			"sentence": "I seldom go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "David doesn't speak to people he doesn't know.", 
+			"a" : "doesn't speak",
+			"b" : "not speak"
 		},{ 
-			"sentence": "He often goes to the store.", 
-			"a" : "goes",
-			"b" : "go"
+			"sentence": "No one in the family likes to clean up after the dog.", 
+			"a" : "likes",
+			"b" : "like"
 		},{ 
-			"sentence": "I hardly ever go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "We don't know who comes in late at night to turn off the lights.", 
+			"a" : "comes",
+			"b" : "come"
 		},{ 
-			"sentence": "I would like to go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "Mothers always find a way to help out.", 
+			"a" : "always find",
+			"b" : "find always"
 		},{ 
-			"sentence": "I prefer not to go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "When it rains, it pours", 
+			"a" : "rains",
+			"b" : "rain"
 		},{ 
-			"sentence": "I find a way to go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "The water is usually warm this time of year.", 
+			"a" : "is usually",
+			"b" : "usually be"
 		},{ 
-			"sentence": "I will go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "Cindy never runs without a partner.", 
+			"a" : "never runs",
+			"b" : "run never"
 		},{ 
-			"sentence": "I should go to the store.", 
-			"a" : "go",
-			"b" : "goes"
+			"sentence": "I rarely have a dull moment when I'm with my family.", 
+			"a" : "rarely have",
+			"b" : "have rarely"
 		}
 	]
 },
@@ -145,7 +145,7 @@
 			"a" : "is running",
 			"b" : "run"
 		},{ 
-			"sentence": "I am looking for a good position at the company.", 
+			"sentence": "I am looking forward to my new position at the company.", 
 			"a" : "am looking",
 			"b" : "look"
 		},{ 
@@ -162,9 +162,14 @@
 			"a" : "is learning",
 			"b" : "learn"
 		},{ 
-			"sentence": "They are speaking to each other right now.", 
-			"a" : "are speaking",
-			"b" : "speak"
+			"sentence": "They aren't speaking to each other right now.", 
+			"a" : "aren't speaking",
+			"b" : "speak",
+			"c" : "are not speaking"
+		}, {
+			"sentence": "She is wondering what language to learn next.",
+			"a" : "is wondering",
+			"b" : "wonder"
 		}
 		]
 	},
@@ -184,7 +189,7 @@
 			"a" : "were thinking",
 			"b" : "think"
 		},{ 
-			"sentence": "Ronaldo was playing for Real Madrid last year.", 
+			"sentence": "Steve was playing soccer when his mother called him in.", 
 			"a" : "was playing",
 			"b" : "play"
 		},{ 
@@ -223,8 +228,7 @@
 			"c" : "weren't speaking"
 		}
 		]
-	},
-	  "present-perfect": {
+	}, "present-perfect": {
 		"name":"Present Perfect",
 		"sentences": [
 		{ 
@@ -360,16 +364,17 @@
 		},{ 
 			"sentence": "I'm not sure who ate the cookies. It might've been the Jones kid.", 
 			"a" : "might've been",
-			"b" : "uncertain speculation (be)",
+			"b" : "speculation (be)",
 			"c" : "might have been",
 			"d" : "could've been",
 			"e" : "could have been",
 			"f" : "may have been"
 		},{ 
 			"sentence": "I should've spoken less about the company's problems.", 
-			"a" : "should've",
-			"b" : "regreat (speak)",
-			"c" : "ought to have"
+			"a" : "should've spoken",
+			"b" : "regret (speak)",
+			"c" : "ought to have",
+			"d" : "should have spoken"
 		},{ 
 			"sentence": "She said she would be late.", 
 			"a" : "would",
@@ -565,53 +570,133 @@
 		"name":"Verbs and Prepositions",
 		"sentences": [
 		{ 
-			"sentence": "I am walking to the store.", 
-			"a" : "am walking",
-			"b" : "walk"
+			"sentence": "This company is devoted to making our clients satisfied.", 
+			"a" : "to",
+			"b" : "prep"
 		},{ 
-			"sentence": "Sarah is meeting with the manager as we speak.", 
-			"a" : "is meeting",
-			"b" : "meet"
+			"sentence": "The man was blamed for stealing the giant red ruby.", 
+			"a" : "for",
+			"b" : "prep"
 		},{ 
-			"sentence": "They are thinking about going to see a movie.", 
-			"a" : "are thinking",
-			"b" : "think"
+			"sentence": "My poor brain is crammed with so much biology knowledge.", 
+			"a" : "with",
+			"b" : "prep"
 		},{ 
-			"sentence": "Ronaldo is playing for Real Madrid this year.", 
-			"a" : "is playing",
-			"b" : "play"
+			"sentence": "He is always boasting about how fast he can run the mile.", 
+			"a" : "about",
+			"b" : "prep"
 		},{ 
-			"sentence": "I am eating my lunch at the moment.", 
-			"a" : "am eating",
-			"b" : "eat"
+			"sentence": "I got used to eating with chopsticks.", 
+			"a" : "to",
+			"b" : "prep"
 		},{ 
-			"sentence": "It is raining outside right now.", 
-			"a" : "is raining",
-			"b" : "rain"
+			"sentence": "She was accused of defrauding the company", 
+			"a" : "of",
+			"b" : "prep"
 		},{ 
-			"sentence": "She is running as fast as she can.", 
-			"a" : "is running",
-			"b" : "run"
+			"sentence": "Never apologize for something you never did.", 
+			"a" : "for",
+			"b" : "prep"
 		},{ 
-			"sentence": "I am looking for a good position at the company.", 
-			"a" : "am looking",
-			"b" : "look"
+			"sentence": "The lunar new year coincided with the coronation of the new king.", 
+			"a" : "with",
+			"b" : "prep"
 		},{ 
-			"sentence": "We are not having a good time.", 
-			"a" : "are not having",
-			"b" : "not have"
+			"sentence": "The New York Knicks succeeded in acquiring last year's rookie of the year.", 
+			"a" : "in",
+			"b" : "prep"
 		},{ 
-			"sentence": "He is always listening to music on the job.", 
-			"a" : "is always listening",
-			"b" : "always listen"
+			"sentence": "Joe had been barred from going to K-mart ever since the incident with the custodian.", 
+			"a" : "from",
+			"b" : "prep"
 		},{ 
-			"sentence": "She is learning a new language online.", 
-			"a" : "is learning",
-			"b" : "learn"
+			"sentence": "After failing to pass the exam, Sally was resigned to living a mediocre life with an office job.", 
+			"a" : "to",
+			"b" : "prep"
 		},{ 
-			"sentence": "They are not speaking to each other right now.", 
-			"a" : "are not speaking",
-			"b" : "speak"
+			"sentence": "I quickly glanced at the price to see if I could afford it.", 
+			"a" : "at",
+			"b" : "prep"
+		},{ 
+			"sentence": "Upon committing the crime, she confided in me that she had no remorse.", 
+			"a" : "in",
+			"b" : "prep"
+		},{ 
+			"sentence": "The management change resulted in utter confusion among the coworkers.", 
+			"a" : "in",
+			"b" : "prep"
+		},{ 
+			"sentence": "The jury had heard enough to feel confident to convict him of murder.", 
+			"a" : "of",
+			"b" : "prep"
+		},{ 
+			"sentence": "Because of his stubbornness, Barry always experienced difficulty complying with the new policy.", 
+			"a" : "with",
+			"b" : "prep"
+		},{ 
+			"sentence": "Hold your excitement in check and refrain from yelling out the answer.", 
+			"a" : "from",
+			"b" : "prep"
+		},{ 
+			"sentence": "The new movie is based on true events.", 
+			"a" : "on",
+			"b" : "prep"
+		},{ 
+			"sentence": "I need you to put away the distractions and concentrate on the task at hand.", 
+			"a" : "on",
+			"b" : "prep"
+		},{ 
+			"sentence": "How much money you make depends on how much work you put in.", 
+			"a" : "on",
+			"b" : "prep"
+		},{ 
+			"sentence": "We would like to hear more about this, could you please elaborate on the method?", 
+			"a" : "on",
+			"b" : "prep"
+		},{ 
+			"sentence": "You should insure your house against fire.", 
+			"a" : "against",
+			"b" : "prep"
+		},{ 
+			"sentence": "He could only hint at how much he had to pay for his new bike.", 
+			"a" : "at",
+			"b" : "prep"
+		},{ 
+			"sentence": "This line in the poem must refer to the author's past experience in the war.", 
+			"a" : "to",
+			"b" : "prep"
+		},{ 
+			"sentence": "The only way we will see change is to phase out the old way of doing things and slowly introduce the new.", 
+			"a" : "out",
+			"b" : "prep"
+		},{ 
+			"sentence": "Despite being exhausted from work, he quickly reacted to the emergency.", 
+			"a" : "to",
+			"b" : "prep"
+		},{ 
+			"sentence": "You may think that raisin cookies are the best, but I never cared for them.", 
+			"a" : "for",
+			"b" : "prep"
+		},{ 
+			"sentence": "The administration is contemplating imposing stricter taxes on multinational companies.", 
+			"a" : "on",
+			"b" : "prep"
+		},{ 
+			"sentence": "Suzanne always attributed her success to the support she received from her family.", 
+			"a" : "to",
+			"b" : "prep"
+		},{ 
+			"sentence": "Because Sam had never been acquainted with the new material, he quickly fell behind the rest of the class.", 
+			"a" : "with",
+			"b" : "prep"
+		},{ 
+			"sentence": "William had to deal with both a bad boss at work and a new born child at home.", 
+			"a" : "with",
+			"b" : "prep"
+		},{ 
+			"sentence": "It was discovered that the spy had tampered with the documents before they reached their destination.", 
+			"a" : "with",
+			"b" : "prep"
 		}
 		]
 	},"awl-families": {

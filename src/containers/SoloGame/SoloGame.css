@@ -31,3 +31,20 @@
 	box-shadow: none;
 
 }
+
+@media screen and (max-width: 640px) {
+
+	.SoloWaiting {
+		margin-left: 12px;
+	}
+
+	.AnswersButton {
+		width: 30%;
+		margin-right: 12px;
+	}
+
+	.BackButton {
+		width: 30%;
+	}
+
+}

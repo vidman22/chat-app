@@ -13,18 +13,27 @@ export default class SoloPlay extends Component {
 		
 		return (
 			<div className="GamePlay">
-			  <div className="GameHeader">
+			  
 				<h2>{this.props.gamename}</h2>
-			  </div>
-			  	{/*<button className="BackButton" onClick={this.props.back}>{"<"} Back</button>*/}
-					<Sentence 
+			  <svg height="40" width="1000">
+			  <defs>
+			  	<linearGradient id="e" x1="0" y1="0" x2="1000" y2="0" gradientUnits="userSpaceOnUse">
+			  		<stop stopColor="#23A6D5" offset="0" />
+			  		<stop stopColor="#FFF800" offset="1" />
+			  	</linearGradient>
+			  </defs>
+  				<line x1="0" y1="0" x2={this.props.index*83.33} y2="0" strokeWidth="40" stroke="url(#e)" />
+			</svg>
+			  	
+					{!this.props.completed ? <Sentence 
 						sentence={sentence.sentence}
 						correct={sentence.a}
 						placeholder={sentence.b}
 						value={this.props.answer}
 						handlesubmit={this.props.handlesubmit}
 						handlechange={this.props.handlechange}
-					/>
+					/> : this.props.completed}
+					
 					<div className="error">{this.props.error ? this.props.error : null}</div>
 					
 			</div>

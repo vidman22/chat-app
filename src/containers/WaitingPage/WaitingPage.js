@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Players from '../../components/Players/Players';
 import Teams from '../../components/Team/Team';
 import GameBoard from '../GameBoard/GameBoard';
-
+import Modal from '../../components/Modal/Modal';
+import Backdrop from '../../components/Backdrop/Backdrop';
 import Grammar from '../../Grammar.json';
 
 import './WaitingPage.css'
@@ -27,8 +28,12 @@ class WaitingPage extends Component {
 			disabled:true,
 			arrayOfTeams: null,
 			button: 'buttons',
-			action: 'players'
+			action: 'players',
+			winner: null,
+			openModal: false
 		}
+
+		
 	}
 
 
@@ -37,13 +42,10 @@ class WaitingPage extends Component {
 		this.initSocket();
 	}
 
-	// componentDidUpdate() {
-	// 	this.loadGame();
-
-	// }
 	
 	loadGame() {
-				const gameSentences = GrammarTest[this.props.activegame].sentence
+				let gameSentences = GrammarTest[this.props.activegame].sentences;
+				gameSentences = gameSentences.slice(0,12);
 				this.setState({ 
 						gameSentences,
 						gameName: GrammarTest[this.props.activegame].name 
@@ -75,9 +77,14 @@ class WaitingPage extends Component {
 					disabled: false
 				});
 			}
+		});
+
 		socket.on('WINNER', (user) =>{
 			console.log("our winner is " + user);
-		});
+			this.setState({
+				winner: user,
+				openModal: true
+			})
 		});
 
 		socket.on('SCORE', (users) => {
@@ -116,7 +123,7 @@ class WaitingPage extends Component {
 
 		});
 
-	}
+	};
 
 	start(e) {
 		e.preventDefault();
@@ -128,14 +135,18 @@ class WaitingPage extends Component {
 		this.setState({
 			action:'gameboard'
 		});
-	}
+	};
 
 	button() {
 
 		this.setState({
 			button: null
-		})
-	}
+		});
+	};
+
+	playAgain() {
+		this.setState({openModal: false});
+	};
 
 	addComponent() {
 		let result;
@@ -169,7 +180,11 @@ class WaitingPage extends Component {
 			break;
 			case 'gameboard':
 			result = (
+				<div>
 					<GameBoard players={this.state.players} arrayofteams={this.state.arrayOfTeams} />
+					<Modal show={this.state.openModal} playAgain={this.playAgain.bind(this)} winner={this.state.winner} sentences={this.state.gameSentences} />
+					{this.state.openModal ? <Backdrop show /> : null}
+				</div>
 				)
 			break;
 			default:

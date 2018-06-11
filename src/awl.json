@@ -1,0 +1,280 @@
+{
+	"AWL" : {
+		"sublist-1": [
+			{
+				"sentence": "The new data will have to be analyzed before we come to any conclusions.",
+				"a": "analyzed",
+				"b": "evidence/analysis",
+				"c": "analysed"
+			},{
+				"sentence": "The best way to approach this problem is from an understanding of the underlying principles.",
+				"a": "approach",
+				"b": "approach/assume"
+			},{
+				"sentence": "The latest area of research is in the effects of behavior on DNA.",
+				"a": "area",
+				"b": "data/area"
+			},{
+				"sentence": "After assessing the situation, we realized there was no easy option.",
+				"a": "assessing",
+				"b": "assessment/assume"
+			},{
+				"sentence": "The assumption is that no one will be on time today after the party last night.",
+				"a": "assumption",
+				"b": "establishment/assume"
+			},{
+				"sentence": "We would like all new procedures to be authorized before being implemented.",
+				"a": "authorized",
+				"b": "contract/authority"
+			},{
+				"sentence": "Being behind schedule creates all sorts of unforseen difficulties.",
+				"a": "creates",
+				"b": "create/estimate"
+			},{
+				"sentence": "What a novel concept! I had never thought of that before.",
+				"a": "concept",
+				"b": "concept/area"
+			},{
+				"sentence": "The key to success is not getting lucky but consistently getting lucky.",
+				"a": "consistently",
+				"b": "economic/consistent"
+			},{
+				"sentence": "Non-native English speakers constitute the greatest proportion of English speakers overall.",
+				"a": "constitute",
+				"b": "occur/constitutional"
+			},{
+				"sentence": "Without any contextual clues I can't figure out the meaning of the word.",
+				"a": "contextual",
+				"b": "context/factor",
+				"c": "context"
+			},{
+				"sentence": "Gary was required to sign the contract before receiving any payments.",
+				"a": "contract",
+				"b": "contract/formula"
+			}{
+				"sentence": "After years of research, scientists had gathered enough data to publish their findings.",
+				"a": "data",
+				"b": "method/data"
+			},{
+				"sentence": "The defining characteristic of a good leader is the ability to speak and listen.",
+				"a": "defining",
+				"b": "function/definition"
+			},{
+				"sentence": "The prince derived great pleasure from seeing his ideas come to life.",
+				"a": "derived",
+				"b": "derive/source",
+				"c" : "derives"
+			}, {
+				"sentence": "Non-native English speakers constitute the greatest proportion of English speakers worldwide.",
+				"a": "constitute",
+				"b": "occur/constitutional"
+			},{
+				"sentence": "The distribution of wages to the workers left some with more than others.",
+				"a": "distribution",
+				"b": "income/distribute"
+			},{
+				"sentence": "The Central Asia economic downturn left many in poverty.",
+				"a": "economic",
+				"b": "economical/economic"
+			},{
+				"sentence": "Great advancements in environmental reform are at the forefront of our agenda.",
+				"a": "environmental",
+				"b": "environment/issue"
+			},{
+				"sentence": "Ever since the establishment of off-shore bank accounts world leaders have either played along or fought such practices.",
+				"a": "establishment",
+				"b": "constitution/establishment"
+			},{
+				"sentence": "The homeowners sought a price estimate for their newly purchased home.",
+				"a": "estimate",
+				"b": "estimation/definition"
+			},{
+				"sentence": "There was no evidence left at the crime scene to indict the neighbor.",
+				"a": "evidence",
+				"b": "data/evidence"
+			},{
+				"sentence": "There was no evidence left at the crime scene to indict the neighbor.",
+				"a": "evidence",
+				"b": "data/evidence"
+			},{
+				"sentence": "The vast exportation of goods overseas depleted the country's resources.",
+				"a": "exportation",
+				"b": "export/source"
+			},{
+				"sentence": "What led to the revolution were the factors of low-employment rates and poverty.",
+				"a": "factors",
+				"b": "policy/factor"
+			},{
+				"sentence": "President Julio's financial reforms were key to securing a second term.",
+				"a": "financial",
+				"b": "principle/financial"
+			},{
+				"sentence": "The only proven formula for success is hard work and intelligence.",
+				"a": "formula",
+				"b": "concept/formula"
+			},{
+				"sentence": "The trash pick-up system only became functional after it had gained public support.",
+				"a": "functional",
+				"b": "function/distribution"
+			},{
+				"sentence": "The suspect's identity became known when a copy of his passport was leaked to the media.",
+				"a": "identity",
+				"b": "identified/individual"
+			},{
+				"sentence": "An individual packaging system is the best way to increase the amount of litter on the streets.",
+				"a": "individual",
+				"b": "environmental/individual"
+			},{
+				"sentence": "The religious leader was the only one capable of interpreting the true meaning of the text.",
+				"a": "interpreting",
+				"b": "interpretation/identified"
+			},{
+				"sentence": "In an attempt to raise the average income, the representatives lowered taxes.",
+				"a": "income",
+				"b": "labour/income"
+			},{
+				"sentence": "The lower temperatures indicated that winter was just around the corner.",
+				"a": "indicated",
+				"b": "evidence/indicate"
+			},{
+				"sentence": "The last publication of the magazine was issued in 1979.",
+				"a": "issued",
+				"b": "occur/issue"
+			},{
+				"sentence": "Digging the trench was very labour intensive and many had sore backs the next day.",
+				"a": "labour",
+				"b": "data/labour",
+				"c": "labor"
+			},{
+				"sentence": "The new position at the company would involve much longer hours than the previous position.",
+				"a": "involve",
+				"b": "process/invovled"
+			},{
+				"sentence": "It's never a good a sign if someone asks about the legality of an action.",
+				"a": "legality",
+				"b": "legal"
+			},{
+				"sentence": "The business plan didn't account for the new legislation passed by congress.",
+				"a": "legislation",
+				"b": "procedure/legislation"
+			},{
+				"sentence": "The company was unable to recover after the major setback in the Fall.",
+				"a": "major",
+				"b": "major/similar"
+			},{
+				"sentence": "His slow methodical approach left nothing to chance.",
+				"a": "methodical",
+				"b": "specific/method"
+			},{
+				"sentence": "We were complete oblivious as to what had occured next door.",
+				"a": "occured",
+				"b": "response/occur"
+			},{
+				"sentence": "A large percent of the work put into the project went to waste.",
+				"a": "percent",
+				"b": "percent/section",
+				"c": "percentage"
+			},{
+				"sentence": "We receive rain periodically throughout the year but mostly in the Spring.",
+				"a": "periodically",
+				"b": "individual/period"
+			},{
+				"sentence": "No policy could fix the homeless population problem of the city.",
+				"a": "policy",
+				"b": "factor/policy"
+			},{
+				"sentence": "Benjamin Franklin lived by the principle that a penny saved is a penny earned.",
+				"a": "principle",
+				"b": "policy/principle"
+			},{
+				"sentence": "The procedure to apply involves filling out the sections of your education and work history.",
+				"a": "procedure",
+				"b": "formula/procedure"
+			},{
+				"sentence": "The application's processing fee was over a hundred dollars.",
+				"a": "processing",
+				"b": "process/assessment"
+			},{
+				"sentence": "The amount of effort required to climb to the top of Everest is astronomical.",
+				"a": "required",
+				"b": "create/required"
+			},{
+				"sentence": "The university decided to cut off all funds towards the research on bonobos.",
+				"a": "research",
+				"b": "theory/research"
+			},{
+				"sentence": "Despite not having her best performance, the response from the crowd was enthusiastic.",
+				"a": "response",
+				"b": "response/principle"
+			},{
+				"sentence": "I wouldn't mind having a different role to play than Hamlet's.",
+				"a": "role",
+				"b": "procedure/role"
+			},{
+				"sentence": "Whole sections of the site had been left untouched for centuries.",
+				"a": "sections",
+				"b": "section/percent"
+			},{
+				"sentence": "The city had been divided up into different sectors to accomodate each group's needs.",
+				"a": "sectors",
+				"b": "role/sector"
+			},{
+				"sentence": "The significance of the find had been lost on all but the head researcher.",
+				"a": "significance",
+				"b": "theory/significant"
+			},{
+				"sentence": "I couldn't find any line of work with enough similarities to my own.",
+				"a": "similarities",
+				"b": "major/similar",
+				"c": "similarity"
+			},{
+				"sentence": "Having exhausted all ideas, George looked for a new source of inspiration.",
+				"a": "source",
+				"b": "source/issue"
+			},{
+				"sentence": "I want you to be more specific about what happened by providing more detail.",
+				"a": "specific",
+				"b": "significant/specific"
+			},{
+				"sentence": "The structural engineering needed to build a skyscraper is astounding.",
+				"a": "structural",
+				"b": "area/structure"
+			},{
+				"sentence": "His ideas were very theoretical and didn't have very much evidence to support them.",
+				"a": "theoretical",
+				"b": "research/theory"
+			},{
+				"sentence": "NASA didn't take into account all the variables involved in creating a colony on the Moon.",
+				"a": "variables",
+				"b": "variables/economic"
+			}
+		],
+		"sublist-2": [
+			{
+				"sentence": "There was no evidence left at the crime scene to indict the neighbor.",
+				"a": "evidence",
+				"b": "data/evidence"
+			},{
+				"sentence": "There was no evidence left at the crime scene to indict the neighbor.",
+				"a": "evidence",
+				"b": "data/evidence"
+			},{
+				"sentence": "There was no evidence left at the crime scene to indict the neighbor.",
+				"a": "evidence",
+				"b": "data/evidence"
+			},{
+				"sentence": "There was no evidence left at the crime scene to indict the neighbor.",
+				"a": "evidence",
+				"b": "data/evidence"
+			},{
+				"sentence": "There was no evidence left at the crime scene to indict the neighbor.",
+				"a": "evidence",
+				"b": "data/evidence"
+			},{
+				"sentence": "There was no evidence left at the crime scene to indict the neighbor.",
+				"a": "evidence",
+				"b": "data/evidence"
+			}
+		]
+	}
+}
