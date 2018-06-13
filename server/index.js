@@ -1,15 +1,13 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-const server = require('http').createServer(app);
-const bodyParser = require('body-parser');
+const server = require('http').Server(app);
 
 
 const io = module.exports.io = require('socket.io')(server);
 
 const PORT = process.env.PORT || 5000;
 
-var fs = require('fs');
 
 const SocketManager = require('./SocketManager');
 
