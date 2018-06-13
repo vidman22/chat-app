@@ -1,5 +1,10 @@
 const io = require('./index.js').io;
 
+io.configure(function () {  
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 // const uuidv1 = require('uuid/v1');
 // const uuidv3 = require('uuid/v3');
 
