@@ -17,8 +17,8 @@ io.on('connection', ( socket ) => {
 	SocketManager(socket);
 });
 
-app.use(express.static(path.join(__dirname + '../../build')));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(__dirname + ' /../build'));
+
 
 server.listen(PORT, () => {
 	console.log("Connected on port " + port + "!");
