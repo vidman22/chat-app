@@ -130,44 +130,60 @@ li .last{
 @media screen and (max-width: 640px) {
 	.Header {
 		height: 60%;
-		width: 110%;
+		width: 100%;
 	}
+
+	.Header img {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	float: left;
+	margin-top: 14px;
+	margin-left: 24px;
+
+}
 
 	.Header h1 {
 		display: block;
 		text-align: center;
-		margin-left: 40px;
-		margin-bottom: 0px;
+		margin:24px 0px 0px 15px;
 		font-size: 30px;
 	}
 
 	.Header ul {
-		width: 90%;
+		width: 100%;
 		float: left;
-		padding-right: 0px;
-		margin-top: 4px;
+		padding: 0;
+		margin: 12px 0 12px 0;
 	}
 
 	.Header li {
 		display: inline-block;
-		margin: 0;
+		clear: both;
+		text-align: center;
 		font-family: 'Open Sans', sans-serif;
-		padding-right: 16px;
-		margin-left: 12px;
-		padding-left: 4px;
+		width: 25%;
+		margin: 0;
+		font-size: 14px;
+		padding: 0;
 	}
 
+	.Header p{
+		display: none;
+	}
 
 	.Header #first {
 		padding-left: 0;
 	}
 
-	.Header #last {
-		margin-left: 16px;
+	li #last {
+		/*margin-left: 16px;*/
 		border: none;
-		padding-right: 0;
+		margin: none;
+		padding: 0;
 	}
-	
+
+
 }
 
 

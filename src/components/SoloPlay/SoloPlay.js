@@ -15,7 +15,7 @@ export default class SoloPlay extends Component {
 			<div className="GamePlay">
 			  
 				<h2>{this.props.gamename}</h2>
-			  <svg height="40" width="1000">
+			  <svg height="40" width="100%">
 			  <defs>
 			  	<linearGradient id="e" x1="0" y1="0" x2="1000" y2="0" gradientUnits="userSpaceOnUse">
 			  		<stop stopColor="#23A6D5" offset="0" />

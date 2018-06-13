@@ -1,3 +1,9 @@
+.Carousel {
+	display: inline-block;
+	clear: both;
+	width: 95%;
+}
+
 .Content {
 	display: inline-block;
 	width: 87%;
@@ -16,9 +22,31 @@
 	background-color: none;
 	background: none;
 	color: grey;
+	
+	background: white;
 }
 
 .Previous .Next:hover {
 	color: black;
 }
 
+@media screen and (max-width: 640px) {
+
+.Sentence {
+	display: inline-block;
+	width: 
+}
+
+.Previous {
+	display: inline-block;
+	border-radius: 50%;
+	float: left;
+}
+.Next{
+	display: inline-block;
+	border-radius: 50%;
+	float: right;
+}
+	
+
+}

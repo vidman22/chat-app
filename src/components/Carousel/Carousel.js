@@ -29,10 +29,10 @@ export default class Carsl extends Component {
 			this.setState({
 				activeSentence: sentences[index].sentence
 			});
-			console.log("repeat");
+			
 			
 		} if (index === -1 ) {
-			console.log('backward repeat');
+			
 			index = 11;
 			this.setState({
 				activeSentence: sentences[index].sentence
@@ -48,17 +48,20 @@ export default class Carsl extends Component {
 
 	render() {
 		
-		console.log("state ", this.state);
+		
 
 		return (
 			<div className="Carousel">
 				
 				<div className="Content">
+					<div className="carouselButtons">
+						<button onClick={() => this.slide(-1)} className="Previous">◀</button>
+						<button onClick={this.slide.bind(this, 1)} className="Next">▶</button>
+					</div>
+				<div className="Sentence">
 					{this.state.activeSentence}
 				</div>
-				<div className="carouselButtons">
-					<button onClick={() => this.slide(-1)} className="Previous">◀</button>
-					<button onClick={this.slide.bind(this, 1)} className="Next">▶</button>
+					
 				</div>
 			</div>
 			)

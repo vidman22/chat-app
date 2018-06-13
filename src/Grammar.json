@@ -37,7 +37,7 @@
 			"a" : "always find",
 			"b" : "find always"
 		},{ 
-			"sentence": "When it rains, it pours", 
+			"sentence": "When it rains, it pours.", 
 			"a" : "rains",
 			"b" : "rain"
 		},{ 

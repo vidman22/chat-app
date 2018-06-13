@@ -34,16 +34,28 @@
 
 @media screen and (max-width: 640px) {
 
-	.SoloWaiting {
-		margin-left: 12px;
+	.SoloStart {
+		width: 22%
 	}
-
-	.AnswersButton {
-		width: 30%;
-		margin-right: 12px;
+	.SoloWaiting {
+		margin-left: 9px;
+		width: 87%;
 	}
 
 	.BackButton {
+
+	}
+
+	.AnswersButton {
+		margin: 0;
+		padding: 0;
+		width: 30%;
+		
+	}
+
+	.BackButton {
+		margin: 0;
+		padding: 0;
 		width: 30%;
 	}
 

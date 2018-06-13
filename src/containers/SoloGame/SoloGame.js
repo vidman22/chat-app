@@ -88,6 +88,7 @@ class SoloGame extends Component {
 					index: scoreIndex
 				});
 			} else {
+
 				scoreIndex++;
 				this.setState({
 					index: scoreIndex,
@@ -112,8 +113,11 @@ class SoloGame extends Component {
 
 	completed() {
 		sentenceIndex = 0;
-		scoreIndex = 0
+		scoreIndex = 0;
+		const activeSentence = this.state.gameSentences[sentenceIndex];
+		console.log("active sentence " , activeSentence);
 		this.setState({
+			activeSentence,
 			index: scoreIndex,
 			completed:null,
 			action: 'answers'
@@ -123,7 +127,7 @@ class SoloGame extends Component {
 	wrongAnswer() {
 		const gameSentences = [...this.state.gameSentences];
 
-		const wrongSentence = gameSentences[scoreIndex];
+		const wrongSentence = gameSentences[sentenceIndex];
 
 		gameSentences.push(wrongSentence);
 		this.setState({
@@ -131,7 +135,7 @@ class SoloGame extends Component {
 		});
 
 		sentenceIndex++;
-		const activeSentence = this.state.gameSentences[scoreIndex];
+		const activeSentence = this.state.gameSentences[sentenceIndex];
 
 		this.setState({
 			activeSentence,
@@ -167,7 +171,7 @@ class SoloGame extends Component {
 				result = (
 					<div>
 				{/*<button onClick={this.props.back}>Back</button>*/}
-				<button onClick={this.button.bind(this)}>Start</button> 
+				<button className="SoloStart" onClick={this.button.bind(this)}>Start</button> 
 			</div>
 
 
@@ -209,7 +213,7 @@ class SoloGame extends Component {
 		return(
 			<div className="SoloWaiting">
 				<button className="BackButton" onClick={this.props.back}>{"<"} Back</button>
-				{this.state.action !=='answers' ? <button className="AnswersButton" onClick={this.answers.bind(this)}>Answers {">"}</button> : null}
+				{this.state.action !=='answers' ? <button className="AnswersButton" onClick={this.answers.bind(this)}>Answ {">"}</button> : null}
 				<h1>{this.props.gamename}</h1>
 				{this.addComponent()}
 			</div>
