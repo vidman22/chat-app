@@ -47,7 +47,11 @@ export default class Carsl extends Component {
 	
 
 	render() {
-		
+		var index = props.sentence.indexOf(props.correct); 
+		var index2 = index + props.correct.length;
+
+		var s1 = props.sentence.slice(0, index);
+		var s2 = props.sentence.slice(index2, props.sentence.length);
 		
 
 		return (

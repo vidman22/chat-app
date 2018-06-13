@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 
 const GrammarTest = Grammar.Grammar;
 
-const socket = io('http://localhost:5000');
+const socket = io();
 
 class WaitingPage extends Component {
 
