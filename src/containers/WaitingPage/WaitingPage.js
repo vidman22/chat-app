@@ -180,7 +180,7 @@ class WaitingPage extends Component {
 	};
 
 	playAgain() {
-		
+		const { socket } = this.state;
 		this.loadGame();
 		this.setState({
 			openModal: false,
