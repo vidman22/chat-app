@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 
 const GrammarTest = Grammar.Grammar;
 
-const socket = io("/");
+const socket = io("/host-game/");
 
 class WaitingPage extends Component {
 
