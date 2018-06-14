@@ -13,7 +13,7 @@ import io from 'socket.io-client';
 const GrammarTest = Grammar.Grammar;
 
 
-const socket = io.connect();
+const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/host-game/');
 
 
 class WaitingPage extends Component {
