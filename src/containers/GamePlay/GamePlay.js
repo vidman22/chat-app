@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 const GrammarTest = Grammar.Grammar;
 
 // const socketUrl = "http://localhost:5000";
-const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/');
+const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/join-game/');
 
 let index = 0;
 export default class GamePlay extends Component {

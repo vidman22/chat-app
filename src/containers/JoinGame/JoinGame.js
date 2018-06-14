@@ -7,7 +7,7 @@ import GamePlay from '../GamePlay/GamePlay';
 import './JoinGame.css';
 
 // const socketUrl = "http://localhost:5000";
-const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/');
+const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/join-game/');
 
 export default class CreateGame extends Component {
 	constructor(props) {
