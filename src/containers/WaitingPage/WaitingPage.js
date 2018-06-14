@@ -13,9 +13,6 @@ import io from 'socket.io-client';
 const GrammarTest = Grammar.Grammar;
 
 
-
-
-
 class WaitingPage extends Component {
 
 	constructor(props) {
