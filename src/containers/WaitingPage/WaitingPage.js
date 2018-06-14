@@ -12,7 +12,9 @@ import io from 'socket.io-client';
 
 const GrammarTest = Grammar.Grammar;
 
-const socket = io("/host-game/");
+
+const socketUrl = "/";
+
 
 class WaitingPage extends Component {
 
@@ -70,6 +72,8 @@ class WaitingPage extends Component {
 	};
 
 	initSocket() {
+		const socket = io(socketUrl);
+		
 		const room = this.randomDigits();
 		this.setState({
 			 room
