@@ -7,7 +7,7 @@ import GamePlay from '../GamePlay/GamePlay';
 import './JoinGame.css';
 
 // const socketUrl = "http://localhost:5000";
-const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/join-game/');
+
 
 export default class CreateGame extends Component {
 	constructor(props) {
@@ -17,6 +17,7 @@ export default class CreateGame extends Component {
 			name:'',
 			room:'',
 			error:'',
+			socket: null,
 			action:'code',
 			activePlayer:'',
 			players: [],
@@ -33,6 +34,9 @@ export default class CreateGame extends Component {
 	}
 
 	initSocket = () => {
+		const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/join-game/');
+
+		this.setState({socket});
 
 		socket.on('JOINED', () => {
 			console.log('joined room');
@@ -73,7 +77,9 @@ export default class CreateGame extends Component {
 	}
 
 	handleCodeSubmit = (e) => {
+
 		e.preventDefault();
+		const { socket } = this.state;
 		const room = this.state.room;
 		socket.emit('JOIN_ROOM', room, (res) => {
 			// if error post error, if success change action to load new input form 
@@ -98,6 +104,7 @@ export default class CreateGame extends Component {
 	}
 
 	handleSubmit = (e) => {
+		const { socket } = this.state;
 		e.preventDefault();
 		socket.emit('NEW_PLAYER', this.state.room, this.state.name, (res) => {
 			if ( res ) {
