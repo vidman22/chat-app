@@ -13,7 +13,7 @@ import io from 'socket.io-client';
 const GrammarTest = Grammar.Grammar;
 
 
-const socketUrl = "/";
+const socket = io();
 
 
 class WaitingPage extends Component {
@@ -26,7 +26,6 @@ class WaitingPage extends Component {
 			gameName: null,
 			gameSentences: null,
 			room: '',
-			socket: null,
 			players: [],
 			disabled:true,
 			arrayOfTeams: null,
@@ -73,12 +72,12 @@ class WaitingPage extends Component {
 	};
 
 	initSocket() {
-		const socket = io(socketUrl);
+		
 
 		const room = this.randomDigits();
 		this.setState({
 			 room,
-			 socket
+			 
 		});
 	
 		socket.emit('NEW_ROOM', room );
@@ -159,7 +158,7 @@ class WaitingPage extends Component {
 	};
 
 	start(e) {
-		const { socket } = this.state;
+		
 		e.preventDefault();
 		const players = [...this.state.players];
 		const room = this.state.room;
@@ -179,7 +178,7 @@ class WaitingPage extends Component {
 	};
 
 	playAgain() {
-		const { socket } = this.state;
+		
 		this.loadGame();
 		this.setState({
 			openModal: false,
