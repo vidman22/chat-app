@@ -70,7 +70,7 @@ class WaitingPage extends Component {
 	};
 
 	initSocket() {
-		const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/host-game/');
+		const socket = io.connect();
 
 		const room = this.randomDigits();
 		this.setState({

@@ -60,7 +60,7 @@ export default class GamePlay extends Component {
 	};
 
 	initSocket() {
-		const socket = io.connect('https://damp-brushlands-16241.herokuapp.com/join-game/');
+		const socket = io.connect();
 		this.setState({ socket });
 	}
 	

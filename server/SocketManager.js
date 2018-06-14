@@ -9,7 +9,7 @@ io.configure(function () {
     'jsonp-polling', 
     'polling'
   ]); 
-  io.set("polling duration", 10); 
+  // io.set("polling duration", 10); 
 });
 
 // const uuidv1 = require('uuid/v1');
