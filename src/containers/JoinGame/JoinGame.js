@@ -34,7 +34,7 @@ export default class CreateGame extends Component {
 	}
 
 	initSocket = () => {
-		const socket = io.connect("/join-game/");
+		const socket = io("http://localhost:5000");
 
 		this.setState({socket});
 
