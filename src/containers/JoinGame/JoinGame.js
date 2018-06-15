@@ -6,7 +6,8 @@ import GamePlay from '../GamePlay/GamePlay';
 
 import './JoinGame.css';
 
-// const socketUrl = "http://localhost:5000";
+const socketUrl = "/";
+const socket = io(socketUrl);
 
 
 export default class CreateGame extends Component {
@@ -34,7 +35,7 @@ export default class CreateGame extends Component {
 	}
 
 	initSocket = () => {
-		const socket = io("http://localhost:5000");
+		
 
 		this.setState({socket});
 

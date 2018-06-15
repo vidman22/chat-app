@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 
 const GrammarTest = Grammar.Grammar;
 
-const socketUrl = "http://localhost:5000";
+const socketUrl = "/";
 const socket = io(socketUrl);
 
 
