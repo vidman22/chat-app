@@ -70,7 +70,7 @@ class WaitingPage extends Component {
 	};
 
 	initSocket() {
-		const socket = io.connect();
+		const socket = io.connect("/host-game/");
 
 		const room = this.randomDigits();
 		this.setState({
