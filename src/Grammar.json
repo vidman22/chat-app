@@ -498,7 +498,7 @@
 			"a" : "swimming",
 			"b" : "swim"
 		},{ 
-			"sentence": "To love is the greatest goal towards which we can strive.", 
+			"sentence": "I contemplated changing majors after failing finals.", 
 			"a" : "to love",
 			"b" : "love",
 			"c" : "loving"
@@ -510,6 +510,10 @@
 			"sentence": "The stock market tends to correct itself every couple of weeks.", 
 			"a" : "to correct",
 			"b" : "correct"
+		},{ 
+			"sentence": "It's difficult to be correct all the time.", 
+			"a" : "to be",
+			"b" : "be"
 		}
 		]
 	},"real-future-conditionals": {

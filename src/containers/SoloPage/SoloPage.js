@@ -65,8 +65,7 @@ export default class SoloPage extends Component {
 	
 
 	start(id, e) {
-		e.preventDefault();
-		console.log("clicked");
+		
 		let gameSentences = GrammarTest[id].sentences;
 		let gameName = GrammarTest[id].name;
 		this.setState({
