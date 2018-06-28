@@ -104,7 +104,7 @@ module.exports = function(socket) {
 	});
 
 	socket.on('SUCCESS',  (room, name)  => {
-	
+		console.log("peace");
 		const index = searchSessions(room);
 
 		let connectedUsers = sessions[index].connectedUsers;
@@ -124,9 +124,6 @@ module.exports = function(socket) {
 
 	});
 
-	socket.on('FAILURE', room => {
-
-	});
 
 	socket.on('PLAY_AGAIN', (room, sentences) => {
 		const index = searchSessions(room);
