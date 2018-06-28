@@ -12,52 +12,37 @@ export default class CreateGame extends Component {
 		this.state = {
 			games: [ {
 				name: "Simple Present",
-				id:'simple-present',
-				url: '../'
+				id:'simple-present'
 			}, {
 				name: "Simple Past",
-				id: 'simple-past',
-				url: '../'
+				id: 'simple-past'
 			}, {
 				name: "Present Continuous",
-				id: 'present-continuous',
-				url: '../'
+				id: 'present-continuous'
 			}, {
 				name: "Past Continuous",
-				id: 'past-continuous',
-				url: '../'
+				id: 'past-continuous'
 			}, {
 				name: "Present Perfect",
-				id: 'present-perfect',
-				url: '../'
+				id: 'present-perfect'
 			}, {
 				name: "Modals",
-				id: 'modals',
-				url: '../'
+				id: 'modals'
 			}, {
 				name: "Past Modals",
-				id: 'past-modals',
-				url: '../'
+				id: 'past-modals'
 			}, {
 				name: "Narrative Tenses",
-				id: 'narrative-tenses',
-				url: '../'
+				id: 'narrative-tenses'
 			}, {
 				name: "Gerunds and Infinitives",
-				id: 'gerunds-infinitives',
-				url: '../'
+				id: 'gerunds-infinitives'
 			}, {
 				name: "Conditionals",
-				id: 'conditionals',
-				url: '../'
+				id: 'conditionals'
 			}, {
 				name: "Verbs and Prepositions",
-				id: 'verbs-prepositions',
-				url: '../'
-			}, {
-				name: "AWL Families",
-				id: 'awl-families',
-				url: '../'
+				id: 'verbs-prepositions'
 			}],
 			activeGame: null
 		}

@@ -1,0 +1,174 @@
+.Home h1{
+	font-family: 'Helvetica', sans-serif;
+	text-align: center;
+}
+
+
+.Home p{
+  font-family: 'Open-sans', sans-serif;
+  font-size: 22px;
+  text-align: center;
+  margin: 0 10px;
+}
+
+.PhoneBox svg{
+  display: inline-block;
+ 
+  clear: both;
+
+}
+
+.Solo {
+
+}
+
+.AWL {
+
+}
+
+.Lessons {
+
+}
+
+.HomeFlex {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  min-height: 80vh;
+  /*justify-content: space-around;
+  display: -webkit-flex;
+  -webkit-justify-content: space-around;*/
+}
+
+.HomeFlex > div {
+  
+  background: white;
+  border: 1px solid #eee;
+  box-shadow: 2px 1px 2px #ccc;
+  width: 23%;
+  height: 400px;
+  margin: auto;
+  text-align: center;
+
+}
+
+
+
+.HomeFlex h1 {
+  font-family: 'Montserrat', sans-serif;
+ /* font-weight: bold;*/
+}
+
+.TypedText {
+  font: 180% "Inconsolata", monospace;
+  /*width: 8.25em;*/
+  width: 15ch;
+  white-space: nowrap;
+  text-align: center;
+  display: inline-block;
+  clear: both;
+  overflow: hidden;
+  margin-top: 10vh;
+  border-bottom: .05em solid gray;
+  border-right: .05em solid;
+  animation: typing 10s steps(15) infinite,
+             caret 1s steps(1) infinite;
+}
+
+
+.PhoneDisplay {
+    display: flex;
+    justify-content: space-around;
+    display: -webkit-flex;
+    -webkit-justify-content: space-around;
+    margin-top: 10px;
+}
+
+.Phones {
+	position: relative;
+  -webkit-animation: send 2s ease-out infinite ;
+  animation: send 2s ease-out infinite; 
+  
+}
+
+.Phone1 {
+    animation-delay:250ms;
+  }.Phone2 {
+    animation-delay:500ms;
+  }
+.Phone3 {
+    animation-delay:750ms;
+  }
+.Phone4 {
+    animation-delay:1000ms;
+  }
+
+ @keyframes send {
+    0% {
+            top: 0px;
+        }
+    25% {
+          top: 0px;
+    }
+    50% {  
+            
+            top: -10px;
+        }
+    75% {
+          top: 0px;
+    }
+
+    90% {
+          top: 0px;
+    }
+    100% {  
+            top: 0px;
+        }
+}
+
+ @-webkit-keyframes send {
+     0% {
+            
+            top: 0px;
+        }
+    50% {  
+            
+            top: -10px;
+        }
+
+    100% {  
+            
+            top: 0px;
+        }
+}
+@keyframes typing {
+  from { width: 0 }
+}
+
+@keyframes caret {
+  50% { border-right-color: transparent; }
+}
+
+
+
+
+@media screen and (max-width: 1024px) {
+
+}
+
+@media screen and (max-width: 640px) {
+  .HomeFlex{
+    display: inline-block;
+    margin-left: 20px;
+
+  }
+
+  .HomeFlex > div {
+    width: 100%;
+    margin-top: 3%;
+  }
+
+ 
+
+}
+

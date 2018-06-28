@@ -12,7 +12,8 @@ import io from 'socket.io-client';
 
 const GrammarTest = Grammar.Grammar;
 
-const socket = io('http://localhost:5000');
+
+const socket = io();
 
 class WaitingPage extends Component {
 
@@ -77,9 +78,7 @@ class WaitingPage extends Component {
 	
 		socket.emit('NEW_ROOM', room );
 
-		socket.on('JOINED', () => {
-			console.log('joined room');
-		});
+		
 
 		socket.on('UPDATED_PLAYERS', (users) =>{
 			let players = [...this.state.players];
@@ -88,7 +87,7 @@ class WaitingPage extends Component {
 			this.setState({
 				players
 			});
-			console.log("players in state ", this.state.players);
+			
 			if (players.length >= 2) {
 				this.setState({
 					disabled: false
@@ -97,7 +96,7 @@ class WaitingPage extends Component {
 		});
 
 		socket.on('WINNER', (user) =>{
-			console.log("our winner is " + user);
+			
 			this.setState({
 				winner: user,
 				openModal: true
@@ -111,7 +110,7 @@ class WaitingPage extends Component {
 			this.setState({
 				players
 			});
-			console.log("successful score ", this.state.players);
+			
 		});
 
 		socket.on('PLAY_AGAIN', (users) => {
@@ -135,8 +134,7 @@ class WaitingPage extends Component {
 	}
 
 	shuffleTeams() {
-		console.log("shuffle teams clicked");
-		console.log("players in shuffle", this.state.players);
+		
 		const players = [...this.state.players];
 		const room = this.state.room;
 
@@ -230,7 +228,7 @@ class WaitingPage extends Component {
 	render() {
 		
 		return(
-			<div>
+			<div className="WaitingWrapper">
 				
 				<div>
 					{this.addComponent()}

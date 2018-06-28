@@ -6,8 +6,8 @@ import GamePlay from '../GamePlay/GamePlay';
 
 import './JoinGame.css';
 
-const socketUrl = "http://localhost:5000";
-const socket = io(socketUrl);
+
+const socket = io();
 
 export default class CreateGame extends Component {
 	constructor(props) {
@@ -34,13 +34,9 @@ export default class CreateGame extends Component {
 
 	initSocket = () => {
 
-		socket.on('JOINED', () => {
-			console.log('joined room');
-			
-		});
 
 		socket.on('WINNER', (user) => {
-			console.log("state name " + this.state.name);
+			
 			if (user === this.state.name) {
 			this.setState({
 				winner: 'You won!'
@@ -54,7 +50,7 @@ export default class CreateGame extends Component {
 		});
 
 		socket.on('START_GAME', ( game, sentences ) => {
-			console.log("game ", game );
+			
 			this.setState({
 				game,
 				action:'game',

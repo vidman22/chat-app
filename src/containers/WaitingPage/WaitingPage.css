@@ -4,7 +4,7 @@
 	background: none;
 	color: gray;
 	float: left;
-	}
+}
 
 .BackButton:hover {
 	
@@ -79,5 +79,55 @@
 .Player p{
 	font-size: 18px;
 	margin: 12px 10px 12px 0px;
+
+}
+
+
+@media screen and (max-width: 640px) {
+
+.WaitingWrapper {
+	width: 100%
+
+}
+
+.Waiting {
+	display: inline-block;
+	width: 90%;
+	margin:0 0 0 5px; 
+	border: 1px solid grey;
+	box-shadow: 1px 2px 3px #ccc;
+	border-radius: 4px;
+	padding: 16px;
+	text-align: center;
+	font-family: 'Helvetica', sans-serif;
+	background: white;
+	color: black;
+}
+
+.Waiting h1{
+	text-align: center;
+	clear: both;
+}
+
+.Waiting h2{
+	font-weight: lighter;
+	clear: both;
+}
+
+.Waiting h3{
+	font-family: 'Helvetica', sans-serif;
+	font-weight: lighter;
+	font-size: 40px;
+
+}
+
+.Waiting button{
+	width: 30%;
+	font-kerning: normal;
+}
+
+button.BackButton {
+	margin-left: -12px;
+}
 
 }

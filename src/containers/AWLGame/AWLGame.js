@@ -1,34 +1,32 @@
 import React, { Component } from 'react';
 
-import SoloPlay from '../../components/SoloPlay/SoloPlay';
+import AWLPlay from '../../components/AWLPlay/AWLPlay';
 import Carousel from "../../components/Carousel/Carousel";
 
-import './SoloGame.css'
 
 
-
-
-
-
-class SoloGame extends Component {
+class AWLGame extends Component {
 
 	constructor(props) {
 		super(props);
 
 
 		this.state = {
-			gameName: null,
-			gameSentences: null,
 			sentenceIndex: 0,
 			scoreIndex: 0,
+			gameName: null,
+			gameSentences: null,
 			activeGame: null,
 			action: 'start',
 			activeSentence: {},
 			carousel: true,
 			answer:'',
 			completed: null,
+			hint: null,
 			error:''
 		}
+
+		this.hint = this.hint.bind(this);
 	}
 
 	UNSAFE_componentWillMount() {
@@ -36,11 +34,11 @@ class SoloGame extends Component {
 		let gameSentences = this.props.sentences;
 		gameSentences = this.shuffle(gameSentences);
 		gameSentences = gameSentences.slice(0, 12);
-		
+	
 
 		const activeSentence = gameSentences[0];
 
-		
+	
 		this.setState({
 			gameSentences,
 			activeSentence
@@ -69,32 +67,35 @@ class SoloGame extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 
-		let answer = this.state.answer;
 		let sentenceIndex = this.state.sentenceIndex;
 		let scoreIndex = this.state.scoreIndex;
 
+		let answer = this.state.answer;
 		answer = answer.toLowerCase().trim();
 
 		
-		if (answer === this.state.activeSentence.a ||answer === this.state.activeSentence.c || answer === this.state.activeSentence.d ||answer === this.state.activeSentence.e ||answer === this.state.activeSentence.f)  {
-			
+		if (answer === this.state.activeSentence.a || answer === this.state.activeSentence.c )  {
 
 			
-			if ( sentenceIndex < this.state.gameSentences.length - 1 ) {
+			if ( scoreIndex < this.state.gameSentences.length - 1 ) {
+				
 				sentenceIndex++;
 				scoreIndex++;
 				const activeSentence = this.state.gameSentences[sentenceIndex];
 
 				this.setState({
-					activeSentence,
-					answer:'',
+					sentenceIndex,
 					scoreIndex,
-					sentenceIndex
+					activeSentence,
+					hint: null,
+					answer:'',
+					index: scoreIndex
 				});
 			} else {
 				scoreIndex++;
 				this.setState({
 					scoreIndex,
+					hint: null,
 					completed:'Finished!'
 				});
 
@@ -114,11 +115,20 @@ class SoloGame extends Component {
 
 	}
 
+	hint() {
+		const activeSentence = this.state.activeSentence;
+		const hint = activeSentence.headword;
+		this.setState({
+			hint
+		});
+	}
+
 	completed() {
 		let sentenceIndex = this.state.sentenceIndex;
 		let scoreIndex = this.state.scoreIndex;
-		sentenceIndex = 0;
+
 		scoreIndex = 0;
+		sentenceIndex = 0;
 		this.setState({
 			scoreIndex,
 			sentenceIndex,
@@ -142,8 +152,9 @@ class SoloGame extends Component {
 		const activeSentence = this.state.gameSentences[sentenceIndex];
 
 		this.setState({
-			activeSentence,
 			sentenceIndex,
+			activeSentence,
+			hint: null,
 			answer:'',
 			error:''
 		});
@@ -185,12 +196,14 @@ class SoloGame extends Component {
 			break;
 			case 'play':
 				result = (
-					<SoloPlay 
+					<AWLPlay 
 					activesentence={this.state.activeSentence} 
 					back={this.props.back} 
 					handlechange={this.handleChange} 
 					answer={this.state.answer} 
 					handlesubmit={this.handleSubmit} 
+					showhint={this.hint}
+					hint={this.state.hint}
 					game={this.props.game} 
 					error={this.state.error}
 					index={this.state.scoreIndex}
@@ -226,4 +239,4 @@ class SoloGame extends Component {
 	}
 }
 
-export default SoloGame;
+export default AWLGame;

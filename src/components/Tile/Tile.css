@@ -9,9 +9,10 @@
 	border-radius: 4px;
 	padding: 16px;
 	text-align: center;
-	font-family: 'Helvetica', sans-serif;
 	background: white;
 	color: black;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: lighter;
 }
 
 .Tile:hover {
@@ -34,8 +35,9 @@
 
 @media screen and (max-width: 640px) {
 	.Tile {
-		width: 100%;
-		margin: auto;
+		width: 90%;
+		margin: 5px 0 0 5px;
+		clear:both;
 	}
 }
 

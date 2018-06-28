@@ -52,14 +52,14 @@ export default class Carsl extends Component {
 
 		return (
 			<div className="Carousel">
-				
-				<div className="Content">
-					{this.state.activeSentence}
-				</div>
 				<div className="carouselButtons">
 					<button onClick={() => this.slide(-1)} className="Previous">◀</button>
 					<button onClick={this.slide.bind(this, 1)} className="Next">▶</button>
 				</div>
+				<div className="Content">
+					{this.state.activeSentence}
+				</div>
+				
 			</div>
 			)
 	}

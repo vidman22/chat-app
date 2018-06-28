@@ -7,6 +7,7 @@ import CreateGame from './CreateGame/CreateGame';
 import Home from '../components/Home/Home';
 import Lessons from './Lessons/Lessons';
 import SoloPage from './SoloPage/SoloPage';
+import AWL from './AWL/AWL';
 
 
 // import WaitingPage from './WaitingPage/WaitingPage';
@@ -43,14 +44,20 @@ class LandingPage extends Component {
                                 pathname: '/solo-play'
                              }}
                              activeStyle={{
-                                color:'#323232'}}>Solo Play</NavLink></li>
+                                color:'#323232'}} id='second'>Solo Play</NavLink></li>
+
+                             <li><NavLink to={{
+                                pathname: '/academic-word-list'
+                             }}
+                             activeStyle={{
+                                color:'#323232'}}>AWL</NavLink></li>
 
                              <li><NavLink to={{
                                 pathname: '/lessons'       
                              }}
                              activeStyle={{
                                 color:'#323232'
-                                }}className='last'>Lessons</NavLink></li>
+                                }} id='last'>Lessons</NavLink></li>
                             </ul>
                         </nav>
 
@@ -61,7 +68,7 @@ class LandingPage extends Component {
                 
                 
                 <Route path="/solo-play" component={SoloPage} />
-
+                <Route path="/academic-word-list" component={AWL} />
                 <Route path="/lessons" component={Lessons} />
                 <Route path="/host-game" component={CreateGame}/>
                 

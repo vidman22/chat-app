@@ -40,16 +40,12 @@ export default class SoloPage extends Component {
 			}, {
 				name: "Gerunds and Infinitives",
 				id: 'gerunds-infinitives'
-				
 			}, {
 				name: "Conditionals",
 				id: 'real-future-conditionals'
 			}, {
 				name: "Verbs and Prepositions",
 				id: 'verbs-prepositions'
-			}, {
-				name: "AWL Families",
-				id: 'awl-families'
 			}],
 			action: 'options',
 			activeGame: '',

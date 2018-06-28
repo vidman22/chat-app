@@ -9,8 +9,8 @@ import io from 'socket.io-client';
 
 const GrammarTest = Grammar.Grammar;
 
-const socketUrl = "http://localhost:5000";
-const socket = io(socketUrl);
+
+const socket = io();
 
 let index = 0;
 export default class GamePlay extends Component {
@@ -27,11 +27,10 @@ export default class GamePlay extends Component {
 	}
 
 	UNSAFE_componentWillMount() {
-		console.log(this.props.game);
+	
 		let gameSentences = this.props.sentences;
 		gameSentences = this.shuffle(gameSentences);
 		
-		console.log(" game sentences ", gameSentences);
 
 		const activeSentence = gameSentences[0];
 
@@ -81,7 +80,7 @@ export default class GamePlay extends Component {
 
 		
 		if (answer === this.state.activeSentence.a ||answer === this.state.activeSentence.c || answer === this.state.activeSentence.d ||answer === this.state.activeSentence.e ||answer === this.state.activeSentence.f)  {
-			console.log("peace");
+			
 
 			socket.emit('SUCCESS', this.props.room, this.props.name);
 
@@ -97,7 +96,7 @@ export default class GamePlay extends Component {
 				error:'wrong answer!'
 			});
 			setTimeout(this.wrongAnswer.bind(this), 1000);
-			console.log("strife");
+			
 		}
 		
 
@@ -150,7 +149,6 @@ export default class GamePlay extends Component {
 	render() {
 
 		const sentence = this.state.activeSentence;
-		console.log(sentence);
 		
 		return (
 			<div className="GamePlay">
