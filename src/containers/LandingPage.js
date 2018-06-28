@@ -58,11 +58,11 @@ class LandingPage extends Component {
                                 color:'#323232'}}>AWL</NavLink></li>
 
                              <li><NavLink to={{
-                                pathname: '/lessons'       
+                                pathname: '/join-game'       
                              }}
                              activeStyle={{
                                 color:'#323232'
-                                }} id='last'>Lessons</NavLink></li>
+                                }} id='last'>Join Game</NavLink></li>
                             </ul>
                         </nav>
 
@@ -76,8 +76,6 @@ class LandingPage extends Component {
                 <Route path="/academic-word-list" component={AWL} />
                 <Route path="/lessons" component={Lessons} />
                 <Route path="/host-game" component={CreateGame}/>
-                
-                {/*<Route path="/game-board" component={GameBoard}/>*/}
                 <Route path="/" component={Home}/>
                 
                </Switch>

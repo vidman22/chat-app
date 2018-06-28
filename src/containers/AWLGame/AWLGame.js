@@ -77,7 +77,7 @@ class AWLGame extends Component {
 		if (answer === this.state.activeSentence.a || answer === this.state.activeSentence.c )  {
 
 			
-			if ( scoreIndex < this.state.gameSentences.length - 1 ) {
+			if ( sentenceIndex < this.state.gameSentences.length - 1 ) {
 				
 				sentenceIndex++;
 				scoreIndex++;
