@@ -34,7 +34,7 @@ module.exports = function(socket) {
 		
 		let temp_room = '';
 		let message = '';
-		console.log("sessions in join ", sessions);
+		
 		for ( let i = 0; i < sessions.length; i++) {
 			if ( sessions[i].room === room) {
 				temp_room = room;
@@ -60,14 +60,14 @@ module.exports = function(socket) {
 			id: socket.id,
 			score: 0
 		};
-		console.log("users" , users);
+		
 		if ( name.length < 8 ) {
 			if ( users.length !== 0 ) {
 				for ( let i = 0; i < users.length; i++) {
 					if (users[i].playerName === name ) {
 						message = 'try a different name';
 					} if (message ==='') {
-						console.log("first else");
+						
 						users.push(user);
 						message = '';
 						io.to(room).emit('UPDATED_PLAYERS', (room, users ));	
@@ -75,7 +75,7 @@ module.exports = function(socket) {
 				break;
 				}
 			} else {
-				console.log("middle else");
+				
 				users.push(user);
 				io.to(room).emit('UPDATED_PLAYERS', (room, users ));
 				message = '';
@@ -104,11 +104,11 @@ module.exports = function(socket) {
 	});
 
 	socket.on('SUCCESS',  (room, name)  => {
-		console.log("success for " + name);
+	
 		const index = searchSessions(room);
 
 		let connectedUsers = sessions[index].connectedUsers;
-		console.log("connected users ln 99", connectedUsers);
+	
 		for ( let i = 0; i < connectedUsers.length; i ++) {
 			if ( connectedUsers[i].playerName === name ) {
 				connectedUsers[i].score++;
@@ -116,7 +116,7 @@ module.exports = function(socket) {
 				if (connectedUsers[i].score == 12) {
 
 					io.to(room).emit('WINNER', connectedUsers[i].playerName);
-					console.log("we have a winner " + connectedUsers[i].playerName);
+					
 				}
 			}
 		}
@@ -155,7 +155,7 @@ module.exports = function(socket) {
 				}
 				if (sessions[i].connectedUsers.length === 0) {
 					sessions = sessions.filter((session) => sessions[i] );
-					console.log("new session after disconnect ", sessions );
+					
 				}
 			}
 		  }
