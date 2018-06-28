@@ -9,6 +9,7 @@ import './JoinGame.css';
 
 const socket = io();
 
+
 export default class CreateGame extends Component {
 	constructor(props) {
 		super(props);
@@ -17,6 +18,7 @@ export default class CreateGame extends Component {
 			name:'',
 			room:'',
 			error:'',
+			socket: null,
 			action:'code',
 			activePlayer:'',
 			players: [],
@@ -33,6 +35,9 @@ export default class CreateGame extends Component {
 	}
 
 	initSocket = () => {
+		
+
+		this.setState({socket});
 
 
 		socket.on('WINNER', (user) => {
@@ -69,7 +74,9 @@ export default class CreateGame extends Component {
 	}
 
 	handleCodeSubmit = (e) => {
+
 		e.preventDefault();
+		const { socket } = this.state;
 		const room = this.state.room;
 		socket.emit('JOIN_ROOM', room, (res) => {
 			// if error post error, if success change action to load new input form 
@@ -94,6 +101,7 @@ export default class CreateGame extends Component {
 	}
 
 	handleSubmit = (e) => {
+		const { socket } = this.state;
 		e.preventDefault();
 		socket.emit('NEW_PLAYER', this.state.room, this.state.name, (res) => {
 			if ( res ) {

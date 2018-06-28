@@ -13,7 +13,9 @@ import io from 'socket.io-client';
 const GrammarTest = Grammar.Grammar;
 
 
+// const socketUrl = 'http://localhost:5000/';
 const socket = io();
+
 
 class WaitingPage extends Component {
 
@@ -25,6 +27,7 @@ class WaitingPage extends Component {
 			gameName: null,
 			gameSentences: null,
 			room: '',
+			socket: null,
 			players: [],
 			disabled:true,
 			arrayOfTeams: null,
@@ -71,9 +74,12 @@ class WaitingPage extends Component {
 	};
 
 	initSocket() {
+
 		const room = this.randomDigits();
 		this.setState({
-			 room
+			 room,
+			 socket
+			 
 		});
 	
 		socket.emit('NEW_ROOM', room );
@@ -134,7 +140,13 @@ class WaitingPage extends Component {
 	}
 
 	shuffleTeams() {
+<<<<<<< HEAD
 		
+=======
+		const { socket } = this.state;
+		console.log("shuffle teams clicked");
+		console.log("players in shuffle", this.state.players);
+>>>>>>> c881f2e0513b7eb6e2b70d904b5251fc8e7abcb2
 		const players = [...this.state.players];
 		const room = this.state.room;
 
@@ -150,6 +162,7 @@ class WaitingPage extends Component {
 	};
 
 	start(e) {
+		const { socket } = this.state;
 		e.preventDefault();
 		const players = [...this.state.players];
 		const room = this.state.room;
@@ -169,6 +182,7 @@ class WaitingPage extends Component {
 	};
 
 	playAgain() {
+		const { socket } = this.state;
 		this.loadGame();
 		this.setState({
 			openModal: false,

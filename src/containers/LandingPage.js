@@ -40,6 +40,11 @@ class LandingPage extends Component {
                              activeStyle={{
                                 color:'#323232'}} id='first'>Host Game</NavLink></li>
 
+                            <li><NavLink 
+                             to="/join-game"
+                             activeStyle={{
+                                color:'#323232'}}>Join Game</NavLink></li>
+
                              <li><NavLink to={{
                                 pathname: '/solo-play'
                              }}

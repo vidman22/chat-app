@@ -19,6 +19,7 @@ export default class GamePlay extends Component {
 		super(props);
 
 		this.state = {
+			socket: null,
 			gameSentences:[],
 			activeSentence:'',
 			answer:'',
@@ -53,6 +54,14 @@ export default class GamePlay extends Component {
 		}
 	}
 
+	componentDidMount() {
+		this.initSocket();
+	};
+
+	initSocket() {
+		const socket = io.connect("/join-game/");
+		this.setState({ socket });
+	}
 	
 	shuffle(array) {
 		let currentIndex = array.length, temporaryValue, randomIndex;
@@ -74,7 +83,7 @@ export default class GamePlay extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-
+		const { socket } = this.state;
 		let answer = this.state.answer;
 		answer = answer.toLowerCase().trim();
 
@@ -103,6 +112,7 @@ export default class GamePlay extends Component {
 	}
 
 	correct() {
+		const { socket } = this.state;
 		if (index < this.state.gameSentences.length - 1 ) {
 				index++;
 				const activeSentence = this.state.gameSentences[index];

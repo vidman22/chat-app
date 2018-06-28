@@ -92,6 +92,7 @@ class SoloGame extends Component {
 					sentenceIndex
 				});
 			} else {
+
 				scoreIndex++;
 				this.setState({
 					scoreIndex,
@@ -119,6 +120,7 @@ class SoloGame extends Component {
 		let scoreIndex = this.state.scoreIndex;
 		sentenceIndex = 0;
 		scoreIndex = 0;
+
 		this.setState({
 			scoreIndex,
 			sentenceIndex,
@@ -218,7 +220,7 @@ class SoloGame extends Component {
 		return(
 			<div className="SoloWaiting">
 				<button className="BackButton" onClick={this.props.back}>{"<"} Back</button>
-				{this.state.action !=='answers' ? <button className="AnswersButton" onClick={this.answers.bind(this)}>Answers {">"}</button> : null}
+				{this.state.action !=='answers' ? <button className="AnswersButton" onClick={this.answers.bind(this)}>Answ {">"}</button> : null}
 				<h1>{this.props.gamename}</h1>
 				{this.addComponent()}
 			</div>
