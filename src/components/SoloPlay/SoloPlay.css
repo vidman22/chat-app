@@ -1,0 +1,13 @@
+.smallSVG {
+	display: none;
+}
+
+@media screen and (max-width: 640px) {
+	.largeSVG {
+		display: none;
+	}
+
+	.smallSVG {
+		display: inline-block;
+	}
+}

@@ -140,13 +140,7 @@ class WaitingPage extends Component {
 	}
 
 	shuffleTeams() {
-<<<<<<< HEAD
-		
-=======
-		const { socket } = this.state;
-		console.log("shuffle teams clicked");
-		console.log("players in shuffle", this.state.players);
->>>>>>> c881f2e0513b7eb6e2b70d904b5251fc8e7abcb2
+
 		const players = [...this.state.players];
 		const room = this.state.room;
 
