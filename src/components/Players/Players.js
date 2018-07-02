@@ -29,7 +29,7 @@ export default class Players extends Component {
 			<div className="Waiting">
 				<button className="BackButton" onClick={this.props.back}>{"<"} Back</button>
 				<h1>{this.props.gamename}</h1>
-				<h2>Students go to: <em><strong>www.grammify.xyz/join-game</strong></em></h2>
+				<h2>Students go to: <em><strong>www.grammify.win</strong></em></h2>
 				<h2>Add the code below to play!</h2>
 				<h3>{this.props.room}</h3>
 				
