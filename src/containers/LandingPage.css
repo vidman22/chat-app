@@ -83,7 +83,7 @@ html, body {
 }
 
 
-li .last{
+.Header #last{
 	border: none;
 	padding-right: 70px;
 }

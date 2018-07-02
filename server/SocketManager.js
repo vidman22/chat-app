@@ -151,7 +151,7 @@ module.exports = function(socket) {
 					console.log('session ', sessions[i].connectedUsers, ' updated after disconnect');
 				}
 				if (sessions[i].connectedUsers.length === 0) {
-					sessions = sessions.filter((session) => sessions[i] );
+					sessions = sessions.filter((session) => sessions[i] !== sessions[i]);
 					
 				}
 			}
