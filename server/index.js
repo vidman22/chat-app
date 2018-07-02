@@ -13,7 +13,7 @@ io.on('connection', ( socket ) => {
 });
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 80;
 
 app.use(express.static(__dirname + '/../build'));
 
