@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 80;
 app.use(express.static(__dirname + '/../build'));
 
 app.get('/*', function(req, res) {
-	res.sendFile(path.join(__dirname, +'/../build'), function(err) {
+	res.sendFile(path.join(__dirname, +'/../build/index.html'), function(err) {
 		if (err) {
 			res.status(500).send(err)
 		}
