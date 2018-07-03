@@ -418,7 +418,8 @@
 		},{ 
 			"sentence": "It had been years since I saw her face", 
 			"a" : "had been",
-			"b" : "be"
+			"b" : "be",
+			"c" : "'d been"
 		},{ 
 			"sentence": "Scientists had been looking for gravitional waves for years before they were discovered.", 
 			"a" : "had been looking",
@@ -426,7 +427,8 @@
 		},{ 
 			"sentence": "By the time we got out of class, the rain had stopped.", 
 			"a" : "had stopped",
-			"b" : "stop"
+			"b" : "stop",
+			"c" : "'d stopped"
 		},{ 
 			"sentence": "She was running as fast as she could when the cyclist appeared out of nowhere.", 
 			"a" : "was running",
@@ -440,12 +442,13 @@
 			"a" : "burned",
 			"b" : "burn",
 			"c" : "had burned",
-			"d" : "would burn"
+			"d" : "'d burn"
 		},{ 
 			"sentence": "He worked at the company for six years.", 
 			"a" : "worked",
 			"b" : "work",
-			"c" : "had worked"
+			"c" : "had worked",
+			"d" : "'d worked"
 		},{ 
 			"sentence": "Last weekend we saw the greatest show on Earth.", 
 			"a" : "saw",
@@ -511,9 +514,9 @@
 			"a" : "to correct",
 			"b" : "correct"
 		},{ 
-			"sentence": "It's difficult to be correct all the time.", 
-			"a" : "to be",
-			"b" : "be"
+			"sentence": "It's difficult to say who is correct.", 
+			"a" : "to say",
+			"b" : "say"
 		}
 		]
 	},"real-future-conditionals": {

@@ -50,14 +50,9 @@ class LandingPage extends Component {
                                 pathname: '/academic-word-list'
                              }}
                              activeStyle={{
-                                color:'#323232'}}>AWL</NavLink></li>
+                                color:'#323232'}} id='last'>AWL</NavLink></li>
 
-                             <li><NavLink to={{
-                                pathname: '/join-game'       
-                             }}
-                             activeStyle={{
-                                color:'#323232'
-                                }} id='last'>Join Game</NavLink></li>
+                             
                             </ul>
                         </nav>
 

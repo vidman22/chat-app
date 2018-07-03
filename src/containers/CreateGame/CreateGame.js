@@ -75,7 +75,6 @@ export default class CreateGame extends Component {
 
 	gameSelectedHandler = ( game, e ) => {
 		e.preventDefault();
-		console.log("clicked");
 		this.setState({ 
 			activeGame: game
 			})
