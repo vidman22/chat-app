@@ -1,0 +1,36 @@
+.InputAltWrapper {
+  width:50%;
+  clear: both;
+  margin: 18px 0 9px 8%;
+}
+
+.InputAlt {
+  display: inline;
+  float: left;
+  width: 90%;
+  margin-bottom: 10px;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  background: none;
+  height:22px;
+  line-height:20px;
+  font-size:20px;
+  border-bottom:solid 2px #b3b2ca;
+  transition:all .23s ease-in
+
+}
+
+.InputAlt:focus{
+	outline: none;
+}
+.RemoveAlt {
+	display: inline;
+	float: left;
+	margin-right: 3px;
+	
+}
+
+.RemoveAlt:hover {
+  display: initial;
+}

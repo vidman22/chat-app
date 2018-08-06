@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
-import logo from "../assets/svg/targetlogo4.svg";
+import { connect } from 'react-redux';
+import logo from "../assets/svg/kwinzo.svg";
+import { AUTH_TOKEN } from '../constants'; 
 import './LandingPage.css';
-import CreateGame from './CreateGame/CreateGame';
-// import GameBoard from '../components/GameBoard/GameBoard';
+import SoloGame from './SoloGame/SoloGame';
 import Home from '../components/Home/Home';
+import Lesson from '../components/Lesson/Lesson';
+import CreateLesson from './CreateLesson/CreateLesson';
+import WaitingPage from './WaitingPage/WaitingPage';
 import Lessons from './Lessons/Lessons';
-import SoloPage from './SoloPage/SoloPage';
+import Auth from './Auth/Auth';
 import AWL from './AWL/AWL';
 
+const authToken = localStorage.getItem(AUTH_TOKEN);
 
-// import WaitingPage from './WaitingPage/WaitingPage';
+
+
 
 class LandingPage extends Component {
 
@@ -29,35 +35,46 @@ class LandingPage extends Component {
                         width="100px" 
                         height="120px"
                         alt="logo" 
-                    /><h1>Grammify</h1></NavLink>
-                    <p>English Grammar Games</p>
+                    /><h1>Kwinzo</h1></NavLink>
+                    <p>Quiz to win</p>
                 
 
                         <nav>
                             <ul>
-                             <li><NavLink 
-                             to="/host-game"
-                             activeStyle={{
-                                color:'#323232'}} id='first'>Host Game</NavLink></li>
+                             
 
                              <li><NavLink to={{
-                                pathname: '/solo-play'
+                                pathname: '/create-lesson'
                              }}
                              activeStyle={{
-                                color:'#323232'}} id='second'>Solo Play</NavLink></li>
+                                color:'#323232'}} id='second'>Create</NavLink></li>
 
                              <li><NavLink to={{
-                                pathname: '/academic-word-list'
+                                pathname: '/lessons'
                              }}
                              activeStyle={{
-                                color:'#323232'}}>AWL</NavLink></li>
+                                color:'#323232'}}>Lessons</NavLink></li>
 
-                             <li><NavLink to={{
-                                pathname: '/join-game'       
-                             }}
-                             activeStyle={{
-                                color:'#323232'
-                                }} id='last'>Join Game</NavLink></li>
+                             {authToken ? ( 
+                                <button
+                                  onClick={()=> {
+                                    localStorage.removeItem(AUTH_TOKEN)
+                                    this.props.history.push('/')
+                                  }}
+                                  >Logout
+                                  </button>
+                                ) : (
+                                <li>
+                                <NavLink to={{
+                                    pathname: '/login'       
+                                    }}
+                                activeStyle={{
+                                    color:'#323232'
+                                }} 
+                                id='last'>
+                                    Login
+                                </NavLink></li>
+                                )}
                             </ul>
                         </nav>
 
@@ -67,10 +84,15 @@ class LandingPage extends Component {
                 
                 
                 
-                <Route path="/solo-play" component={SoloPage} />
+                <Route path="/create-lesson" component={CreateLesson} />
                 <Route path="/academic-word-list" component={AWL} />
+                <Route path="/login" component={Auth} />
+                <Route path="/lessons/:id" component={Lesson}/>
+                <Route path="/solo-play/:id" render={() => <SoloGame lesson= {this.props.lesson} /> } />
+                <Route path="/host-game/:id" render={() => <WaitingPage lesson= {this.props.lesson} /> } />
                 <Route path="/lessons" component={Lessons} />
-                <Route path="/host-game" component={CreateGame}/>
+                
+                
                 <Route path="/" component={Home}/>
                 
                </Switch>
@@ -96,4 +118,10 @@ class LandingPage extends Component {
     }
 }
 
-export default LandingPage;
+const mapStateToProps = state => {
+  return {
+    lesson: state.lessonSet
+  }
+}
+
+export default connect(mapStateToProps)(LandingPage);

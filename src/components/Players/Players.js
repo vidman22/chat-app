@@ -19,11 +19,6 @@ export default class Players extends Component {
 				</div>
 		);
 
-		let buttons = (
-			<div>
-				{/*<button disabled="true" onClick={this.props.shuffleteams.bind(this)}>Teams</button>*/}<button disabled={this.props.disabled} onClick={this.props.button.bind(this)}>Individual</button> 
-			</div>
-			)
 		
 		return (
 			<div className="Waiting">
@@ -37,7 +32,7 @@ export default class Players extends Component {
 				{ players }
 				
 				
-				{ this.props.buttonstate ? buttons : <button onClick={this.props.start.bind(this)}>Start</button> }
+				<button disabled={this.props.buttonstate} onClick={this.props.start.bind(this)}>Start</button>
 			</div>
 			)
 	}

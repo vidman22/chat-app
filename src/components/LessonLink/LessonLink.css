@@ -1,0 +1,47 @@
+.LessonLinkTab {
+	/*display: inline-block;*/
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 3%;
+	width: 80%;
+	border: 1px solid #ccc;
+	box-shadow: 1px 2px 3px #ccc;
+	border-radius: 4px;
+	text-align: center;
+	background: white;
+	color: black;
+	font-family: 'Open Sans', sans-serif;
+	
+}
+
+
+.LessonLinkTab:hover {
+	cursor: pointer;
+	color: black;
+}
+
+.LessonLinkTitle {
+	display: inline-block;
+	width: 100%;
+	margin-left: 7%;
+
+}
+
+.LessonLinkTitle h1{
+	font-size: 44px;
+	font-weight: bold;
+	float: left;
+	margin-bottom: 0;
+	
+}
+
+.LessonLinkAuthor {
+	display: inline;
+	float: left;
+	margin-left: 7%;
+
+}
+
+.LessonLinkAuthor p{
+	margin: 0 0 12% 0;
+}

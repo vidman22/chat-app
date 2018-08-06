@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 
 import SoloPlay from '../../components/SoloPlay/SoloPlay';
 import Carousel from "../../components/Carousel/Carousel";
+import {withRouter} from 'react-router-dom';
 
 import './SoloGame.css'
-
-
-
 
 
 
@@ -27,42 +25,47 @@ class SoloGame extends Component {
 			carousel: true,
 			answer:'',
 			completed: null,
-			error:''
+			message:''
 		}
+
 	}
 
 	UNSAFE_componentWillMount() {
+		console.log(this.props);
 
-		let gameSentences = this.props.sentences;
-		gameSentences = this.shuffle(gameSentences);
-		gameSentences = gameSentences.slice(0, 12);
-		
+		let gameSentences = this.props.lesson.sentences;
 
 		const activeSentence = gameSentences[0];
 
+		const gameName = this.props.lesson.title;
 		
 		this.setState({
 			gameSentences,
+			gameName,
 			activeSentence
 		});
 
+
 	}
 
-	shuffle(array) {
-		let currentIndex = array.length, temporaryValue, randomIndex;
+	// shuffle(array) {
+	// 	console.log(array);
+	// 	let currentIndex = array.length, temporaryValue, randomIndex;
+	// 	console.log("length " + array.length );
+	// 	console.log("current index " + currentIndex);
 
-		while (0 !== currentIndex) {
+	// 	while (0 !== currentIndex) {
 
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex -= 1;
+	// 		randomIndex = Math.floor(Math.random() * currentIndex);
+	// 		currentIndex -= 1;
 
-			temporaryValue = array[currentIndex];
-			array[currentIndex] = array[randomIndex];
-			array[randomIndex] = temporaryValue;
-		}
+	// 		temporaryValue = array[currentIndex];
+	// 		array[currentIndex] = array[randomIndex];
+	// 		array[randomIndex] = temporaryValue;
+	// 	}
 
-		return array;
-	}
+	// 	return array;
+	// }
 
 
 
@@ -75,8 +78,8 @@ class SoloGame extends Component {
 
 		answer = answer.toLowerCase().trim();
 
-		
-		if (answer === this.state.activeSentence.a ||answer === this.state.activeSentence.c || answer === this.state.activeSentence.d ||answer === this.state.activeSentence.e ||answer === this.state.activeSentence.f)  {
+		//correct answer ===========================================
+		if (answer === this.state.activeSentence.answer) {
 			
 
 			
@@ -85,12 +88,17 @@ class SoloGame extends Component {
 				scoreIndex++;
 				const activeSentence = this.state.gameSentences[sentenceIndex];
 
-				this.setState({
-					activeSentence,
-					answer:'',
-					scoreIndex,
-					sentenceIndex
-				});
+				this.setState({ message: 'correct'});
+
+				setTimeout(() => {
+					this.setState({
+						activeSentence,
+						answer:'',
+						message:'',
+						scoreIndex,
+						sentenceIndex
+					});
+				}, 1000);	
 			} else {
 
 				scoreIndex++;
@@ -107,7 +115,7 @@ class SoloGame extends Component {
 		} else {
 			
 			this.setState({
-				error: 'Incorrect'
+				message: 'incorrect'
 			});
 			setTimeout(this.wrongAnswer.bind(this), 1000);
 		}
@@ -147,7 +155,7 @@ class SoloGame extends Component {
 			activeSentence,
 			sentenceIndex,
 			answer:'',
-			error:''
+			message:''
 		});
 	}
 
@@ -156,7 +164,10 @@ class SoloGame extends Component {
 		this.setState({ answer: e.target.value });
 	}
 
+	back() {
 	
+		this.props.history.push(`/lessons/${this.props.lesson.id}`);
+	}
 
 	button() {
 		
@@ -177,9 +188,9 @@ class SoloGame extends Component {
 			case 'start':
 				result = (
 					<div>
-				{/*<button onClick={this.props.back}>Back</button>*/}
-				<button className="SoloStart" onClick={this.button.bind(this)}>Start</button> 
-			</div>
+						<h1>{this.state.gameName}</h1>
+						<button className="SoloStart" onClick={this.button.bind(this)}>Start</button> 
+					</div>
 
 
 
@@ -188,15 +199,14 @@ class SoloGame extends Component {
 			case 'play':
 				result = (
 					<SoloPlay 
-					activesentence={this.state.activeSentence} 
-					back={this.props.back} 
-					handlechange={this.handleChange} 
-					answer={this.state.answer} 
-					handlesubmit={this.handleSubmit} 
-					game={this.props.game} 
-					error={this.state.error}
-					index={this.state.scoreIndex}
-					completed={this.state.completed}
+						activesentence={this.state.activeSentence} 
+						gamename={this.state.gameName}
+						handlechange={this.handleChange} 
+						answer={this.state.answer} 
+						handlesubmit={this.handleSubmit}  
+						message={this.state.message}
+						index={this.state.scoreIndex}
+						completed={this.state.completed}
 					/>
 					)
 			break;
@@ -219,7 +229,7 @@ class SoloGame extends Component {
 		
 		return(
 			<div className="SoloWaiting">
-				<button className="BackButton" onClick={this.props.back}>{"<"} Back</button>
+				<button className="BackButton" onClick={() => this.back()}>{"<"} Back</button>
 				{this.state.action !=='answers' ? <button className="AnswersButton" onClick={this.answers.bind(this)}>Answ {">"}</button> : null}
 				<h1>{this.props.gamename}</h1>
 				{this.addComponent()}
@@ -228,4 +238,4 @@ class SoloGame extends Component {
 	}
 }
 
-export default SoloGame;
+export default withRouter(SoloGame);

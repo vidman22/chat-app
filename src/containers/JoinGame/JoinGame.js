@@ -7,7 +7,7 @@ import GamePlay from '../GamePlay/GamePlay';
 import './JoinGame.css';
 
 
-const socket = io();
+const socket = io('http://localhost:5000/');
 
 
 export default class CreateGame extends Component {
@@ -94,10 +94,9 @@ export default class CreateGame extends Component {
 	}
 
 	handleCodeChange = (e) => {
-
-		this.setState({
-			room:e.target.value
-		});
+		let room = this.state.room;
+		room = e.target.value
+		this.setState({ room });
 	}
 
 	handleSubmit = (e) => {
@@ -119,8 +118,9 @@ export default class CreateGame extends Component {
 	}
 
 	handleChange = (e) => {
-
-		this.setState({ name: e.target.value });
+		let name = this.state.name;
+		name = e.target.value
+		this.setState({ name });
 	}
 
 	addComponent() {

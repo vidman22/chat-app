@@ -1,6 +1,15 @@
+.largeSVG {
+	width: 100%;
+	display: inline-block;
+	margin: auto;
+	clear: both;
+
+}
+
 .smallSVG {
 	display: none;
 }
+
 
 @media screen and (max-width: 640px) {
 	.largeSVG {

@@ -1,0 +1,66 @@
+
+
+.InputSentence {
+  display: block;
+  width:90%;
+  margin: 22px auto 18px auto;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  background: none; 
+  height:38px;
+  line-height:20px;
+  font-size:35px;
+  border-bottom:solid 2px #b3b2ca;
+  transition:all .23s ease-in
+}
+
+
+
+.InputAnswer {
+	display: block;
+  float: left;
+  width:51%;
+  margin: 18px 0 9px 7%;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  background: none;
+  height:22px;
+  line-height:20px;
+  font-size:20px;
+  border-bottom:solid 2px #b3b2ca;
+  transition:all .23s ease-in
+}
+
+.InputHint {
+	display: block;
+  float: left;
+  width:51%;
+  margin: 0 0 9px 7%;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  background: none;
+  height:22px;
+  line-height:20px;
+  font-size:20px;
+  border-bottom:solid 2px #b3b2ca;
+  transition:all .23s ease-in
+
+}
+
+.InputAnswerWrapper p{
+	display: block;
+  width: 100%;
+	float: left;
+	color: red;
+}
+
+.InputHint:focus,
+.InputSentence:focus,
+.InputAlt:focus,
+.InputAnswer:focus {
+	outline:none;
+	border-bottom:solid 2px #F9F442;
+}

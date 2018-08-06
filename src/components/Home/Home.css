@@ -8,32 +8,25 @@
   font-family: 'Open-sans', sans-serif;
   font-size: 22px;
   text-align: center;
-  margin: 0 10px;
+  margin: auto;
 }
 
 .PhoneBox svg{
   display: inline-block;
  
-  clear: both;
+  margin: auto;
 
 }
 
 .Solo {
-
+  margin: auto;
 }
 
-.AWL {
-
-}
-
-.Lessons {
-
-}
 
 .HomeFlex {
   display: flex;
   flex-direction: row;
-  margin: 0;
+  margin: auto;
   min-height: 80vh;
   /*justify-content: space-around;
   display: -webkit-flex;

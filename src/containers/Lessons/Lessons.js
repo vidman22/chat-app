@@ -1,110 +1,47 @@
-import React, { Component } from 'react';
-import SoloGame from '../SoloGame/SoloGame';
-import Tile from '../../components/Tile/Tile';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import LessonLink from '../../components/LessonLink/LessonLink';
+import { Query } from 'react-apollo';
 
-import Grammar from '../../Grammar.json';
+import './Lessons.css';
+import gql from 'graphql-tag';
 
-const GrammarTest = Grammar.Grammar;
+const LESSON_SETS = gql`
+  query LessonSets{
+    lessonSets {
+      id
+      title
+      author
+    }
+  }
+`;
 
+const Lessons = (props) => (
+  <div>
 
-export default class SoloPage extends Component {
-	
-	constructor(props) {
-		super(props);
+     <Query query={LESSON_SETS}>
 
-		this.state = {
-			games: [ {
-				name: "Simple Present",
-				id:'simple-present'
-			}, {
-				name: "Simple Past",
-				id: 'simple-past'
-			}, {
-				name: "Present Continuous",
-				id: 'present-continuous'
-			}, {
-				name: "Past Continuous",
-				id: 'past-continuous'
-			}, {
-				name: "Present Perfect",
-				id: 'present-perfect'
-			}, {
-				name: "Modals",
-				id: 'modals'
-			}, {
-				name: "Past Modals",
-				id: 'past-modals'
-			}, {
-				name: "Narrative Tenses",
-				id: 'narrative-tenses'
-			}, {
-				name: "Gerunds and Infinitives",
-				id: 'gerunds-infinitives'
-			}, {
-				name: "Conditionals",
-				id: 'real-future-conditionals'
-			}, {
-				name: "Verbs and Prepositions",
-				id: 'verbs-prepositions'
-			}, {
-				name: "AWL Families",
-				id: 'awl-families'
-			}],
-			action: 'options',
-			activeGame: '',
-			gameSentences: [],
-			gameName: ''
-		}
+      {({ loading, error, data}) => {
+        if (loading) return <div className="spinner spinner-1"></div>;
+        if (error) return `Error! ${error.message}`;
 
-		this.start = this.start.bind(this);
-		this.back = this.back.bind(this);
-	}
+        return (
+          <div>
+            {data.lessonSets.map( (lesson, index) => (<Link key={index} to={`${props.match.url}/${lesson.id}`}>
+              <LessonLink 
+              id={lesson.id}  
+              title={lesson.title} 
+              author={lesson.author}
+              />
+              </Link>))}
+            
+            
+          </div>
+          );
+      }}
+      </Query>    
+  </div>  
+);
 
 
-	
-
-	start(id, e) {
-		e.preventDefault();
-		let gameSentences = GrammarTest[id].sentences;
-		let gameName = GrammarTest[id].name;
-		this.setState({
-			action: null,
-			activeGame: id,
-			gameSentences,
-			gameName
-		});
-	}
-
-	back() {
-		this.setState({
-			action: 'options'
-		});
-	}
-
-	render() {	
-	
-		const games = this.state.games.map((game, index) => {
-			return (
-				 
-
-				 	<Tile 
-						onclick={(e) => this.start(game.id, e)}
-						name = {game.name}
-						key = {game.id}
-						
-					/>
-				 
-			
-	    	);
-
-		});
-		
-		return (
-			<div className="create">
-				<div className="page_title"><h1>Lessons</h1></div>
-				{this.state.action === 'options' ? games : <SoloGame back={this.back} gamename={this.state.gameName} game={this.state.activeGame} sentences={this.state.gameSentences} />}
-				
-			</div>
-		);
-	}
-}
+export default Lessons;

@@ -4,17 +4,15 @@ import Teams from '../../components/Team/Team';
 import GameBoard from '../GameBoard/GameBoard';
 import Modal from '../../components/Modal/Modal';
 import Backdrop from '../../components/Backdrop/Backdrop';
-import Grammar from '../../Grammar.json';
+import {withRouter} from 'react-router-dom';
 
 import './WaitingPage.css'
 
-import io from 'socket.io-client';
-
-const GrammarTest = Grammar.Grammar;
+import io from 'socket.io-client';	
 
 
 // const socketUrl = 'http://localhost:5000/';
-const socket = io();
+const socket = io('http://localhost:5000/');
 
 
 class WaitingPage extends Component {
@@ -48,12 +46,12 @@ class WaitingPage extends Component {
 
 	
 	loadGame() {
-				let gameSentences = GrammarTest[this.props.activegame].sentences;
-				gameSentences = this.shuffle(gameSentences);
-				gameSentences= gameSentences.slice(0,12);
+			const gameSentences = this.props.lesson;
+			const gameName = this.props.lesson.title
+
 				this.setState({ 
 						gameSentences,
-						gameName: GrammarTest[this.props.activegame].name 
+						gameName
 					});
     };
 
@@ -175,6 +173,11 @@ class WaitingPage extends Component {
 		});
 	};
 
+	back() {
+	
+		this.props.history.push(`/lessons/${this.props.lesson.id}`);
+	}
+
 	playAgain() {
 		const { socket } = this.state;
 		this.loadGame();
@@ -196,7 +199,7 @@ class WaitingPage extends Component {
 						room={this.state.room} 
 						gamename={this.state.gameName} 
 						shuffleteams={this.shuffleTeams.bind(this)} 
-						back={this.props.back} 
+						back={()=>this.back()} 
 						start={this.start.bind(this)} 
 						disabled={this.state.disabled} 
 						buttonstate={this.state.button} 
@@ -210,7 +213,7 @@ class WaitingPage extends Component {
 						arrayofteams={this.state.arrayOfTeams} 
 						room={this.state.room} 
 						gamename={this.state.gameName} 
-						back={this.props.back} 
+						back={()=>this.back()}  
 						start={this.start.bind(this)} 
 						disabled={this.state.disabled}
 					/>
@@ -246,4 +249,4 @@ class WaitingPage extends Component {
 	}
 }
 
-export default WaitingPage;
+export default withRouter(WaitingPage);
