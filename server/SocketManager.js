@@ -1,23 +1,16 @@
 const io = require('./index.js').io;
 
-
-
-// const uuidv1 = require('uuid/v1');
-// const uuidv3 = require('uuid/v3');
-
 let sessions = [];
 
 class SessionObject {
 	constructor() {
 		this.connectedUsers = [],
-		this.turn = 0,
 		this.room = '';
 	}	
 }
 
 
 module.exports = function(socket) {
-	
 
 	socket.on('NEW_ROOM', room => {
 		let newRoom = new SessionObject();
@@ -61,7 +54,7 @@ module.exports = function(socket) {
 			score: 0
 		};
 		
-		if ( name.length < 8 ) {
+		if ( name.length < 11 ) {
 			if ( users.length !== 0 ) {
 				for ( let i = 0; i < users.length; i++) {
 					if (users[i].playerName === name ) {
@@ -121,9 +114,7 @@ module.exports = function(socket) {
 			}
 		}
 		
-
 	});
-
 
 	socket.on('PLAY_AGAIN', (room, sentences) => {
 		const index = searchSessions(room);
@@ -137,26 +128,37 @@ module.exports = function(socket) {
 	})
 
 	socket.on('disconnect', () => {
-	
+		console.log('disconnect sessions ', sessions);
+	  	console.log('sessions length ' + sessions.length);
+	  	if (sessions.length != 0) {
 		for ( let i = 0; i < sessions.length; i++ ) {
-		  if (sessions[i].connectedUsers.length !== undefined) {	
 			for ( let j = 0; j < sessions[i].connectedUsers.length; j++){
 				if (sessions[i].connectedUsers[j].id === socket.id ) {
-					const id = sessions[i].connectedUsers[j].id; 
+					const id = sessions[i].connectedUsers[j].id;
 
-					sessions[i].connectedUsers = sessions[i].connectedUsers.filter((user) => user.id !== id);
+					let newSessionArray = [...sessions];
+
+					let newSession = {
+						...newSessionArray[i]
+					}
+
+					newSession.connectedUsers = sessions[i].connectedUsers.filter((user) => user.id !== id);
 
 					io.to(sessions[i].room).emit('USER_DISCONNECTED', sessions[i].connectedUsers[j]);
 
+					newSessionArray[i] = newSession;
+					sessions = newSessionArray;
+
 					console.log('session ', sessions[i].connectedUsers, ' updated after disconnect');
-				}
-				if (sessions[i].connectedUsers.length === 0) {
-					sessions = sessions.filter((session) => sessions[i] !== sessions[i]);
-					
-				}
+				}	
 			}
-		  }
-		}
+	    } 
+	} else {
+		let newSessionArray = [...sessions];
+	  	nesSessionArray = sessions.filter((session) => sessions[i] !== sessions[i]);
+	  	sessions = newSessionArray;
+		console.log('sessions after filter ', sessions);
+	}
 	});
 }
 

@@ -34,7 +34,7 @@
 .login-form input:focus{
     border-bottom:solid 2px #5d5d8a;
     outline:none
-  }
+}
 .login-form .error{
     text-align:center;
     margin:5px 0;
@@ -42,7 +42,7 @@
     color:#c92c43
   }
 
- button {
+ /*button {
   font-weight: lighter;
   width: 16%; 
   height: 40px; 
@@ -71,7 +71,7 @@ button:disabled:hover {
   cursor: auto;
   color: white;
 }
-
+*/
 
 .title {
     display: inline-block;

@@ -46,6 +46,15 @@ html, body {
 
 }
 
+.AuthSvg {
+	fill: #eee;
+}
+
+.AuthSvg:hover {
+	cursor: pointer;
+	fill: #FFF800;
+}
+
 .Header h1 {
 	font-family: 'Montserrat', sans-serif;
 	

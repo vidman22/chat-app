@@ -4,6 +4,8 @@ import { AUTH_TOKEN } from '../../constants';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import './Auth.css';
+
 import * as actions from '../../store/actions';
 
 const SIGNUP_MUTATION = gql`
@@ -89,21 +91,22 @@ class Auth extends Component {
 
         return (
 
-            <div className="LoginSubmit">
+            <div className="Auth">
                 <div>
+                    {login ? <h2>Login</h2> : <h2>Sign Up</h2>}
                     {!login && (
                       <div>
                         <input 
                             value={this.state.firstname}
                             onChange={e => this.setState({ firstname: e.target.value})}
                             type="text"
-                            placeholder="First Name"
+                            placeholder="first name"
                         />
                         <input 
                             value={this.state.lastname}
                             onChange={e => this.setState({ lastname: e.target.value})}
                             type="text"
-                            placeholder="Last Name"
+                            placeholder="last name"
                         />
                       </div>
                     )}

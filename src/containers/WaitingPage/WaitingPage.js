@@ -85,13 +85,14 @@ class WaitingPage extends Component {
 		
 
 		socket.on('UPDATED_PLAYERS', (users) =>{
+			console.log("players updated ", users);
 			let players = [...this.state.players];
 			players = users;
 
 			this.setState({
 				players
 			});
-			
+			console.log(players.length);
 			if (players.length >= 2) {
 				this.setState({
 					disabled: false
@@ -237,7 +238,7 @@ class WaitingPage extends Component {
 
 
 	render() {
-		
+		console.log(this.state);
 		return(
 			<div className="WaitingWrapper">
 				

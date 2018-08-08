@@ -17,7 +17,7 @@ export default class CreateGame extends Component {
 		this.state = {
 			name:'',
 			room:'',
-			error:'',
+			error: null,
 			socket: null,
 			action:'code',
 			activePlayer:'',
@@ -97,6 +97,12 @@ export default class CreateGame extends Component {
 		let room = this.state.room;
 		room = e.target.value
 		this.setState({ room });
+
+		if (this.state.error) {
+			this.setState({
+				error: '',
+			})
+		}
 	}
 
 	handleSubmit = (e) => {

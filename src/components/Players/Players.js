@@ -32,7 +32,7 @@ export default class Players extends Component {
 				{ players }
 				
 				
-				<button disabled={this.props.buttonstate} onClick={this.props.start.bind(this)}>Start</button>
+				<button disabled={this.props.disabled} onClick={this.props.start.bind(this)}>Start</button>
 			</div>
 			)
 	}

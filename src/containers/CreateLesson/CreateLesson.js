@@ -325,7 +325,14 @@ class CreateLesson extends Component {
             return (
           <div className="InputSentenceWrapper" key={formElement.id}>
             <p>{Number(formElement.id) + 1}</p>
-            <svg className="DeleteSentence" onClick={(e) => this.removeSentence(formElement.id, e)} xmlns="http://www.w3.org/2000/svg" fill="#ccc" x="0px" y="0px" viewBox="0 0 510 510" width="20px" height="20px">
+            <svg className="DeleteSentence" onClick={(e) => this.removeSentence(formElement.id, e)} 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="#ccc" 
+                viewBox="0 0 510 510" 
+                x="0px" 
+                y="0px" 
+                width="20px" 
+                height="20px">
               <path d="M336.559 68.611L231.016 174.165l105.543 105.549c15.699 15.705 15.699 
                 41.145 0 56.85-7.844 7.844-18.128 11.769-28.407 11.769-10.296 0-20.581-3.919-28.419-11.769L174.167 
                 231.003 68.609 336.563c-7.843 7.844-18.128 11.769-28.416 11.769-10.285 0-20.563-3.919-28.413-11.769-15.699-15.698-15.699-41.139

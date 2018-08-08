@@ -2,9 +2,10 @@
     margin: 20px auto;
     width: 80%;
     text-align: center;
-    box-shadow: 0 2px 3px #ccc;
-    border: 1px solid #eee;
+    /*box-shadow: 0 2px 3px #ccc;*/
+    border: 1px solid;
     padding: 10px;
+    border-radius: 3px;
     box-sizing: border-box;
 }
 
@@ -12,4 +13,29 @@
     .Auth {
         width: 500px;
     }
+}
+
+.Auth input{
+    display: block;
+    margin: 12px auto 15px auto;
+  
+  max-width:60%;
+/*  border-top:none;
+  border-left:none;
+  border-right:none;*/
+  background: none;
+  font-family: 'Open Sans', sans-serif;
+  height:30px;
+  line-height:20px;
+  font-size:22px;
+  border:solid 2px #b3b2ca;
+}
+
+.Auth input:focus{
+   /* border-bottom:solid 2px #5d5d8a;*/
+    outline:none
+}
+
+.Auth h2{
+    font-family:'Montserrat', sans-serif;
 }

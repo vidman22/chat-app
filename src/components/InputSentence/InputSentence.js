@@ -19,7 +19,7 @@ const InputSentence = (props) => {
 	  	    	 type="text"
 	  	    	 value={props.answerValue}
 	  	    	 onChange={props.answerChanged}
-	  	    	 placeholder="Omitted Answer"
+	  	    	 placeholder="Omitted answer"
 	  	     />
 	  	     <p>{props.answerShouldValidate.msg}</p>
 	  	    </div>
