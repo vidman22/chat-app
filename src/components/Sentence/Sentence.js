@@ -27,17 +27,20 @@ const sentence = ( props ) => {
 							placeholder={props.placeholder}
 							placeholderIsMinWidth
 							inputStyle={{
-								color: inputColor, 
+								color: inputColor,
+								height: '35px',
+								lineHeight: '20px',
+								fontSize: '30px', 
 								marginLeft: '12px', 
 								marginRight:'12px', 
 								borderTop: 'none', 
 								borderLeft: 'none', 
 								borderRight: 'none', 
-								borderBottom:'solid 2px #b3b2ca'}} 
+								borderBottom:'solid 2px #046A91'}} 
 							/></form>
 			<div className="SecondPart"><h3>{s2}</h3></div>
 			
-			{props.exercise ?  null : <button className="GameButton" onClick={props.handlesubmit}>Submit</button>}
+			{props.exercise ?  null : <button className="ExerciseButton" onClick={props.handlesubmit}>Submit</button>}
 
 		</div>
 		)

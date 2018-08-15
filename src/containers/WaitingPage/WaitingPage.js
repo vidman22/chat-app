@@ -22,8 +22,6 @@ class WaitingPage extends Component {
 
 
 		this.state = {
-			gameName: null,
-			gameSentences: null,
 			room: '',
 			socket: null,
 			players: [],
@@ -40,36 +38,25 @@ class WaitingPage extends Component {
 
 
 	componentDidMount() {
-		this.loadGame();
+		console.log('props ', this.props);
 		this.initSocket();
 	}
 
-	
-	loadGame() {
-			const gameSentences = this.props.lesson;
-			const gameName = this.props.lesson.title
+ //    shuffle(array) {
+	// 	let currentIndex = array.length, temporaryValue, randomIndex;
 
-				this.setState({ 
-						gameSentences,
-						gameName
-					});
-    };
+	// 	while (0 !== currentIndex) {
 
-    shuffle(array) {
-		let currentIndex = array.length, temporaryValue, randomIndex;
+	// 		randomIndex = Math.floor(Math.random() * currentIndex);
+	// 		currentIndex -= 1;
 
-		while (0 !== currentIndex) {
+	// 		temporaryValue = array[currentIndex];
+	// 		array[currentIndex] = array[randomIndex];
+	// 		array[randomIndex] = temporaryValue;
+	// 	}
 
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex -= 1;
-
-			temporaryValue = array[currentIndex];
-			array[currentIndex] = array[randomIndex];
-			array[randomIndex] = temporaryValue;
-		}
-
-		return array;
-	};
+	// 	return array;
+	// };
 
 	initSocket() {
 
@@ -138,30 +125,30 @@ class WaitingPage extends Component {
 		return code;
 	}
 
-	shuffleTeams() {
+	// shuffleTeams() {
 
-		const players = [...this.state.players];
-		const room = this.state.room;
+	// 	const players = [...this.state.players];
+	// 	const room = this.state.room;
 
-		socket.emit('SHUFFLE', room, players, (res) =>{
-			this.setState({
-				arrayOfTeams: res,
-				button:'Start',
-				action:'teams'
-			});
+	// 	socket.emit('SHUFFLE', room, players, (res) =>{
+	// 		this.setState({
+	// 			arrayOfTeams: res,
+	// 			button:'Start',
+	// 			action:'teams'
+	// 		});
 
-		});
+	// 	});
 
-	};
+	// };
 
 	start(e) {
+
 		const { socket } = this.state;
 		e.preventDefault();
-		const players = [...this.state.players];
+		const gameSentences = this.props.lesson.sentences;
+		const title = this.props.lesson.title;
 		const room = this.state.room;
-		const activeGame = this.props.activegame;
-		const gameSentences = this.state.gameSentences; 
-		socket.emit('START_GAME', room, players, activeGame, gameSentences);
+		socket.emit('START_GAME', room, title, gameSentences);
 		this.setState({
 			action:'gameboard'
 		});
@@ -198,8 +185,7 @@ class WaitingPage extends Component {
 					<Players 
 						players={this.state.players} 
 						room={this.state.room} 
-						gamename={this.state.gameName} 
-						shuffleteams={this.shuffleTeams.bind(this)} 
+						gamename={this.props.lesson.title}  
 						back={()=>this.back()} 
 						start={this.start.bind(this)} 
 						disabled={this.state.disabled} 
@@ -213,7 +199,7 @@ class WaitingPage extends Component {
 					<Teams 
 						arrayofteams={this.state.arrayOfTeams} 
 						room={this.state.room} 
-						gamename={this.state.gameName} 
+						gamename={this.props.lesson.title} 
 						back={()=>this.back()}  
 						start={this.start.bind(this)} 
 						disabled={this.state.disabled}
@@ -224,7 +210,7 @@ class WaitingPage extends Component {
 			result = (
 				<div>
 					<GameBoard players={this.state.players} arrayofteams={this.state.arrayOfTeams} />
-					<Modal show={this.state.openModal} playAgain={this.playAgain.bind(this)} winner={this.state.winner} sentences={this.state.gameSentences} />
+					<Modal show={this.state.openModal} playAgain={this.playAgain.bind(this)} winner={this.state.winner} sentences={this.props.lesson.sentences} />
 					{this.state.openModal ? <Backdrop show /> : null}
 				</div>
 				)
@@ -238,7 +224,6 @@ class WaitingPage extends Component {
 
 
 	render() {
-		console.log(this.state);
 		return(
 			<div className="WaitingWrapper">
 				

@@ -33,14 +33,14 @@
 	margin: 3% 0 0 3%;
 }
 
- button {
+ .ExerciseButton {
   display: block;
-  margin: 8px auto 8px auto;
+  margin: 23px auto 8px auto;
   justify-content: center;
   font-weight: lighter;
   width: 80px; 
   height: 25px; 
-  border: 1px solid #eee;
+  border: 1px solid #ccc;
   border-radius: 2px;
   background-color: white;
   font-size: 18px;
@@ -48,22 +48,22 @@
 
 } 
 
-button:hover {
+.ExerciseButton:hover {
   cursor: pointer;
   color: #00c4c3;
   border: 1px solid #ccc;
   box-shadow: 0px 1px 2px 0px #eee;
 }
 
- button:disabled {
+ .ExerciseButton:disabled {
   color: black;
   background-color: #d58282;
   opacity: .7;
   
 }
-button:focus {
+.ExerciseButton:focus {
 	text-decoration: none;
 }
-button:disabled:hover {
+.ExerciseButton:disabled:hover {
   cursor: auto;
 }

@@ -29,10 +29,10 @@
   height:40px;
   line-height:20px;
   font-size:40px;
-  border-bottom:solid 2px #b3b2ca;
+  border-bottom:solid 2px #046A91;
 }
 .login-form input:focus{
-    border-bottom:solid 2px #5d5d8a;
+    border-bottom:solid 2px #EDE711;
     outline:none
 }
 .login-form .error{
@@ -87,7 +87,8 @@ button:disabled:hover {
   color: #23D5AB;
   font-size: 65px;
   font-weight: 650;
-  font-family: Helvetica;
+  font-family: Montserrat;
+  font-weight: bold;
   position: relative;
   -webkit-animation: jump 2.5s ease-out infinite ;
   animation: jump 2.5s ease-out infinite; 

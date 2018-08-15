@@ -23,7 +23,7 @@ export default class CreateGame extends Component {
 			activePlayer:'',
 			players: [],
 			gameSentences:[],
-			game: '',
+			title: '',
 			winner:''
 
 		}
@@ -54,23 +54,15 @@ export default class CreateGame extends Component {
 		}
 		});
 
-		socket.on('START_GAME', ( game, sentences ) => {
-			
+		socket.on('START_GAME', ( title, sentences ) => {
+			console.log('sentences from socket ', sentences);
 			this.setState({
-				game,
+				title,
 				action:'game',
 				gameSentences: sentences
 			});
 		});
 
-		socket.on('PLAY_AGAIN', (players, sentences) =>{
-			this.setState({
-				players,
-				action: 'game',
-				gameSentences: sentences,
-				winner:''
-			});
-		})
 	}
 
 	handleCodeSubmit = (e) => {
@@ -192,7 +184,7 @@ export default class CreateGame extends Component {
 			break;
 			case 'game':
 				result = (
-					<GamePlay room={this.state.room} game={this.state.game} sentences={this.state.gameSentences} name={this.state.name} winner={this.state.winner}/> 
+					<GamePlay room={this.state.room} title={this.state.title} sentences={this.state.gameSentences} name={this.state.name} winner={this.state.winner}/> 
 					)
 			break;
 			default:

@@ -18,6 +18,7 @@ const InputAlt = (props) => {
 	  			onChange={props.altChanged}
 	  			placeholder="Alternate answer"
 	  		/>
+	  		<p>{props.altShouldValidate.msg}</p>
 	  	</div>
 	  	);
 

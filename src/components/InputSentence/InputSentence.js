@@ -13,13 +13,14 @@ const InputSentence = (props) => {
 	  			onChange={props.sentenceChanged}
 	  			placeholder="Sentence"
 	  		/>
+	  		<p>{props.sentenceShouldValidate.msg}</p>
 	  		<div className="InputAnswerWrapper">
 	  	     <input
 	  	    	 className="InputAnswer"
 	  	    	 type="text"
 	  	    	 value={props.answerValue}
 	  	    	 onChange={props.answerChanged}
-	  	    	 placeholder="Omitted answer"
+	  	    	 placeholder="Answer"
 	  	     />
 	  	     <p>{props.answerShouldValidate.msg}</p>
 	  	    </div>
@@ -30,6 +31,7 @@ const InputSentence = (props) => {
 	  	    	onChange={props.hintChanged}
 	  	    	placeholder="Hint"
 	  	    />
+	  	    <p>{props.hintShouldValidate.msg}</p>
 
 	  	</div>
 

@@ -30,24 +30,8 @@
 	margin-top: 0;
 }
 
-.enter input{
-	
-	/*justify-content: center;*/
-	
-	margin-top: 0;
-	border-top:none;
-	border-left:none;
-	border-right:none;
-	background: none;
-	text-align: center;
-	height:35px;
-	line-height:20px;
-	font-size:30px;
-	border-bottom:solid 2px #b3b2ca;
-	
-}
 .enter input:focus{
-		border-bottom:solid 2px #5d5d8a;
+		border-bottom: solid 2px #EDE711;
 		outline:none
 }
 .enter .error{

@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import InputSentence from '../../components/InputSentence/InputSentence';
 import InputAlt from '../../components/InputAlt/InputAlt';
+import {Prompt} from 'react-router';
 
 
 import './CreateLesson.css';
 
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { connect } from 'react-redux';
 
+let showConst = null;
 
 class CreateLesson extends Component {
   constructor(props) {
@@ -58,22 +61,35 @@ class CreateLesson extends Component {
         valid: false,
         touched: false
       },
-      alts: [{ 
+      alts:{
+        showDiv:'Hide',
+        array: [{ 
         value: '',
         validation: {
-          required: false,
+          required: true,
           msg: ''
         },
         valid: false,
         touched: false
-          }]
+          }],
+        valid: true
+      } 
+      
     },
+    addSentenceDisabled: false,
     formIsValid: false,
+    addAltDisabled: false,
     lessonFormNum: 5,
-    lessonFormArray: []
+    lessonFormArray: [],
+    formIsHalfFilledOut: false,
+    showExAnswer: false
   }
- 
+ this.showExAnswer = this.showExAnswer.bind(this);
+ this.checkFormValidity = this.checkFormValidity.bind(this);
+ this.addAlt = this.addAlt.bind(this);
 }
+
+  
 
   componentDidMount() {
     const lessonFormArray = [];
@@ -83,12 +99,32 @@ class CreateLesson extends Component {
         lessonFormArray.push(lessonForm);
       }
       this.setState({lessonFormArray});
+
+      showConst = setInterval(this.showExAnswer, 6000);
       
   }
 
+  componentWillUnmount() {
+    clearInterval(showConst);
+  }
+
+  showExAnswer() {
+    this.setState( prevState => {
+      return { showExAnswer: !prevState.showExAnswer }
+    })
+  }
+
+
   addSentence() {
+
     const lessonFormArray = [...this.state.lessonFormArray]
     const lessonForm = {...this.state.lessonForm}
+
+    if (lessonFormArray.length >= 21) {
+      this.setState({
+        addSentenceDisabled: true
+      });
+    } 
     lessonFormArray.push(lessonForm);
     this.setState({
       lessonFormArray
@@ -102,8 +138,12 @@ class CreateLesson extends Component {
       ...this.state.lessonForm
     }
 
-    let altForm = [
+    let alts = {
       ...lessonForm.alts
+    }
+
+    let altForm = [
+      ...alts.array
     ]
 
     altForm = altForm[0];
@@ -118,17 +158,23 @@ class CreateLesson extends Component {
       ...updatedLessonForms[index]
     };
 
-  
-  
-
-    const updatedAlts = [
+    const updatedAlts = {
       ...updatedForm.alts
-    ];
+    };
 
-    updatedAlts.push(altForm);
+    const updatedAltArray = [
+      ...updatedAlts.array
+    ]
+
+    if (updatedAltArray.length >= 4 ) {
+      this.setState({addAltDisabled: true});
+    }
+
+    updatedAltArray.push(altForm);
 
     updatedLessonForms[index] = updatedForm;
     updatedForm.alts = updatedAlts;
+    updatedAlts.array = updatedAltArray;
     
 
     this.setState({ lessonFormArray: updatedLessonForms});
@@ -136,10 +182,34 @@ class CreateLesson extends Component {
 
   };
 
+  altMouseOverEvent(index) {
+     const updatedLessonForms = [
+      ...this.state.lessonFormArray
+    ];
+
+    const updatedForm = {
+      ...updatedLessonForms[index]
+    };
+
+    const updatedAlts = {
+      ...updatedForm.alts
+    }
+
+   if (updatedAlts.showDiv === 'Hide') {
+    updatedAlts.showDiv = 'Show';
+   } else {
+    updatedAlts.showDiv = 'Hide'; 
+   }
+    updatedForm.alts = updatedAlts;
+    updatedLessonForms[index] = updatedForm;
+    
+    this.setState({ lessonFormArray: updatedLessonForms});
+    
+  }
+
   removeAlt(formIndex, altIndex, e) {
     e.preventDefault();
-    console.log('form index ' + formIndex);
-    console.log('alt index ' + altIndex);
+
     const updatedLessonForms = [
       ...this.state.lessonFormArray
     ]
@@ -148,13 +218,17 @@ class CreateLesson extends Component {
       ...updatedLessonForms[formIndex]
     }
 
-    const updatedAlts = [
+    const updatedAlts = {
       ...updatedForm.alts
-    ];
+    };
+
+    const updatedAltArray = [
+      ...updatedAlts.array
+    ]
     // eslint-disable-next-line
-    const removed = updatedAlts.splice(altIndex, 1);
+    const removed = updatedAltArray.splice(altIndex, 1);
 
-
+    updatedAlts.array = updatedAltArray;
     updatedForm.alts = updatedAlts;
     updatedLessonForms[formIndex] = updatedForm;
 
@@ -179,27 +253,6 @@ class CreateLesson extends Component {
     })
   }
 
-  checkValidity(value, rules, indentifier) {
-        
-        let isValid = true;
-        if (!rules) {
-            return true;
-        }
-        
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid
-        }
-
-        return isValid;
-    };
 
   inputChangedHandler = (event, inputIdentifier, index) => {
     
@@ -210,58 +263,105 @@ class CreateLesson extends Component {
             ...updatedLessonForms[index]
         };
         
-
         const updatedElement = {
           ...updatedForm[inputIdentifier]
         }
         const updatedValidation = {
           ...updatedElement.validation
         }
-        // console.log("updated Element", updatedElement )
         
 
-        updatedElement.value = event.target.value;
-        updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validation );
-
-        if (inputIdentifier === 'answer') {
+         if (inputIdentifier === 'answer') {
             const sentence = updatedForm['sentence'].value.toLowerCase();
-            const answer = event.target.value.toLowerCase().trim()
+            const answer = event.target.value.toLowerCase().trim();
       
             const index = sentence.indexOf(answer);
 
-            const updateValidation = {
-              ...updatedElement.validation
-            }
-
             updatedValidation.msg = '';
+            updatedElement.valid = false;
 
-            if (index === -1 ) {
-              console.log("word not found");
-              updatedValidation.msg = 'word not found in sentence';
+            if (answer === '') {
+              updatedValidation.msg = 'add an answer';
+              updatedElement.valid = false;
+            } else if (index === -1 ) {
+              updatedElement.valid = false;
+              updatedValidation.msg = 'answer not found in sentence';
             } else {
-              updateValidation.msg = '';
+              updatedElement.valid = true;
             }
-          // const index2 = index + event.target.value.length;
-
         }
 
+        if (inputIdentifier === 'hint') {
+          const hint = event.target.value.trim();
+          updatedValidation.msg = '';
+          if ( hint === '' ){
+            updatedValidation.msg = 'add a hint';
+            updatedElement.valid = false;
+          } else if ( hint.length >= 50 ) {
+            console.log('value length triggered ' + hint.length)
+            updatedValidation.msg = 'hint is too long';
+            updatedElement.valid = false;
+          } else {
+            updatedElement.valid = true;
+          }
+        }
 
+        if (inputIdentifier === 'sentence') {
+          const sentence = event.target.value;
+          updatedValidation.msg = '';
+          if ( sentence.trim() === '' ){
+            updatedValidation.msg = 'add a sentence';
+            updatedElement.valid = false;
+          } else if (sentence.length >= 140) {
+            updatedValidation.msg = 'sentence is too long';
+            updatedElement.valid = false;
+          } else {
+          updatedElement.valid = true;
+        }
+      }
 
-
+        console.log('updated element after ', updatedElement.valid);
+        updatedElement.value = event.target.value;
+        
         updatedElement.touched = true;
+
         updatedLessonForms[index] = updatedForm;
         updatedForm[inputIdentifier] = updatedElement;
         updatedElement.validation = updatedValidation;
-
-        // console.log(updatedLessonForms[index][inputIdentifier])
         
-        // let formIsValid = true;
-        // for (let inputIdentifier in updatedForm) {
-        //     formIsValid = updatedLessonForms[index][inputIdentifier].valid && formIsValid;
-        // }
-        this.setState({ lessonFormArray: updatedLessonForms });
+        let formIsValid = this.checkFormValidity();
+          console.log('form is valid ' + formIsValid);
+        if (formIsValid) {
+          
+          this.setState({formIsValid, lessonFormArray: updatedLessonForms, formIsHalfFilledOut:false});
+        } else {
+            this.setState({ 
+            lessonFormArray: updatedLessonForms,
+            formIsHalfFilledOut: true 
+          });
+        }
+};
 
-    };
+
+  checkFormValidity = () => {
+    const lessonFormArray = this.state.lessonFormArray;
+    let formIsValid = true;
+    for ( let i = 0; i < lessonFormArray.length; i++) {
+      for ( let property in lessonFormArray[i] ) {
+        console.log('lesson form prop in for in loop ', lessonFormArray[i][property]);
+        formIsValid = lessonFormArray[i][property].valid && formIsValid && this.state.title.valid;
+      }
+        
+    }
+    if (formIsValid === true ){
+      return true
+    } else {
+      this.setState({formIsValid: false});
+      return false
+    }
+
+  }
+
 
   inputChangedAltHandler = (e, formIndex, altIndex) => {
 
@@ -273,43 +373,88 @@ class CreateLesson extends Component {
       ...updatedForms[formIndex]
     };
 
-    const updatedAlts = [
+    const updatedAlts = {
       ...updatedForm.alts
+    };
+
+    const updatedAltArray = [
+      ...updatedAlts.array
     ];
-
-    
-
+        
     const updatedAlt = {
-      ...updatedAlts[altIndex]
+      ...updatedAltArray[altIndex]
     }
 
-
+    const updatedAltValidation = {
+      ...updatedAlt.validation
+    }
 
     updatedAlt.value = e.target.value;
+    updatedAlt.touched = true
+
+    if (updatedAlt.value === '') {
+      updatedAltValidation.msg = 'delete alt or add an answer';
+      updatedAlt.valid = false;
+    } else if (updatedAlt.value.length >= 30 ){
+      updatedAltValidation.msg = 'alt is too long';
+      updatedAlt.valid = false;
+    } else {
+      updatedAlt.valid = true;
+    }
 
     updatedForms[formIndex] = updatedForm;
-    updatedForm['alts'] = updatedAlts;
-    updatedAlts[altIndex] = updatedAlt;
+    updatedForm.alts = updatedAlts;
+    updatedAlts.array = updatedAltArray;
+    updatedAltArray[altIndex] = updatedAlt;
+    updatedAlt.validation = updatedAltValidation;
 
-    this.setState({ lessonFormArray: updatedForms });
+    let formIsValid = this.checkFormValidity();
+
+    if (formIsValid) {
+      this.setState({ lessonFormArray: updatedForms, formIsValid });
+    } else {
+      this.setState({ lessonFormArray: updatedForms, formIsValid });
+    }
+    
 
   }
 
   handleTitleChange = (e) => {
-    const title = {
+    
+    const updatedTitle = {
       ...this.state.title
-    };
+    }
 
-    title.value = e.target.value;
-    title.valid = this.checkValidity(title.value, title.validation);
-    title.touched = true;
-    this.setState({title});
+    updatedTitle.value = e.target.value;
+    updatedTitle.touched = true;
+
+    const updatedTitleValidation = {
+      ...updatedTitle.validation
+    }
+    updatedTitleValidation.msg = '';
+
+    if (updatedTitle.value.trim() === '') {
+      updatedTitleValidation.msg = 'add a title';
+      updatedTitle.valid = false;
+    } else if (updatedTitle.value.length >= 40) {
+      updatedTitleValidation.msg = 'title is too long';
+      updatedTitle.valid = false;
+    } else {
+      updatedTitle.valid = true;
+    }
+
+    let formIsValid = this.checkFormValidity();
+
+    updatedTitle.validation = updatedTitleValidation;
+
+    this.setState({ title: updatedTitle, formIsHalfFilledOut: true, formIsValid });
+
+    
   }
 
   render() {
-      
+      console.log('state', this.state);
       const formArray = [];
-      console.log("lesson forms ", formArray)
       for (let key in this.state.lessonFormArray) {
         formArray.push({
           id: key,
@@ -320,6 +465,7 @@ class CreateLesson extends Component {
       
       let form = (
         <div>
+        
          <form onSubmit={this.submitHandler}>
           {formArray.map((formElement) => {
             return (
@@ -362,28 +508,36 @@ class CreateLesson extends Component {
 
             />
               
-            <div className="AltAddWrapper">{formElement.config.alts.map( (alt, index) => (
+            <div className="AltAddWrapper">{formElement.config.alts.array.map( (alt, index) => (
               <div key={index}>
               
                 <InputAlt 
                    onclick={(e) => this.removeAlt(formElement.id, index, e)}
-                   altValue={formElement.config.alts[index].value}
-                   altInvalid={!formElement.config.alts.valid}
-                   altShouldValidate={formElement.config.alts.validation}
-                   altTouched={formElement.config.alts.touched}
+                   altValue={formElement.config.alts.array[index].value}
+                   altInvalid={!formElement.config.alts.array[index].valid}
+                   altShouldValidate={formElement.config.alts.array[index].validation}
+                   altTouched={formElement.config.alts.array[index].touched}
                    altChanged={(event) => this.inputChangedAltHandler(event, formElement.id, index)}
                 />
                 
                  
               </div>
                   ))}
-              <svg className="AddAlt" fill="#ccc" onClick={(e) => this.addAlt(formElement.id, e)} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 510 510" width="20px" height="20px">
+              <button className="AddAltButtonWrapper" disabled={this.state.addAltDisabled} onClick={(e) => this.addAlt(formElement.id, e)}>
+              <svg className="AddAlt" 
+              fill="#ccc" 
+              onMouseOver={() => this.altMouseOverEvent(formElement.id)}
+              onMouseOut={()=> this.altMouseOverEvent(formElement.id)}
+               xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 510 510" width="20px" height="20px">
+               
                 <path d="M256 0C114.844 0 0 114.844 0 256s114.844 256 256 256 256-114.844 256-256S397.156 
                   0 256 0zm149.333 266.667a10.66 10.66 0 0 1-10.667 10.667H277.333v117.333a10.66 10.66 0 0 1-10.667
                   0.667h-21.333a10.66 10.66 0 0 1-10.667-10.667V277.333H117.333a10.66 10.66 0 0 1-10.667-10.667v-21.333a10.66 10.66
                   0 0 1 10.667-10.667h117.333V117.333a10.66 10.66 0 0 1 10.667-10.667h21.333a10.66 10.66 0 0 1 10.667 10.667v117.333h117.333a10.66
                   10.66 0 0 1 10.667 10.667v21.334z"/>
               </svg>
+              </button>
+              <div className={formElement.config.alts.showDiv}>Add an alternate answer</div>
             </div>
             
           </div>
@@ -393,7 +547,7 @@ class CreateLesson extends Component {
 
             </form>
 
-            <button className="CreateSentenceButton" disabled={false} onClick={() => this.addSentence()}>Add</button>
+            <button className="ExerciseButton" disabled={this.state.addSentenceDisabled} onClick={() => this.addSentence()}>Add</button>
             
             
         </div>
@@ -403,6 +557,10 @@ class CreateLesson extends Component {
     return (
       <div>
         <div className="CreateLesson">
+          <Prompt
+            when={this.state.formIsHalfFilledOut}
+            message="Are you sure you want to leave?"
+          />
           <input
             className="LessonTitleInput"
             value={this.state.title.value}
@@ -410,8 +568,26 @@ class CreateLesson extends Component {
             type="text"
             placeholder="Title"
           />
+          <span>{this.state.title.validation.msg}</span>
+          <div className="ExampleSentence">
+          <div className="ExampleSentenceHeader">Example Sentence:</div>
+          
+          <div className="ExampleSentenceWrapper"><div className="FirstHalfExample">The quick brown fox</div>
+          {this.state.showExAnswer ?  <div className="TypedTextExample">jumps</div> : <div className="ExampleHint">jump</div> }
+          <div className="SecondHalfExample">over the lazy dog.</div></div>
+          <div className="ExampleKey">
+            <ul>
+              <li>Key</li>
+              <li>Sentence: The quick brown fox jumps over the lazy dog.</li>
+              <li>Answer: jumps</li>
+              <li>Hint: jump</li>
+              
+            </ul>
+          </div>
+          
+        </div>
           {form}
-          <button className="CreateButton" disabled={this.state.formIsValid} onClick={() => this._createLesson()}>Create</button>
+          <button className="CreateButton" disabled={!this.state.formIsValid} onClick={() => this._createLesson()}>Create</button>
         </div>
         
       </div>
@@ -419,31 +595,35 @@ class CreateLesson extends Component {
   }
 
   _createLesson = async () => {
-  const title = this.state.title.value;
-  const stateSentences = [...this.state.lessonFormArray];
-  const sentences = stateSentences.map( sntnc => {
-    let rObj = {};
-    let alts =[];
-    rObj['answer'] = sntnc.answer.value;
-    rObj['sentence'] = sntnc.sentence.value;
-    rObj['hint'] = sntnc.hint.value;
-    rObj['alts'] = alts;
-    sntnc.alts.map( alt => {
-     return alts.push(alt.value);
-    })
-    return rObj;  
-  });
-  console.log("sentences", sentences);
-  await this.props.createLesson({
+    if (!this.props.user) {
+      this.props.togglemodal();
+    } else {
+      const title = this.state.title.value;
+      const stateSentences = [...this.state.lessonFormArray];
+      const sentences = stateSentences.map( sntnc => {
+        let rObj = {};
+        let alts =[];
+        rObj['answer'] = sntnc.answer.value;
+        rObj['sentence'] = sntnc.sentence.value;
+        rObj['hint'] = sntnc.hint.value;
+        rObj['alts'] = alts;
+        sntnc.alts.array.map( alt => {
+        return alts.push(alt.value);
+        })
+        return rObj;  
+      });
+      console.log("sentences", sentences);
+      await this.props.createLesson({
 
-    variables: {
-      title,
-      author: "yous",
-      sentences
+        variables: {
+         title,
+         author: this.props.user.name,
+         sentences
       
+        }
+      });
     }
-  });
- }
+  }
 }
 
 const ADD_LESSON = gql`
@@ -463,5 +643,11 @@ const ADD_LESSON = gql`
   }
 `
 
-// 3
-export default graphql(ADD_LESSON, { name: 'createLesson' })(CreateLesson)
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+const Container = graphql(ADD_LESSON, { name: 'createLesson' })(CreateLesson);
+export default connect(mapStateToProps)(Container);

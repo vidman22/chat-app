@@ -189,7 +189,7 @@ class SoloGame extends Component {
 				result = (
 					<div>
 						<h1>{this.state.gameName}</h1>
-						<button className="SoloStart" onClick={this.button.bind(this)}>Start</button> 
+						<button className="ExerciseButton" onClick={this.button.bind(this)}>Start</button> 
 					</div>
 
 

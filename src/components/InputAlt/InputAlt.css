@@ -5,9 +5,9 @@
 }
 
 .InputAlt {
-  display: inline;
+  display: inline-block;
   float: left;
-  width: 90%;
+  width: 95%;
   margin-bottom: 10px;
   border-top:none;
   border-left:none;
@@ -16,19 +16,23 @@
   height:22px;
   line-height:20px;
   font-size:20px;
-  border-bottom:solid 2px #b3b2ca;
+  border-bottom:solid 2px #ccc;
   transition:all .23s ease-in
 
+}
+
+.InputAltWrapper p{
+  display: block;
+  color: red;
 }
 
 .InputAlt:focus{
 	outline: none;
 }
 .RemoveAlt {
-	display: inline;
+	display: inline-block;
 	float: left;
-	margin-right: 3px;
-	
+	margin-left: -2rem;
 }
 
 .RemoveAlt:hover {

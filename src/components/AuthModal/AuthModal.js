@@ -11,7 +11,7 @@ const modal = props => {
   ];
   return (
           <div className={cssClasses.join(' ')}>
-            <svg className="CloseModal" onClick={props.close} 
+            <svg className="CloseModal" onClick={props.togglemodal} 
                 xmlns="http://www.w3.org/2000/svg" 
                 fill="#ccc" 
                 viewBox="0 0 510 510" 
@@ -25,7 +25,7 @@ const modal = props => {
                  0-56.85l105.54-105.549L11.774 68.611c-15.699-15.699-15.699-41.145 0-56.844 15.696-15.687 41.127-15.687 56.829 0l105.563 105.554L279.721 
                  11.767c15.705-15.687 41.139-15.687 56.832 0 15.705 15.699 15.705 41.145.006 56.844z"/>
             </svg>
-            <Auth />
+            <Auth togglemodal={props.togglemodal}/>
           </div>
   );
 };

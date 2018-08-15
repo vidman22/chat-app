@@ -1,10 +1,12 @@
 html, body {
+	position: relative;
 	height: 100%;
 	width: 100%;
 	margin: 0;
 	background: url(../assets/svg/LandingPage_Background.svg) no-repeat top left;
   	background-size: 100%;
   	background-attachment: fixed;
+  	z-index: -18;
 	/*background-image: url(../assets/svg/LandingPage_Background.svg);*/
 }
 
@@ -19,13 +21,12 @@ html, body {
 
 
 
-
-
 .Header {
+	position: relative;
+	z-index: 99;
 	display: inline-block;
-	height: 82px;
+	height: 5em;        /*82px;*/
 	background: /*#23A6D5;*/ linear-gradient(-45deg, #23D5AB, #23A6D5);
-	
 	margin-bottom: 10px;
 	font-family: 'Helvetica', sans-serif;
 	font-weight: lighter;
@@ -34,33 +35,38 @@ html, body {
 	
 }
 
-
-
-.Header img {
+.LogoImage {
 	display: inline-block;
 	width: 50px;
 	height: 50px;
 	float: left;
 	margin-top: 14px;
 	margin-left: 39px;
-
 }
 
 .AuthSvg {
-	fill: #eee;
+	display: inline;
+	float: right;
+	margin-top: 1.5rem;
+	margin-right: 2.5rem;
+	fill: white;
 }
 
 .AuthSvg:hover {
 	cursor: pointer;
-	fill: #FFF800;
+	fill: black;
+}
+
+.Header nav{
+	display: inline-block;
+	float: right;
 }
 
 .Header h1 {
 	font-family: 'Montserrat', sans-serif;
-	
 	color: white;
 	float: left;
-	margin-left: 19px;
+	margin-left: .5em;
 }
 
 .Header p {
@@ -72,17 +78,16 @@ html, body {
 }
 
 .Header ul {
+	display: inline-block;
 	list-style: none;
 	float: right;
-	padding-right: 60px;
-	margin-top: 18px;
+	padding-right: 1rem;
+	margin-top: 2em;
 }
+
 .Header li {
 	display: inline-block;
-	margin: 10px;
-	
-	padding-right: 20px;
-	/*border-right: 2px solid #cecece;*/
+	padding-right: 1.5em;
 	
 }
 
@@ -91,20 +96,9 @@ html, body {
 	color: white;
 }
 
-
-.Header #last{
-	border: none;
-	padding-right: 70px;
-}
-
-
 .Header:hover {
 	color: #323232 /*#191919*/ /*#23D5AB*/ /*#FFF800*/;
 }
-
-/*a.active {
-	color: #323232;
-}*/
 
 @media screen and (max-width: 640px) {
 	.Header {
@@ -125,7 +119,7 @@ html, body {
 	.Header h1 {
 		display: block;
 		text-align: center;
-		margin:24px 0px 0px 15px;
+		margin:	15px 0px 0px 10px;
 		font-size: 30px;
 	}
 

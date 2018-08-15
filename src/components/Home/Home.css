@@ -53,8 +53,8 @@
 }
 
 .TypedText {
-  font: 180% "Inconsolata", monospace;
-  /*width: 8.25em;*/
+  font: 180% "Roboto Mono", monospace;
+  width: 8.25em;
   width: 15ch;
   white-space: nowrap;
   text-align: center;
@@ -136,6 +136,20 @@
 }
 @keyframes typing {
   from { width: 0 }
+  0% {
+    color: black;
+  }
+
+  50% {
+    color: black;
+  }
+
+  90%{
+    color: black;
+  }
+  95% {
+    color: #00c4c3;
+  }
 }
 
 @keyframes caret {

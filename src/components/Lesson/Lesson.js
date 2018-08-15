@@ -31,14 +31,14 @@ class Lesson extends Component {
     this.state = {
       working: true,
       values: {},
-      correctInputs: {},
+      checkedInputs: {},
       activeValue: false
     }
   }
 
-  // componentDidMount() {
-  //   console.log(this.props);
-  // }
+ componentDidMount() {
+        window.scrollTo(0, 0);
+}
 
   inputChangedHandler(e, index) {
     const values = {...this.state.values};
@@ -54,6 +54,7 @@ class Lesson extends Component {
       // console.log("value ", this.state.values[`value${index}`]);
 
     } else {
+
         const key = `value${index}`;
         value = e.target.value;
         let obj = {[key]: value};
@@ -67,57 +68,47 @@ class Lesson extends Component {
 
   handleCheck(index, answer, alts) {
     const values = {...this.state.values};
-    const correctInputs = {...this.state.correctInputs};
-
+    const checkedInputs = {...this.state.checkedInputs};
+    const key = `checked${index}`;
     if ( values[`value${index}`] === answer ) {
      
-      let property = `value${index}`;
-      const newObj = Object.defineProperty(correctInputs, property, {
-        value: 'correct',
-        writable: true
-      });
+      
+      const obj = {[key]: 'correct'}
+      const newObj = Object.assign(checkedInputs, obj);
       this.setState({
-        correctInputs: newObj
+        checkedInputs: newObj
       });
     } if (values[`value${index}`] !== answer) {
       
-      let property = `value${index}`;
-      const newObj = Object.defineProperty(correctInputs, property, {
-        value: 'incorrect',
-        writable: true
+      const obj = {[key]: 'incorrect'}
+      const newObj = Object.assign(checkedInputs, obj);
+      this.setState({
+        checkedInputs: newObj
       });
-        this.setState({
-        correctInputs: newObj
-      }); 
    }
   } 
 
   handleCheckOnEnter(index, answer, alts, e) {
     e.preventDefault();
 
-    const values = {...this.state.values};
-    const correctInputs = {...this.state.correctInputs};
-
+   const values = {...this.state.values};
+    const checkedInputs = {...this.state.checkedInputs};
+    const key = `checked${index}`;
     if ( values[`value${index}`] === answer ) {
+     
       
-      let property = `value${index}`;
-      const newObj = Object.defineProperty(correctInputs, property, {
-        value: 'correct',
-        writable: true
-      });
+      const obj = {[key]: 'correct'}
+      const newObj = Object.assign(checkedInputs, obj);
       this.setState({
-        correctInputs: newObj
+        checkedInputs: newObj
       });
     } if (values[`value${index}`] !== answer) {
       
-      let property = `value${index}`;
-      const newObj = Object.defineProperty(correctInputs, property, {
-        value: 'incorrect',
-        writable: true
+      const obj = {[key]: 'incorrect'}
+      const newObj = Object.assign(checkedInputs, obj);
+      this.setState({
+        checkedInputs: newObj
       });
-        this.setState({
-        correctInputs: newObj
-      }); 
    }
 
   }
@@ -125,7 +116,7 @@ class Lesson extends Component {
 
 
   render() {
-  
+  console.log(this.state);
     return (
        <Query 
       query={LESSON_SET}
@@ -201,7 +192,7 @@ class Lesson extends Component {
                         value={ this.state.values[`value${index}`] ? this.state.values[`value${index}`] : '' }
                         sentence={sentence.sentence} 
                         correct={sentence.answer}
-                        message={ this.state.correctInputs[`value${index}`] ? this.state.correctInputs[`value${index}`] : ''}
+                        message={ this.state.checkedInputs[`checked${index}`] ? this.state.checkedInputs[`checked${index}`] : ''}
                         exercise='true' 
                         placeholder={sentence.hint} />
                         <button className="ExerciseButton" onClick={()=>this.handleCheck(index, sentence.answer, sentence.alts)}>Check</button>

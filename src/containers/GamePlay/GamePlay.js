@@ -3,11 +3,7 @@ import Sentence from '../../components/Sentence/Sentence';
 
 import './GamePlay.css';
 
-import Grammar from '../../Grammar.json';
-
 import io from 'socket.io-client';
-
-const GrammarTest = Grammar.Grammar;
 
 
 const socket = io('http://localhost:5000/');
@@ -28,7 +24,7 @@ export default class GamePlay extends Component {
 	}
 
 	UNSAFE_componentWillMount() {
-	
+		console.log('props sentences', this.props.sentences);
 		let gameSentences = this.props.sentences;
 		gameSentences = this.shuffle(gameSentences);
 		
@@ -54,15 +50,9 @@ export default class GamePlay extends Component {
 		}
 	}
 
-	componentDidMount() {
-		this.initSocket();
-	};
-
-	initSocket() {
-		
-	}
 	
 	shuffle(array) {
+		console.log("array", array);
 		let currentIndex = array.length, temporaryValue, randomIndex;
 
 		while (0 !== currentIndex) {
@@ -86,7 +76,7 @@ export default class GamePlay extends Component {
 		answer = answer.toLowerCase().trim();
 
 		
-		if (answer === this.state.activeSentence.a ||answer === this.state.activeSentence.c || answer === this.state.activeSentence.d ||answer === this.state.activeSentence.e ||answer === this.state.activeSentence.f)  {
+		if (answer === this.state.activeSentence.answer) {
 			
 
 			socket.emit('SUCCESS', this.props.room, this.props.name);
@@ -161,14 +151,14 @@ export default class GamePlay extends Component {
 		return (
 			<div className="GamePlay">
 			  <div className="GameHeader">
-				<h2>{GrammarTest[this.props.game].name}</h2>
+				<h2>{this.props.title}</h2>
 			  </div>
 			  			
 			  		<div className="completed">{this.props.winner ? this.props.winner : null}</div>
 					<Sentence 
 						sentence={sentence.sentence}
-						correct={sentence.a}
-						placeholder={sentence.b}
+						correct={sentence.answer}
+						placeholder={sentence.hint}
 						value={this.state.answer}
 						handlesubmit={this.handleSubmit}
 						handlechange={this.handleChange}

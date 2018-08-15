@@ -44,7 +44,7 @@ module.exports = function(socket) {
 	});
 
 	socket.on('NEW_PLAYER', (room, name, callback) => {
-		console.log("name " + name);
+		console.log("name length " + name.length);
 		const index = searchSessions( room );
 		const users = sessions[index].connectedUsers;
 		let message = '';
@@ -64,7 +64,7 @@ module.exports = function(socket) {
 						users.push(user);
 						message = '';
 						io.to(room).emit('UPDATED_PLAYERS', (room, users ));	
-					}
+					} 
 				break;
 				}
 			} else {
@@ -92,8 +92,9 @@ module.exports = function(socket) {
 		cb(arrayOfTeams);
 	});
 
-	socket.on('START_GAME', (room, users, game, sentences) => {
-		io.to(room).emit('START_GAME', game, sentences);
+	socket.on('START_GAME', (room, title, sentences) => {
+		io.to(room).emit('START_GAME', title, sentences);
+		console.log('sentences ', sentences);
 	});
 
 	socket.on('SUCCESS',  (room, name)  => {
@@ -156,7 +157,7 @@ module.exports = function(socket) {
 	} else {
 		let newSessionArray = [...sessions];
 	  	nesSessionArray = sessions.filter((session) => sessions[i] !== sessions[i]);
-	  	sessions = newSessionArray;
+	  	sessions = newSessionArray;				
 		console.log('sessions after filter ', sessions);
 	}
 	});
