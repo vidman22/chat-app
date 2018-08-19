@@ -1,19 +1,19 @@
 const { buildSchema } = require('graphql');
 
-
-
 const schema = buildSchema(`
 	type Query {
 		lessonSet(id: String): LessonSet
 		lessonSets: [LessonSet]
-		user(id: String): User
+		user(id: String! ): User
+		userLessons( authorID: String! ): [LessonSet]
 	}
 
 	type LessonSet {
-		id: ID
-		title: String
-		author: String
-		sentences: [Sentence!]!
+		id: String!
+		title: String!
+		author: String!
+		authorID: String!
+		sentences: [Sentence]
 	}
 
 	input SentenceInput {
@@ -33,23 +33,25 @@ const schema = buildSchema(`
 
 	type AuthPayload {
   		token: String
+  		expiresIn: Int
   		user: User
 	}
 
 	type User {
 		id: String
-		firstname: String
-		lastname: String
-		email: String
+		email: String!
+		username: String
 		password: String
-		lessonsets: [LessonSet]
+		userID: String
+		picture: String
 	}
 
 
 	type Mutation {
-		createLessonSet(title: String, author: String, sentences: [SentenceInput] ): LessonSet
-		signUp( firstname: String!, lastname: String!, email: String!, password: String! ): AuthPayload
-		login(email: String!, password: String! ) : AuthPayload
+		createLessonSet(title: String!, author: String!, authorID: String!, sentences: [SentenceInput] ): LessonSet
+		signUp( username: String! , email: String!, password: String! ): AuthPayload
+		login( email: String!, password: String! ) : AuthPayload
+		oAuthSignIn(email: String!, username: String!, picture: String, userID: String!, token: String!, expiresIn: String! ): AuthPayload
 	}
 `);
 

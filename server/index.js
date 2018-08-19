@@ -7,7 +7,6 @@ const graphqlHTTP = require('express-graphql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('./oauth/config/utils');
-const token = jwt.sign({ session: ''}, 'super duper pooper scooper')
 const cors = require('cors');
 const db = mongoose();
 
@@ -35,29 +34,32 @@ const schema  = require('./graphql/typeDefs');
 
 var root = {
 	 
-	 	lessonSet: async (  _id ) => {
-	 		console.log("lesson triggered");
-	 		return await LessonSet.findById(_id.id)
+	 	lessonSet: async (args, ctx, info ) => {
+	 		console.log("lesson triggered ctx", ctx.headers.authorization );
+	 		return await LessonSet.findById(args.id)
 	 	},
-	 	lessonSets: async () => {
-	 		console.log("lsets triggered");
+	 	lessonSets: async (args, parent, ctx, info) => {
 	 		return await LessonSet.find()
 	 	},
-	 	user:  (root, {_id}) => {
-	 		return User.findById(_id)
+	 	user: async ({_id}) => {
+	 		return await User.findById(_id)
 	 	},
-	 	createLessonSet: async ( {title, author, sentences} ) => {
-	 		const lessonSet = new LessonSet({ title, author, sentences });
+	 	userLessons: async ( authorID ) => {
+	 		console.log('author id' , authorID)
+	 		return await LessonSet.find(authorID);
+	 	},
+	 	createLessonSet: async ( {title, author, authorID, sentences}, ctx, info ) => {
+	 		const lessonSet = new LessonSet({ title, author, authorID, sentences });
 	 		return await lessonSet.save(); 
 	 		if (!lessonSet) {
       			throw new Error('Error');
    			}
    			console.log("create lesson set success");
 	 	},
-	 	signUp: async ({firstname, lastname, email, password }) => {
+	 	signUp: async ({ username, email, password }) => {
 	 		console.log("signUp triggered")
 	 		const hash = await bcrypt.hash(password, 12 )
-	 		const user = new User({firstname, lastname, email, password: hash });
+	 		const user = new User({username, email, picture: null, password: hash });
 	 		
 
 	 		const existingUser = await User.findOne({ email });
@@ -67,11 +69,13 @@ var root = {
 	 		}
 	 		await user.save();
 
-	 		const token = jwt.sign({ userId: user.id }, APP_SECRET)
+	 		const token = jwt.sign({ userId: user.id }, APP_SECRET);
+	 		const expiresIn = 7200;
 
   			return {
    			 	token,
-    			user,
+   			 	expiresIn,
+    			user
   			}			
 	 	},
 	 	login: async ({email, password}) => {
@@ -87,17 +91,40 @@ var root = {
 	 			throw new Error('Password is incorrect');
 	 		}
 
+	 		const token = jwt.sign({ userId: user.id }, APP_SECRET);
+	 		const expiresIn = 7200;
+
 	 		return {
-    			token: jwt.sign({ userId: user.id }, APP_SECRET),
-    			user,
+    			token,
+    			expiresIn,
+    			user
   			}
+	 	},
+	 	oAuthSignIn: async ({ email, username, picture, userID, token, expiresIn}) => {
+	 		console.log("oAuth signin email " + email);
+	 		console.log("oAuth signin name " + username);
+	 		console.log("oAuth signin picture " + picture);
+	 		console.log("oAuth signin userID " + userID);
+	 		console.log("oAuth signin token " + token);
+	 		console.log("oAuth signin expiresIn " + expiresIn);
+	 		let user = await User.findOne({ email });
+
+	 		if (!user ) {
+	 			user = new User({email, username, picture, userID });
+	 			await user.save(); 
+	 		} 
+	 		return {
+	 			token,
+	 			expiresIn,
+	 			user
+	 		}
 	 	}
 };
 
 app.use('/graphql', cors(), graphqlHTTP({
   schema: schema,
   rootValue: root,
-  graphiql: true
+  graphiql:true
 }));
 
 app.use(cors({

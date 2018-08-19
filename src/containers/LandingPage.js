@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import logo from "../assets/svg/kwinzo.svg";
-import { AUTH_TOKEN } from '../constants'; 
 import './LandingPage.css';
-import * as actionTypes from '../store/actionTypes';
+import * as actions from '../store/actions';
 
 import Auth from './Auth/Auth';
 import AuthModal from '../components/AuthModal/AuthModal';
@@ -15,32 +14,53 @@ import Lesson from '../components/Lesson/Lesson';
 import Lessons from './Lessons/Lessons';
 import SoloGame from './SoloGame/SoloGame';
 import UserDropdown from '../components/UserDropdown/UserDropdown';
+import UserPage from './UserPage/UserPage';
 import WaitingPage from './WaitingPage/WaitingPage';
 
-const authToken = false //localStorage.getItem(AUTH_TOKEN);
 
 class LandingPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      authModal: false
+      authModal: false,
+      showDrop: false
     }
   }
 
+  componentDidMount() {
+    this.props.onTryAutoSignup();
+  }
+
+  toggleDrop() {
+    this.setState( prevState => {
+      return { showDrop: !prevState.showDrop}
+    });
+  }
+
+  closeDrop() {
+    this.setState({ showDrop: false});
+  }
+
   toggleModal() {
-    console.log(this.state);
     this.setState( prevState => {
       return { authModal: !prevState.authModal }
     });
   }
 
+  logout() {
+    this.props.history.push('/');
+    this.props.logout();
+  }
+
+
   render() {
-    
         return (
            <div className="Landing">
             <div className="Wrapper">
                 <header className="Header">
-                    <NavLink to={{
+                    <NavLink 
+                        onClick={() => this.closeDrop()}
+                        to={{
                         pathname: '/'
                     }}exact> <img 
                         className="LogoImage"
@@ -52,9 +72,10 @@ class LandingPage extends Component {
                     <p>Quiz to win</p>
                       {this.props.user ?
                         <UserDropdown
-                          picture={this.props.user.picture}
-                          name={this.props.user.name}
-                          logout={this.props.logout}
+                          toggleDrop={() => this.toggleDrop()}
+                          user={this.props.user}
+                          showdrop={this.state.showDrop}
+                          logout={() => this.logout()}
                         />
                         :
                          <svg
@@ -76,13 +97,17 @@ class LandingPage extends Component {
 
                         <nav>
                             <ul>
-                             <li><NavLink to={{
+                             <li><NavLink 
+                              onClick={() => this.closeDrop()}
+                              to={{
                                 pathname: '/create-lesson'
                              }}
                              activeStyle={{
                                 color:'#323232'}} id='second'>Create</NavLink></li>
 
-                             <li><NavLink to={{
+                             <li><NavLink
+                              onClick={() => this.closeDrop()} 
+                              to={{
                                 pathname: '/lessons'
                              }}
                              activeStyle={{
@@ -94,16 +119,18 @@ class LandingPage extends Component {
                 </header>
             
                <Switch> 
-                              
+
+                <Route path="/home" component={Home}/>
                 <Route path="/create-lesson" render={() => <CreateLesson togglemodal={() => this.toggleModal()}/> } />
                 <Route path="/login" component={Auth} />
                 <Route path="/lessons/:id" component={Lesson}/>
                 <Route path="/solo-play/:id" render={() => <SoloGame lesson= {this.props.lesson} /> } />
                 <Route path="/host-game/:id" render={() => <WaitingPage lesson= {this.props.lesson} /> } />
                 <Route path="/lessons" component={Lessons} />
+                <Route path="/user/:user" component={() => <UserPage user={this.props.user} />} />
                 
                 
-                <Route path="/" component={Home}/>
+                
                 
                </Switch>
                {this.state.authModal ? <AuthModal togglemodal={() => this.toggleModal()} show={this.state.authModal} /> : null}
@@ -131,7 +158,8 @@ class LandingPage extends Component {
 }
 const matchDispatchToState = dispatch => {
   return {
-    logout: () => dispatch({type: actionTypes.LOGOUT})
+    logout: () => dispatch(actions.logout()),
+    onTryAutoSignup: () => dispatch(actions.authCheckState())
   }
 }
 
@@ -142,4 +170,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, matchDispatchToState )(LandingPage);
+export default withRouter(connect(mapStateToProps, matchDispatchToState )(LandingPage));

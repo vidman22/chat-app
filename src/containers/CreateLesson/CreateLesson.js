@@ -117,17 +117,20 @@ class CreateLesson extends Component {
 
   addSentence() {
 
-    const lessonFormArray = [...this.state.lessonFormArray]
+    const updatedLessonForms = [...this.state.lessonFormArray]
     const lessonForm = {...this.state.lessonForm}
 
-    if (lessonFormArray.length >= 21) {
+    if (updatedLessonForms.length >= 21) {
       this.setState({
         addSentenceDisabled: true
       });
     } 
-    lessonFormArray.push(lessonForm);
+    updatedLessonForms.push(lessonForm);
+
     this.setState({
-      lessonFormArray
+      lessonFormArray: updatedLessonForms,
+    }, () => {
+      this.checkFormValidity();
     });
   }
 
@@ -147,8 +150,6 @@ class CreateLesson extends Component {
     ]
 
     altForm = altForm[0];
-
-    
 
     const updatedLessonForms = [
       ...this.state.lessonFormArray
@@ -177,7 +178,11 @@ class CreateLesson extends Component {
     updatedAlts.array = updatedAltArray;
     
 
-    this.setState({ lessonFormArray: updatedLessonForms});
+    this.setState({
+      lessonFormArray: updatedLessonForms,
+    }, () => {
+      this.checkFormValidity();
+    });
 
 
   };
@@ -232,10 +237,15 @@ class CreateLesson extends Component {
     updatedForm.alts = updatedAlts;
     updatedLessonForms[formIndex] = updatedForm;
 
+    
 
     this.setState({
-      lessonFormArray: updatedLessonForms
+      lessonFormArray: updatedLessonForms,
+    }, () => {
+      this.checkFormValidity();
     });
+
+    
 
   }
 
@@ -246,11 +256,14 @@ class CreateLesson extends Component {
     ];
 
     const removed = updatedLessonForms.splice(formIndex, 1);
-
-    console.log(formIndex, removed);
+    
+    
     this.setState({
-      lessonFormArray: updatedLessonForms
-    })
+      lessonFormArray: updatedLessonForms,
+    }, () => {
+      this.checkFormValidity();
+    });
+
   }
 
 
@@ -328,19 +341,14 @@ class CreateLesson extends Component {
         updatedLessonForms[index] = updatedForm;
         updatedForm[inputIdentifier] = updatedElement;
         updatedElement.validation = updatedValidation;
-        
-        let formIsValid = this.checkFormValidity();
-          console.log('form is valid ' + formIsValid);
-        if (formIsValid) {
           
-          this.setState({formIsValid, lessonFormArray: updatedLessonForms, formIsHalfFilledOut:false});
-        } else {
-            this.setState({ 
-            lessonFormArray: updatedLessonForms,
-            formIsHalfFilledOut: true 
-          });
-        }
-};
+
+        this.setState({
+          lessonFormArray: updatedLessonForms,
+        }, () => {
+          this.checkFormValidity();
+        });
+}
 
 
   checkFormValidity = () => {
@@ -350,14 +358,14 @@ class CreateLesson extends Component {
       for ( let property in lessonFormArray[i] ) {
         console.log('lesson form prop in for in loop ', lessonFormArray[i][property]);
         formIsValid = lessonFormArray[i][property].valid && formIsValid && this.state.title.valid;
-      }
-        
+      } 
     }
     if (formIsValid === true ){
-      return true
+      this.setState({ formIsValid })
+      console.log('form is ' + formIsValid);
     } else {
-      this.setState({formIsValid: false});
-      return false
+      this.setState({formIsValid, formIsHalfFilledOut: true });
+      console.log('form is ' + formIsValid);
     }
 
   }
@@ -365,12 +373,12 @@ class CreateLesson extends Component {
 
   inputChangedAltHandler = (e, formIndex, altIndex) => {
 
-    const updatedForms = [
+    const updatedLessonForms = [
       ...this.state.lessonFormArray
     ];
 
     const updatedForm = {
-      ...updatedForms[formIndex]
+      ...updatedLessonForms[formIndex]
     };
 
     const updatedAlts = {
@@ -400,23 +408,21 @@ class CreateLesson extends Component {
       updatedAlt.valid = false;
     } else {
       updatedAlt.valid = true;
+      updatedAltValidation.msg = '';
     }
 
-    updatedForms[formIndex] = updatedForm;
+    updatedLessonForms[formIndex] = updatedForm;
     updatedForm.alts = updatedAlts;
     updatedAlts.array = updatedAltArray;
     updatedAltArray[altIndex] = updatedAlt;
     updatedAlt.validation = updatedAltValidation;
 
-    let formIsValid = this.checkFormValidity();
-
-    if (formIsValid) {
-      this.setState({ lessonFormArray: updatedForms, formIsValid });
-    } else {
-      this.setState({ lessonFormArray: updatedForms, formIsValid });
-    }
+    this.setState({
+      lessonFormArray: updatedLessonForms,
+    }, () => {
+      this.checkFormValidity();
+    });
     
-
   }
 
   handleTitleChange = (e) => {
@@ -618,8 +624,8 @@ class CreateLesson extends Component {
         variables: {
          title,
          author: this.props.user.name,
+         authorID: this.props.user.userID,
          sentences
-      
         }
       });
     }
@@ -628,11 +634,12 @@ class CreateLesson extends Component {
 
 const ADD_LESSON = gql`
   # 2
-  mutation CreateLesson($title: String!, $author: String!, $sentences: [SentenceInput]) {
-    createLessonSet( title: $title, author: $author, sentences: $sentences) {
+  mutation CreateLesson($title: String!, $author: String!, $authorID: String!, $sentences: [SentenceInput]) {
+    createLessonSet( title: $title, author: $author, authorID: $authorID, sentences: $sentences) {
       id
       title
       author
+      authorID
       sentences {
         sentence
         hint

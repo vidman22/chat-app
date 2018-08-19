@@ -102,3 +102,9 @@
   color: black;
   border: 1px solid black;
 }
+
+.Auth p{
+  margin: 0;
+  font-size: 14px;
+  color: red;
+}

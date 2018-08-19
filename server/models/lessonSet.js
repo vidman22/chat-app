@@ -11,6 +11,7 @@ var SentenceSchema = new Schema({
 var lessonSetSchema = new Schema({
 	title: String,
 	author: String,
+	authorID: String,
 	date: { type: Date, default: Date.now},
 	meta: {
 		votes: Number,

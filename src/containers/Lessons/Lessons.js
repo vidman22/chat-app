@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LessonLink from '../../components/LessonLink/LessonLink';
 import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import './Lessons.css';
-import gql from 'graphql-tag';
+
 
 const LESSON_SETS = gql`
   query LessonSets{
@@ -26,7 +27,7 @@ const Lessons = (props) => (
         if (error) return `Error! ${error.message}`;
 
         return (
-          <div>
+          <div className="LessonLinks">
             {data.lessonSets.map( (lesson, index) => (<Link key={index} to={`${props.match.url}/${lesson.id}`}>
               <LessonLink 
               id={lesson.id}  

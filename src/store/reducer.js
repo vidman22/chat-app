@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 
+
 const initialState = {
 	user: null,
 	lessonSet: []
@@ -14,7 +15,7 @@ const reducer = (state = initialState , action) => {
 				name: action.name,
 				picture: action.picture,
 				userID: action.userID,
-				token: action.token
+				token: action.token,
 			}
 		}
 	}

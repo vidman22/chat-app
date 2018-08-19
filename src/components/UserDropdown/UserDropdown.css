@@ -39,7 +39,8 @@
 	height: 5rem;
 }
 .UserDropdown li{
-
+	color:black;
+	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 	margin: auto;
 	padding-right: 0;
@@ -57,6 +58,10 @@
 .CloseDrop {
 	display: none;
 	/*animation: closeDrop .5s ease-in forwards;*/
+}
+
+.DropDownLink {
+	color: black;
 }
 
 /*@keyframes openDrop {

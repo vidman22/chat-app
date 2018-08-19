@@ -5,7 +5,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
-
+import thunk from 'redux-thunk';
 import reducer from './store/reducer';
 
 import { ApolloProvider } from 'react-apollo';
@@ -18,20 +18,10 @@ import { AUTH_TOKEN } from './constants';
 // import { WebSocketLink } from 'apollo-link-ws';
 // import { getMainDefinition } from 'apollo-utilities';
 
-const logger = store => {
-    return next => {
-        return action => {
-            console.log('[Middleware] Dispatching', action);
-            const result = next(action);
-            console.log('[Middleware] next state', store.getState());
-            return result;
-        }
-    }
-};
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducer, composeEnhancers(applyMiddleware(logger)));
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 
 const httpLink = createHttpLink({

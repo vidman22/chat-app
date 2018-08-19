@@ -1,86 +1,149 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AUTH_TOKEN } from '../../constants';
-import { Mutation } from 'react-apollo';
+import { Mutation, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
 import './Auth.css';
 
-import * as actionTypes from '../../store/actionTypes';
+import * as actions from '../../store/actions';
 
 const SIGNUP_MUTATION = gql`
-  mutation SignupMutation($firstname: String!, $lastname: String!, $email: String!, $password: String!) {
-    signUp(firstname: $firstname, lastname: $lastname, email: $email, password: $password) {
-      token
+  mutation SignupMutation($username: String!, $email: String!, $password: String!) {
+    signUp(username: $username, email: $email, password: $password) {
+        email
+        username
+        picture
+        userID
+        token
+        expiresIn
     }
   }
-`
+`;
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
-      token
+        email
+        username
+        picture
+        userID
+        token
+        expiresIn
     }
   }
-`
+`;
 
 class Auth extends Component {
-    state = {
-        firstname: '',
-        lastname: '',
-        email: '',
-        password: '',
+    constructor(props){
+        super(props);
+    this.state = {
+      form: {
+        username: {
+            value:'',
+            valid: false,
+            touched: false,
+            msg: '',
+            style: '',
+        },
+        password: {
+            value:'',
+            valid: false,
+            touched: false,
+            msg: '',
+            style: '',
+        },
+        email: {
+            value:'',
+            valid: false,
+            touched: false,
+            msg: '',
+            style: '',
+        }
+      },
+        formIsValid: false,
         isLogin: true
     }
+    this.checkValidity = this.checkValidity.bind(this);
+  } 
 
 
-    checkValidity ( value, rules ) {
-        let isValid = true;
-        if ( !rules ) {
-            return true;
+    checkValidity () {
+       const updatedForm = this.state.form;
+       let formIsValid = true;
+
+        for (let property in updatedForm ) {
+            formIsValid = updatedForm[property].valid && formIsValid;
+        }
+        this.setState({formIsValid});
+    }
+
+    inputChangedHandler = ( event, controlName ) => {
+        const updatedForm = {
+            ...this.state.form
         }
 
-        if ( rules.required ) {
-            isValid = value.trim() !== '' && isValid;
+        const updatedElement = {
+            ...updatedForm[controlName]
         }
 
-        if ( rules.minLength ) {
-            isValid = value.length >= rules.minLength && isValid
+        console.log('updated element', updatedElement);
+
+        updatedElement.value = event.target.value;
+
+        if (controlName === 'username') {
+            let value = updatedElement.value.trim();
+            if (value === '') {
+                updatedElement.msg = 'add a name';
+                updatedElement.valid = false;
+            } else if (value.length > 22 ) {
+                updatedElement.msg = 'add a shorter name';
+                updatedElement.valid = false;
+            } else {
+                updatedElement.valid = true;
+                updatedElement.msg = '';
+            } 
         }
 
-        if ( rules.maxLength ) {
-            isValid = value.length <= rules.maxLength && isValid
-        }
-
-        if ( rules.isEmail ) {
+        if (controlName === 'email') {
+            let value = updatedElement.value.trim();
             const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-            isValid = pattern.test( value ) && isValid
-        }
-
-        if ( rules.isNumeric ) {
-            const pattern = /^\d+$/;
-            isValid = pattern.test( value ) && isValid
-        }
-
-        return isValid;
-    }
-
-    inputChangedHandler = ( event, type, controlName ) => {
-
-        const updatedControls = {
-            ...this.state[type],
-            [controlName]: {
-                ...this.state[type][controlName],
-                value: event.target.value,
-                valid: this.checkValidity( event.target.value, this.state[type][controlName].validation ),
-                touched: true
+            const isValid = pattern.test( value );
+            if (isValid) {
+                updatedElement.valid = true;
+                updatedElement.msg = '';
+            } else {
+                updatedElement.msg = 'add a valid email';
+                updatedElement.valid = false;
             }
-        };
-        this.setState( { [type] : updatedControls } );
-    }
+        }
 
+        if (controlName === 'password') {
+            let value = updatedElement.value.trim();
+            const pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+            const isValid = pattern.test( value );
+            if (isValid) {
+                updatedElement.valid = true;
+                updatedElement.msg = '';
+            } else {
+                updatedElement.msg = 'use 8 characters - at least one letter, number, and symbol';
+                updatedElement.valid = false;
+            }
+
+        }
+
+        updatedElement.touched = true;
+
+        updatedForm[controlName] = updatedElement;
+
+        this.setState({ 
+            form : updatedForm 
+        },() => {
+            this.checkValidity(); 
+        });
+        
+    }
 
     switchAuthModeHandler = () => {
         this.setState(prevState => {
@@ -90,24 +153,34 @@ class Auth extends Component {
 
     render () {
         const login = this.state.isLogin;
-        const {lastname, firstname, email, password} = this.state;
+        const {username, email, password} = this.state.form;
+  
+
         const responseGoogle = (response) => {
             // console.log("googleresponse ", response);
-            
+            const email = response.profileObj.email;
+            const username = response.profileObj.givenName;
+            const picture = response.profileObj.imageUrl;
+            const userID = response.profileObj.googleId;
             const token = response.accessToken;
-            console.log('token', token);
-            this.props.onAuth(response.profileObj.email, response.profileObj.givenName, response.profileObj.imageUrl, response.profileObj.googleId, token);
-            // this._saveUserData(token);
+            const expiresIn = response.tokenObj.expires_in;
+
+            console.log('google', response);
+            this.props.onAuth(email, username, picture, userID, token, expiresIn);  
             this.props.togglemodal();
+            this._oAuthMutation(email, username, picture, userID, token, expiresIn);
 
         }
         const responseFacebook = (response) => {
-            console.log(response);
+            console.log('facebook ', response);
             const token = response.accessToken;
-            this.props.onAuth( response.email, response.name, response.picture.data.url, response.id, token)
-            // this._saveUserData(token);
+            this.props.onAuth( response.email, response.name, response.picture.data.url, response.id, token, response.expiresIn);
             this.props.togglemodal();
+            this._oAuthMutation(response.email, response.name, response.picture.data.url, response.id, token, response.expiresIn);
         }
+
+
+
         return (
 
             <div className="Auth">
@@ -115,41 +188,41 @@ class Auth extends Component {
                     {login ? <h2>Login</h2> : <h2>Sign Up</h2>}
                     {!login && (
                       <div>
-                        <input 
-                            value={this.state.firstname}
-                            onChange={e => this.setState({ firstname: e.target.value})}
+                        <input
+                            className={this.state.form.firstname.style}  
+                            value={this.state.form.firstname.value}
+                            onChange={( e ) => this.inputChangedHandler(e , 'username')}
                             type="text"
-                            placeholder="first name"
+                            placeholder="username"
                         />
-                        <input 
-                            value={this.state.lastname}
-                            onChange={e => this.setState({ lastname: e.target.value})}
-                            type="text"
-                            placeholder="last name"
-                        />
+                        <p>{this.state.form.username.msg}</p>
                       </div>
                     )}
-                    <input 
-                        value={this.state.email}
-                        onChange={e => this.setState({ email: e.target.value})}
+                    <input
+                        className={this.state.form.email.style} 
+                        value={this.state.form.email.value}
+                        onChange={( e ) => this.inputChangedHandler(e , 'email')}
                         type="email"
                         placeholder="email"
                     />
-                    <input 
-                        value={this.state.password}
-                        onChange={e => this.setState({ password: e.target.value})}
+                    <p>{this.state.form.email.msg}</p>
+                    <input
+                        className={this.state.form.password.style}  
+                        value={this.state.form.password.value}
+                        onChange={( e ) => this.inputChangedHandler(e , 'password')}
                         type="password"
                         placeholder="password"
                     />
+                    <p>{this.state.form.password.msg}</p>
 
                 </div>
             <Mutation
                 mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-                variables={{ firstname, lastname, email, password }}
-                onCompleted={data => this._confirm(data)}
+                variables={{ username, email, password }}
+                onCompleted={data => this.onAuth(data.email, data.name, data.password, data.picture, data.userID, data.token, data.expiresIn)}
              >
                 {mutation => (
-                  <button className="AuthButton" onClick={mutation}>
+                  <button className="AuthButton" disabled={!this.state.formIsValid}>
                     {login ? 'LOGIN' : 'CREATE AN ACCOUNT'}
                   </button>
              )}
@@ -164,6 +237,7 @@ class Auth extends Component {
                         onSuccess={responseGoogle}
                         onFailure={responseGoogle}
                         render={ renderProps => (
+                          
                             <div className="GoogleLogin" onClick={renderProps.onClick}>
                                 <svg
                                 className="GoogleSVG" 
@@ -181,10 +255,8 @@ class Auth extends Component {
                                     1-4.09 5.57h.004l6.191 5.239C36.973 39.203 44 34 44 24c0-1.34-.137-2.648-.39-3.918z" fill="#1976d2"/>
                                 </svg>
                                 <div className="GoogleText">{login ? 'Login' : 'Sign up'} with Google</div>
-                            </div>
-                            )}/>
-                    
-                
+                            </div> 
+                    )}/> 
 
                 <FacebookLogin
                     
@@ -204,29 +276,51 @@ class Auth extends Component {
                         2 10 3.657 10 6.699V9H7v4l3-.001V22h4v-9.003l3.066-.001L17.525 9z"/></svg>
                         <div className="FacebookText">{login ? 'Login' : 'Sign up'} with Facebook</div>
                     </div>
-  )}/>
+                )}/>
             </div>
         );
     }
-   
-   _confirm = async data => {
-        console.log("data ", data);
-        const { token } = this.state.login ? data.login : data.signUp;
-        this._saveUserData(token);
-        this.props.togglemodal();
-}
+    _oAuthMutation =  async (email, username, picture, userID, token, expiresIn) => {
+        console.log('oauth triggered email ' + email );
+         console.log('oauth triggered name ' + username );
+          console.log('oauth triggered picture ' + picture );
+           console.log('oauth triggered userID ' + userID );
+            console.log('oauth triggered token ' + token );
+             console.log('oauth triggered expiresIn ' + expiresIn );
+        await this.props.oAuthMutation({
+            variables: {
+                email,
+                username,
+                picture,
+                userID,
+                token,
+                expiresIn
+            }
+        })
+    }
+};
 
-  _saveUserData = token => {
-    localStorage.setItem(AUTH_TOKEN, token)
-  }
-}
+const OAUTH_MUTATION = gql`
+    mutation OauthMutation( $email: String!, $username: String!, $picture: String, $userID: String!, $token: String!, $expiresIn: String! ) {
+        oAuthSignIn( email: $email, username: $username, picture: $picture, userID: $userID, token: $token, expiresIn: $expiresIn) {
+            token
+            expiresIn
+            user {
+                email
+                username
+                userID
+                picture
+            }
+        }
+    }
+`;
 
 
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth:( email, name, picture, userID, token ) => dispatch({type: actionTypes.AUTH_SUCCESS, email, name, picture, userID, token })
+        onAuth:( email, name, picture, userID, token, expiresIn ) => dispatch( actions.authSuccess(email, name, picture, userID, token, expiresIn))
     };
 };
-
-export default connect( null , mapDispatchToProps )( Auth );
+const Container = graphql(OAUTH_MUTATION, {name: 'oAuthMutation'})(Auth);
+export default connect( null , mapDispatchToProps )( Container );

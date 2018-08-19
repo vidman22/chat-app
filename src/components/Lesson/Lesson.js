@@ -116,7 +116,7 @@ class Lesson extends Component {
 
 
   render() {
-  console.log(this.state);
+  console.log('lesson props', this.props);
     return (
        <Query 
       query={LESSON_SET}
