@@ -23,7 +23,7 @@
 	border-radius: 4px;
 	padding: 16px;
 	text-align: center;
-	font-family: 'Helvetica', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	background: white;
 	color: black;
 }
@@ -40,7 +40,7 @@
 }
 
 .Waiting h3{
-	font-family: 'Helvetica', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-weight: lighter;
 	font-size: 40px;
 

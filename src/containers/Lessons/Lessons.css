@@ -70,3 +70,9 @@
             transform: rotate(360deg) scale(1);
   }
 }
+
+@media screen and (max-width: 640px) {
+  .LessonLinks {
+    width: 100%;
+  }
+}

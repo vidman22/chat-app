@@ -44,7 +44,6 @@ module.exports = function(socket) {
 	});
 
 	socket.on('NEW_PLAYER', (room, name, callback) => {
-		console.log("name length " + name.length);
 		const index = searchSessions( room );
 		const users = sessions[index].connectedUsers;
 		let message = '';
@@ -54,7 +53,7 @@ module.exports = function(socket) {
 			score: 0
 		};
 		
-		if ( name.length < 11 ) {
+		if ( name.length < 9 ) {
 			if ( users.length !== 0 ) {
 				for ( let i = 0; i < users.length; i++) {
 					if (users[i].playerName === name ) {
@@ -94,11 +93,11 @@ module.exports = function(socket) {
 
 	socket.on('START_GAME', (room, title, sentences) => {
 		io.to(room).emit('START_GAME', title, sentences);
-		console.log('sentences ', sentences);
+		// console.log('sentences ', sentences);
 	});
 
-	socket.on('SUCCESS',  (room, name)  => {
-		console.log("peace");
+	socket.on('SUCCESS',  (room, name, length)  => {
+		// console.log("peace");
 		const index = searchSessions(room);
 
 		let connectedUsers = sessions[index].connectedUsers;
@@ -107,7 +106,7 @@ module.exports = function(socket) {
 			if ( connectedUsers[i].playerName === name ) {
 				connectedUsers[i].score++;
 				io.to(room).emit('SCORE', connectedUsers);
-				if (connectedUsers[i].score == 12) {
+				if (connectedUsers[i].score == length ) {
 
 					io.to(room).emit('WINNER', connectedUsers[i].playerName);
 					
@@ -129,8 +128,8 @@ module.exports = function(socket) {
 	})
 
 	socket.on('disconnect', () => {
-		console.log('disconnect sessions ', sessions);
-	  	console.log('sessions length ' + sessions.length);
+		// console.log('disconnect sessions ', sessions);
+	 //  	console.log('sessions length ' + sessions.length);
 	  	if (sessions.length != 0) {
 		for ( let i = 0; i < sessions.length; i++ ) {
 			for ( let j = 0; j < sessions[i].connectedUsers.length; j++){
@@ -150,7 +149,7 @@ module.exports = function(socket) {
 					newSessionArray[i] = newSession;
 					sessions = newSessionArray;
 
-					console.log('session ', sessions[i].connectedUsers, ' updated after disconnect');
+					// console.log('session ', sessions[i].connectedUsers, ' updated after disconnect');
 				}	
 			}
 	    } 
@@ -158,7 +157,7 @@ module.exports = function(socket) {
 		let newSessionArray = [...sessions];
 	  	nesSessionArray = sessions.filter((session) => sessions[i] !== sessions[i]);
 	  	sessions = newSessionArray;				
-		console.log('sessions after filter ', sessions);
+		// console.log('sessions after filter ', sessions);
 	}
 	});
 }

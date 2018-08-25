@@ -74,6 +74,7 @@ class LandingPage extends Component {
                         <UserDropdown
                           toggleDrop={() => this.toggleDrop()}
                           user={this.props.user}
+                          picture={this.props.user.picture}
                           showdrop={this.state.showDrop}
                           logout={() => this.logout()}
                         />
@@ -120,7 +121,7 @@ class LandingPage extends Component {
             
                <Switch> 
 
-                <Route path="/home" component={Home}/>
+                
                 <Route path="/create-lesson" render={() => <CreateLesson togglemodal={() => this.toggleModal()}/> } />
                 <Route path="/login" component={Auth} />
                 <Route path="/lessons/:id" component={Lesson}/>
@@ -128,10 +129,7 @@ class LandingPage extends Component {
                 <Route path="/host-game/:id" render={() => <WaitingPage lesson= {this.props.lesson} /> } />
                 <Route path="/lessons" component={Lessons} />
                 <Route path="/user/:user" component={() => <UserPage user={this.props.user} />} />
-                
-                
-                
-                
+                <Route path="/" component={Home}/>
                </Switch>
                {this.state.authModal ? <AuthModal togglemodal={() => this.toggleModal()} show={this.state.authModal} /> : null}
                {this.state.authModal ? <Backdrop close={() => this.toggleModal()} show={this.state.authModal}/> : null }
@@ -148,8 +146,10 @@ class LandingPage extends Component {
 
                         <li><NavLink to={{
                             pathname: ''       
-                        }}><h3>Tutor</h3></NavLink></li>
+                        }}><h3>Features</h3></NavLink></li>
+
                     </ul> 
+                    <p>&copy; JVidmar 2018</p>
             </footer>
                   
         </div>

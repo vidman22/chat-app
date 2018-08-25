@@ -2,8 +2,7 @@
 	display: inline-block;
 	float: right;
 	margin-top: 1.5rem;
-	margin-right: 2.5rem;
-	
+	margin-right: 2.5rem;	
 }
 
 .LoggedUserName{
@@ -105,4 +104,22 @@
 .UserDropdown li:hover{
 	color: #ccc;
 	cursor: pointer;
+}
+
+@media screen and (max-width: 640px) {
+	.LoggedUserName {
+		display: none;
+	}
+
+	.UserPicture {
+	position: relative;
+	right: 2rem;
+	display: block;
+	border-radius: 50%;
+}
+	.LoggedUser {
+		display: inline-block;
+		float: right;
+		margin: 4px 0 0 12px;	
+}
 }

@@ -10,10 +10,13 @@ const schema = buildSchema(`
 
 	type LessonSet {
 		id: String!
+		created: Date
+		updated: Date
 		title: String!
 		author: String!
 		authorID: String!
 		sentences: [Sentence]
+		termNumber: Int
 	}
 
 	input SentenceInput {
@@ -31,6 +34,11 @@ const schema = buildSchema(`
 		alts: [String]
 	}
 
+	type Meta {
+		votes: Int
+		favs: Int
+	}
+
 	type AuthPayload {
   		token: String
   		expiresIn: Int
@@ -39,18 +47,22 @@ const schema = buildSchema(`
 
 	type User {
 		id: String
+		joined: Date
 		email: String!
-		username: String
+		username: String!
 		password: String
-		userID: String
+		userID: String!
 		picture: String
 	}
+
+	scalar Date
 
 
 	type Mutation {
 		createLessonSet(title: String!, author: String!, authorID: String!, sentences: [SentenceInput] ): LessonSet
 		signUp( username: String! , email: String!, password: String! ): AuthPayload
 		login( email: String!, password: String! ) : AuthPayload
+		deleteLesson( id: String! ) : Boolean
 		oAuthSignIn(email: String!, username: String!, picture: String, userID: String!, token: String!, expiresIn: String! ): AuthPayload
 	}
 `);

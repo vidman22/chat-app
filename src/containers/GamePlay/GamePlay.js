@@ -24,7 +24,7 @@ export default class GamePlay extends Component {
 	}
 
 	UNSAFE_componentWillMount() {
-		console.log('props sentences', this.props.sentences);
+		
 		let gameSentences = this.props.sentences;
 		gameSentences = this.shuffle(gameSentences);
 		
@@ -52,7 +52,7 @@ export default class GamePlay extends Component {
 
 	
 	shuffle(array) {
-		console.log("array", array);
+		
 		let currentIndex = array.length, temporaryValue, randomIndex;
 
 		while (0 !== currentIndex) {
@@ -79,7 +79,7 @@ export default class GamePlay extends Component {
 		if (answer === this.state.activeSentence.answer) {
 			
 
-			socket.emit('SUCCESS', this.props.room, this.props.name);
+			socket.emit('SUCCESS', this.props.room, this.props.name, this.state.gameSentences.length);
 
 			this.setState({
 				correct:'Correct!'
@@ -87,16 +87,25 @@ export default class GamePlay extends Component {
 
 			setTimeout(this.correct.bind(this), 333);
 			
+		} else if (this.state.activeSentence.alts !== 0) {
+			for (let i = 0; i < this.state.activeSentence.alts.length; i++ ) {
+				if (answer === this.state.activeSentence.alts[i]) {
+					socket.emit('SUCCESS', this.props.room, this.props.name, this.state.gameSentences.length);
+
+					this.setState({
+						correct:'Correct!'
+					});
+
+					setTimeout(this.correct.bind(this), 333);
+				}
+			}
 		} else {
 			socket.emit('FAILURE', this.props.room);
 			this.setState({
 				error:'wrong answer!'
 			});
-			setTimeout(this.wrongAnswer.bind(this), 1000);
-			
+			setTimeout(this.wrongAnswer.bind(this), 1000);	
 		}
-		
-
 	}
 
 	correct() {

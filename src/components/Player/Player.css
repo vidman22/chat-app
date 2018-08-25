@@ -8,8 +8,9 @@
 .player svg {
 	stroke: white;
 	transform: rotate(-90deg);
-}
+	animation: all 1s ease-in forward;
 
+}
 
 .name {
 	position:absolute;

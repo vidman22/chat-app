@@ -9,13 +9,19 @@ export default class Home extends Component {
 		
 		return (
 			<div className="Home">
-			 <div className="HomeContent">
-			 
-			 </div>
-			<div className="HomeFlex">
-				
+				<div className="HomeCreate">
+					<div id="create"><h1>Create</h1></div>
+				</div>
+				<div className="HomeStudy">
+					<div id="study"><h1>Study</h1></div>
+				</div>
+				<div className="HomeQuiz">
+					<div id="quiz"><h1>Quiz</h1></div>
+				</div>
+				<div className="HomeRepeat">
+					<div id="repeat"><h1>Repeat</h1></div>
+				</div>	
 			</div>
-		</div>
 
 		);
 	}

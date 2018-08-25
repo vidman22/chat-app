@@ -1,8 +1,35 @@
 .Home h1{
-	font-family: 'Helvetica', sans-serif;
+	font-family: 'Montserrat', sans-serif;
 	text-align: center;
+  font-size: 56px;
+}
+.Home {
+  display: block;
 }
 
+.HomeCreate,
+.HomeQuiz {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.HomeStudy,
+.HomeRepeat {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+#study,
+#quiz,
+#create,
+#repeat {
+  margin: 12px 0 22px 0;
+  width: 53%;
+  height: 45vh;
+  background: white;
+  border: 1px solid #eee;
+  box-shadow: 2px 1px 2px #ccc;
+}
 
 .Home p{
   font-family: 'Open-sans', sans-serif;
@@ -11,46 +38,7 @@
   margin: auto;
 }
 
-.PhoneBox svg{
-  display: inline-block;
- 
-  margin: auto;
 
-}
-
-.Solo {
-  margin: auto;
-}
-
-
-.HomeFlex {
-  display: flex;
-  flex-direction: row;
-  margin: auto;
-  min-height: 80vh;
-  /*justify-content: space-around;
-  display: -webkit-flex;
-  -webkit-justify-content: space-around;*/
-}
-
-.HomeFlex > div {
-  
-  background: white;
-  border: 1px solid #eee;
-  box-shadow: 2px 1px 2px #ccc;
-  width: 23%;
-  height: 400px;
-  margin: auto;
-  text-align: center;
-
-}
-
-
-
-.HomeFlex h1 {
-  font-family: 'Montserrat', sans-serif;
- /* font-weight: bold;*/
-}
 
 .TypedText {
   font: 180% "Roboto Mono", monospace;
@@ -68,33 +56,6 @@
              caret 1s steps(1) infinite;
 }
 
-
-.PhoneDisplay {
-    display: flex;
-    justify-content: space-around;
-    display: -webkit-flex;
-    -webkit-justify-content: space-around;
-    margin-top: 10px;
-}
-
-.Phones {
-	position: relative;
-  -webkit-animation: send 2s ease-out infinite ;
-  animation: send 2s ease-out infinite; 
-  
-}
-
-.Phone1 {
-    animation-delay:250ms;
-  }.Phone2 {
-    animation-delay:500ms;
-  }
-.Phone3 {
-    animation-delay:750ms;
-  }
-.Phone4 {
-    animation-delay:1000ms;
-  }
 
  @keyframes send {
     0% {
@@ -164,18 +125,18 @@
 }
 
 @media screen and (max-width: 640px) {
-  .HomeFlex{
-    display: inline-block;
-    margin-left: 20px;
 
+  #study,
+  #quiz,
+  #create,
+  #repeat {
+    margin: 12px 0 22px 0;
+    width: 75%;
+    height: 45vh;
+    background: white;
+    border: 1px solid #eee;
+    box-shadow: 2px 1px 2px #ccc;
   }
-
-  .HomeFlex > div {
-    width: 100%;
-    margin-top: 3%;
-  }
-
- 
 
 }
 

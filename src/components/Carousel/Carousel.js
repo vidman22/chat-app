@@ -9,14 +9,15 @@ export default class Carsl extends Component {
 		this.state = {
 			sentences:[],
 			activeSentence: '',
+			index : 0,
 		}
 		this.slide = this.slide.bind(this)
 	}
 	UNSAFE_componentWillMount() {
-		const gameSentences = this.props.sentences.slice(0,12);
-		const activeSentence = gameSentences[0].sentence;
+		const sentences = this.props.sentences
+		const activeSentence = this.props.sentences[0].sentence;
 		this.setState({
-			sentences: gameSentences,
+			sentences,
 			activeSentence
 		});
 
@@ -24,22 +25,25 @@ export default class Carsl extends Component {
 	slide(n) {
 			index+=n;
 			let sentences = this.state.sentences;
-		if ( index === 12 ) {
+		if ( index === sentences.length ) {
 			index = 0;
 			this.setState({
-				activeSentence: sentences[index].sentence
+				activeSentence: sentences[index].sentence,
+				index
 			});
 			
 			
 		} if (index === -1 ) {
 			
-			index = 11;
+			index = sentences.length - 1;
 			this.setState({
-				activeSentence: sentences[index].sentence
+				activeSentence: sentences[index].sentence,
+				index
 			});
 		} else {
 			this.setState({
-				activeSentence: sentences[index].sentence
+				activeSentence: sentences[index].sentence,
+				index
 			});
 		}
 	}
@@ -53,12 +57,14 @@ export default class Carsl extends Component {
 			<div className="Carousel">
 
 				<div className="Content">
-					<div className="carouselButtons">
+					
+				<div className="CarouselSentence">
+					{this.state.activeSentence}
+					<p>{index + 1}/{this.state.sentences.length}</p>
+				</div>
+				<div className="carouselButtons">
 						<button onClick={() => this.slide(-1)} className="Previous">◀</button>
 						<button onClick={this.slide.bind(this, 1)} className="Next">▶</button>
-					</div>
-				<div className="Sentence">
-					{this.state.activeSentence}
 				</div>
 					
 

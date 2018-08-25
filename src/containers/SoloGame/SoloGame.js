@@ -31,7 +31,7 @@ class SoloGame extends Component {
 	}
 
 	UNSAFE_componentWillMount() {
-		console.log(this.props);
+	
 
 		let gameSentences = this.props.lesson.sentences;
 
@@ -48,79 +48,26 @@ class SoloGame extends Component {
 
 	}
 
-	// shuffle(array) {
-	// 	console.log(array);
-	// 	let currentIndex = array.length, temporaryValue, randomIndex;
-	// 	console.log("length " + array.length );
-	// 	console.log("current index " + currentIndex);
-
-	// 	while (0 !== currentIndex) {
-
-	// 		randomIndex = Math.floor(Math.random() * currentIndex);
-	// 		currentIndex -= 1;
-
-	// 		temporaryValue = array[currentIndex];
-	// 		array[currentIndex] = array[randomIndex];
-	// 		array[randomIndex] = temporaryValue;
-	// 	}
-
-	// 	return array;
-	// }
-
-
-
 	handleSubmit = (e) => {
 		e.preventDefault();
-
 		let answer = this.state.answer;
-		let sentenceIndex = this.state.sentenceIndex;
-		let scoreIndex = this.state.scoreIndex;
-
 		answer = answer.toLowerCase().trim();
 
 		//correct answer ===========================================
 		if (answer === this.state.activeSentence.answer) {
-			
-
-			
-			if ( sentenceIndex < this.state.gameSentences.length - 1 ) {
-				sentenceIndex++;
-				scoreIndex++;
-				const activeSentence = this.state.gameSentences[sentenceIndex];
-
-				this.setState({ message: 'correct'});
-
-				setTimeout(() => {
-					this.setState({
-						activeSentence,
-						answer:'',
-						message:'',
-						scoreIndex,
-						sentenceIndex
-					});
-				}, 1000);	
-			} else {
-
-				scoreIndex++;
-				this.setState({
-					scoreIndex,
-					completed:'Finished!'
-				});
-
-				setTimeout(this.completed.bind(this), 2000);
-				
+			this.correct();
+		} else if (this.state.gameSentences.alts !== 0) {
+			for ( let i =0; i < this.state.gameSentences.alts.length; i ++) {
+				if (answer === this.state.gameSentences.alts[i]){
+					this.correct();
+				}
 			}
-			
-
-		} else {
-			
+		} else {	
 			this.setState({
 				message: 'incorrect'
 			});
-			setTimeout(this.wrongAnswer.bind(this), 1000);
+			setTimeout(this.wrongAnswer.bind(this), 750);
 		}
-		
-
 	}
 
 	completed() {
@@ -135,6 +82,35 @@ class SoloGame extends Component {
 			completed:null,
 			action: 'answers'
 		});
+	}
+
+	correct() {
+		let sentenceIndex = this.state.sentenceIndex;
+		let scoreIndex = this.state.scoreIndex;
+		
+		if ( sentenceIndex < this.state.gameSentences.length - 1 ) {
+				sentenceIndex++;
+				scoreIndex++;
+				const activeSentence = this.state.gameSentences[sentenceIndex];
+
+				this.setState({ message: 'correct'});
+
+				setTimeout(() => {
+					this.setState({
+						activeSentence,
+						answer:'',
+						message:'',
+						scoreIndex,
+						sentenceIndex
+					});
+				}, 750);	
+			} else {
+				scoreIndex++;
+				this.setState({
+					scoreIndex,
+					completed:'Finished!'
+				});
+			}
 	}
 
 	wrongAnswer() {
@@ -206,6 +182,7 @@ class SoloGame extends Component {
 						handlesubmit={this.handleSubmit}  
 						message={this.state.message}
 						index={this.state.scoreIndex}
+						sentencescount={this.props.lesson.sentences.length}
 						completed={this.state.completed}
 					/>
 					)

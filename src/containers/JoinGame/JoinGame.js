@@ -55,7 +55,7 @@ export default class CreateGame extends Component {
 		});
 
 		socket.on('START_GAME', ( title, sentences ) => {
-			console.log('sentences from socket ', sentences);
+		;
 			this.setState({
 				title,
 				action:'game',

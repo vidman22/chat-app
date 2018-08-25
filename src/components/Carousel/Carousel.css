@@ -29,6 +29,15 @@
 .Previous .Next:hover {
 	color: black;
 }
+.CarouselSentence {
+	font-family: 'Open Sans', sans-serif;
+	margin: auto;
+}
+.CarouselSentence p {
+	margin: 8px auto 0 auto;
+	font-size: 14px;
+	color: #ccc;
+}
 
 @media screen and (max-width: 640px) {
 

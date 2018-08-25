@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Lesson.css';
 import Sentence from '../Sentence/Sentence';
-import smartPhone from '../../assets/svg/smartphone-iphone.svg';
-import { Query } from 'react-apollo';
+import { Query, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import * as actionTypes from '../../store/actionTypes';
 
@@ -14,6 +13,7 @@ const LESSON_SET = gql`
       id
       title
       author
+      authorID
       sentences{
         alts
         answer
@@ -51,7 +51,6 @@ class Lesson extends Component {
       this.setState({
         values
       })
-      // console.log("value ", this.state.values[`value${index}`]);
 
     } else {
 
@@ -91,32 +90,39 @@ class Lesson extends Component {
   handleCheckOnEnter(index, answer, alts, e) {
     e.preventDefault();
 
-   const values = {...this.state.values};
+    const values = {...this.state.values};
     const checkedInputs = {...this.state.checkedInputs};
     const key = `checked${index}`;
     if ( values[`value${index}`] === answer ) {
-     
-      
-      const obj = {[key]: 'correct'}
+      const obj = {[key]: 'correct'};
       const newObj = Object.assign(checkedInputs, obj);
       this.setState({
         checkedInputs: newObj
       });
-    } if (values[`value${index}`] !== answer) {
+    } else if (alts.length !== 0) {
+        for (let i = 0; i < alts.length; i++) {
+          if ( values[`value${index}`] === alts[i]) {
+            const obj = {[key]: 'correct'};
+            const newObj = Object.assign(checkedInputs, obj);
+            this.setState({
+              checkedInputs: newObj
+            });
+          }
+        }
+      } else {
       
-      const obj = {[key]: 'incorrect'}
-      const newObj = Object.assign(checkedInputs, obj);
-      this.setState({
-        checkedInputs: newObj
-      });
-   }
-
+        const obj = {[key]: 'incorrect'}
+        const newObj = Object.assign(checkedInputs, obj);
+        this.setState({
+          checkedInputs: newObj
+        });
+    }
   }
 
 
 
   render() {
-  console.log('lesson props', this.props);
+
     return (
        <Query 
       query={LESSON_SET}
@@ -124,65 +130,63 @@ class Lesson extends Component {
       {({ loading, error, data}) => {
         if (loading)  return <div className="spinner spinner-1"></div>;
         if (error) return `Error!: ${error}`;
+        let userCanDelete = false;
+        if (this.props.user){
+          userCanDelete = this.props.user.userID === data.lessonSet.authorID;
+        }
         
         return (
+           <div className="LessonSentencesWrapper">
+            { userCanDelete ? <svg className="DeleteSentence" onClick={() => this._deleteLesson()} 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="#ccc" 
+                viewBox="0 0 510 510" 
+                x="0px" 
+                y="0px" 
+                width="20px" 
+                height="20px">
+              <path d="M336.559 68.611L231.016 174.165l105.543 105.549c15.699 15.705 15.699 
+                41.145 0 56.85-7.844 7.844-18.128 11.769-28.407 11.769-10.296 0-20.581-3.919-28.419-11.769L174.167 
+                231.003 68.609 336.563c-7.843 7.844-18.128 11.769-28.416 11.769-10.285 0-20.563-3.919-28.413-11.769-15.699-15.698-15.699-41.139
+                 0-56.85l105.54-105.549L11.774 68.611c-15.699-15.699-15.699-41.145 0-56.844 15.696-15.687 41.127-15.687 56.829 0l105.563 105.554L279.721 
+                 11.767c15.705-15.687 41.139-15.687 56.832 0 15.705 15.699 15.705 41.145.006 56.844z"/>
+            </svg> : null}
+                  <div className="LessonTitle">
+                    <h1>{data.lessonSet.title}</h1>
+                  </div>
           <div className="LessonTab">
             
            <div className="LessonOptions">
             
                 <div className="HomeFlex">
-                  <div className="Solo">
-                    <Link to={`/solo-play/${this.props.match.params.id}`} onClick={() => this.props.sendLesson(data.lessonSet)} style={{color: 'black', textDecoration: 'none' }}>
-                     <h1>Solo Play</h1>
-              
-                   <img className="SoloPhone"
-                      src={smartPhone}
-                       width="120px"
-                       height="240px"
-                       alt="phone"
-                     />
-                   </Link>
-                  </div>
-                 <div className="PhoneBox">
-                   <Link to={`/host-game/${this.props.match.params.id}`} onClick={() => this.props.sendLesson(data.lessonSet)} style={{color: 'black', textDecoration: 'none' }}>
-                     <h1>Host Game</h1>
-                   
-                     <svg width="170" height="120">
-                         <rect x="5" y="20" rx="20" ry="20" width="150" height="90" 
-                         style={{fill:"#23A6D5", stroke:"black", strokeWidth:"5", opacity:"0.5"}}/>
-                         Sorry, your browser does not support inline SVG.
-                       </svg>
-                    <div className="PhoneDisplay">
-                     <img className="Phones Phone1"
-                       src={smartPhone}
-                       width="80px"
-                       height="160px"
-                       alt="phone"
-                     />
-                     <img className="Phones Phone2"
-                       src={smartPhone}
-                       width="80px"
-                       height="160px"
-                       alt="phone"
-                     /><img className="Phones Phone3"
-                       src={smartPhone}
-                       width="80px"
-                       height="160px"
-                       alt="phone"
-                     /><img className="Phones Phone4"
-                       src={smartPhone}
-                       width="80px"
-                       height="160px"
-                       alt="phone"
-                     />
+                  
+                  <Link to={`/solo-play/${this.props.match.params.id}`} onClick={() => this.props.sendLesson(data.lessonSet)} style={{color: 'black', textDecoration: 'none' }}>
+                    <div className="Solo">
+                     <h2>Solo Play</h2>
                     </div>
                   </Link>
+                 
+                   <Link to={`/host-game/${this.props.match.params.id}`} onClick={() => this.props.sendLesson(data.lessonSet)} style={{color: 'black', textDecoration: 'none' }}>
+                     <div className="PhoneBox">
+                     <h2>Host Game</h2>
+                    </div>
+      
+                 </Link>
+                 <Link to={`/solo-play/${this.props.match.params.id}`}>
+                  <div className="WordBankGame">
+                    <h2>Word Bank</h2>
+                      <p>Coming Soon</p>
                   </div>
+                 </Link>
+                 <Link to={`/solo-play/${this.props.match.params.id}`}>
+                  <div className="Assign">
+                    <h2>Assign Set</h2>
+                      <p>Coming Soon</p>
+                  </div>
+                 </Link>
                 </div>
-                <div className="LessonSentencesWrapper"> 
-                  <div className="LessonTitle">
-                    <h1>{data.lessonSet.title}</h1>
-                  </div>
+
+                
                   {data.lessonSet.sentences.map((sentence, index) => (
                     <div className="LessonSentence" key={index}>
                       <p>{index + 1}</p>
@@ -208,9 +212,21 @@ class Lesson extends Component {
 
       )
   }
-    
+
+  _deleteLesson = async () => {
+    await this.props.deleteLesson({
+      variables: {
+        id: this.props.match.params.id
+      }
+    });
+  };
 };
 
+const DELETE_LESSON = gql`
+  mutation DeleteLesson($id: String!){
+    deleteLesson(id: $id)
+  }
+`
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -220,8 +236,10 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    lesson: state.lessonSet
+    lesson: state.lessonSet,
+    user: state.user
   }
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( Lesson );
+const Container = graphql(DELETE_LESSON, { name: 'deleteLesson' })( Lesson);
+export default connect( mapStateToProps, mapDispatchToProps )( Container );

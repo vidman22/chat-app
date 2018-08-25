@@ -12,27 +12,31 @@ import * as actions from '../../store/actions';
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation($username: String!, $email: String!, $password: String!) {
     signUp(username: $username, email: $email, password: $password) {
-        email
-        username
-        picture
-        userID
         token
         expiresIn
+        user {
+            email
+            username
+            userID
+            picture
+        }
     }
-  }
+}
 `;
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
-        email
-        username
-        picture
-        userID
         token
         expiresIn
+        user {
+            email
+            username
+            userID
+            picture
+        }
     }
-  }
+}
 `;
 
 class Auth extends Component {
@@ -88,7 +92,6 @@ class Auth extends Component {
             ...updatedForm[controlName]
         }
 
-        console.log('updated element', updatedElement);
 
         updatedElement.value = event.target.value;
 
@@ -151,28 +154,67 @@ class Auth extends Component {
         });
     }
 
+    _oAuthMutation = async (email, username, picture, userID, token, expiresIn) => {
+        try{
+        await this.props.oAuthMutation({
+            variables: {
+                email,
+                username,
+                picture,
+                userID,
+                token,
+                expiresIn
+            }
+        })
+        } catch (err) {
+        console.log(err);
+        }    
+    }
+
+    completed = (data) => {
+        this.props.togglemodal();
+        
+        let email;
+        let username;
+        let picture;
+        let userID;
+        let token;
+        let expiresIn;
+
+        for (let property in data) {
+           email = data[property].user.email;
+           username = data[property].user.username;
+           picture = data[property].user.picture;
+           userID = data[property].user.userID;
+           token = data[property].token;
+           expiresIn = data[property].expiresIn;
+        }
+        this.props.onAuth(email, username, picture, userID, token, expiresIn);
+    }
+
     render () {
         const login = this.state.isLogin;
-        const {username, email, password} = this.state.form;
+        const username = this.state.form.username.value;
+        const email = this.state.form.email.value;
+        const password = this.state.form.password.value;
   
 
         const responseGoogle = (response) => {
-            // console.log("googleresponse ", response);
+        
             const email = response.profileObj.email;
             const username = response.profileObj.givenName;
             const picture = response.profileObj.imageUrl;
             const userID = response.profileObj.googleId;
-            const token = response.accessToken;
+            const token = response.tokenId;
             const expiresIn = response.tokenObj.expires_in;
 
-            console.log('google', response);
             this.props.onAuth(email, username, picture, userID, token, expiresIn);  
             this.props.togglemodal();
             this._oAuthMutation(email, username, picture, userID, token, expiresIn);
 
         }
         const responseFacebook = (response) => {
-            console.log('facebook ', response);
+            
             const token = response.accessToken;
             this.props.onAuth( response.email, response.name, response.picture.data.url, response.id, token, response.expiresIn);
             this.props.togglemodal();
@@ -184,13 +226,22 @@ class Auth extends Component {
         return (
 
             <div className="Auth">
+             <Mutation
+                mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
+                onCompleted={data => this.completed(data)}
+             >
+                {(mutation, {loading, error}) => (
                 <div>
                     {login ? <h2>Login</h2> : <h2>Sign Up</h2>}
+                    <form onSubmit={e => {
+                        e.preventDefault();
+                        mutation({variables: { username, email, password} });
+                        }}>
                     {!login && (
                       <div>
                         <input
-                            className={this.state.form.firstname.style}  
-                            value={this.state.form.firstname.value}
+                            className={this.state.form.username.style}  
+                            value={this.state.form.username.value}
                             onChange={( e ) => this.inputChangedHandler(e , 'username')}
                             type="text"
                             placeholder="username"
@@ -214,17 +265,13 @@ class Auth extends Component {
                         placeholder="password"
                     />
                     <p>{this.state.form.password.msg}</p>
-
-                </div>
-            <Mutation
-                mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-                variables={{ username, email, password }}
-                onCompleted={data => this.onAuth(data.email, data.name, data.password, data.picture, data.userID, data.token, data.expiresIn)}
-             >
-                {mutation => (
-                  <button className="AuthButton" disabled={!this.state.formIsValid}>
-                    {login ? 'LOGIN' : 'CREATE AN ACCOUNT'}
-                  </button>
+                        <button type="submit" className="AuthButton" disabled={!this.state.formIsValid}>
+                            {login ? 'LOGIN' : 'CREATE AN ACCOUNT'}
+                        </button>
+                </form>
+                {loading && <div className="spinner spinner-1"></div>}
+                {error && <p>Error</p>}
+               </div>    
              )}
              </Mutation>
                 
@@ -279,24 +326,6 @@ class Auth extends Component {
                 )}/>
             </div>
         );
-    }
-    _oAuthMutation =  async (email, username, picture, userID, token, expiresIn) => {
-        console.log('oauth triggered email ' + email );
-         console.log('oauth triggered name ' + username );
-          console.log('oauth triggered picture ' + picture );
-           console.log('oauth triggered userID ' + userID );
-            console.log('oauth triggered token ' + token );
-             console.log('oauth triggered expiresIn ' + expiresIn );
-        await this.props.oAuthMutation({
-            variables: {
-                email,
-                username,
-                picture,
-                userID,
-                token,
-                expiresIn
-            }
-        })
     }
 };
 

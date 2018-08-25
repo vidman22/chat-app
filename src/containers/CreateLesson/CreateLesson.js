@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import InputSentence from '../../components/InputSentence/InputSentence';
 import InputAlt from '../../components/InputAlt/InputAlt';
-import {Prompt} from 'react-router';
+import {Prompt, withRouter} from 'react-router';
 
 
 import './CreateLesson.css';
 
-import { graphql } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 
@@ -92,6 +92,7 @@ class CreateLesson extends Component {
   
 
   componentDidMount() {
+    
     const lessonFormArray = [];
       const lessonForm = {...this.state.lessonForm};
 
@@ -101,6 +102,7 @@ class CreateLesson extends Component {
       this.setState({lessonFormArray});
 
       showConst = setInterval(this.showExAnswer, 6000);
+
       
   }
 
@@ -255,6 +257,7 @@ class CreateLesson extends Component {
       ...this.state.lessonFormArray
     ];
 
+    // eslint-disable-next-line
     const removed = updatedLessonForms.splice(formIndex, 1);
     
     
@@ -311,7 +314,7 @@ class CreateLesson extends Component {
             updatedValidation.msg = 'add a hint';
             updatedElement.valid = false;
           } else if ( hint.length >= 50 ) {
-            console.log('value length triggered ' + hint.length)
+            
             updatedValidation.msg = 'hint is too long';
             updatedElement.valid = false;
           } else {
@@ -333,7 +336,7 @@ class CreateLesson extends Component {
         }
       }
 
-        console.log('updated element after ', updatedElement.valid);
+        
         updatedElement.value = event.target.value;
         
         updatedElement.touched = true;
@@ -356,16 +359,16 @@ class CreateLesson extends Component {
     let formIsValid = true;
     for ( let i = 0; i < lessonFormArray.length; i++) {
       for ( let property in lessonFormArray[i] ) {
-        console.log('lesson form prop in for in loop ', lessonFormArray[i][property]);
+        
         formIsValid = lessonFormArray[i][property].valid && formIsValid && this.state.title.valid;
       } 
     }
     if (formIsValid === true ){
-      this.setState({ formIsValid })
-      console.log('form is ' + formIsValid);
+      this.setState({ formIsValid, formIsHalfFilledOut: false });
+     
     } else {
       this.setState({formIsValid, formIsHalfFilledOut: true });
-      console.log('form is ' + formIsValid);
+     
     }
 
   }
@@ -453,13 +456,21 @@ class CreateLesson extends Component {
 
     updatedTitle.validation = updatedTitleValidation;
 
-    this.setState({ title: updatedTitle, formIsHalfFilledOut: true, formIsValid });
+    this.setState({ title: updatedTitle, formIsHalfFilledOut: !formIsValid, formIsValid });
 
     
   }
 
+  completed = (data) => {
+      this.setState({
+        formIsHalfFilledOut: false
+      });
+      this.props.history.push(`/lessons/${data.createLessonSet.id}`);
+      
+  }
+
   render() {
-      console.log('state', this.state);
+     
       const formArray = [];
       for (let key in this.state.lessonFormArray) {
         formArray.push({
@@ -471,94 +482,126 @@ class CreateLesson extends Component {
       
       let form = (
         <div>
-        
-         <form onSubmit={this.submitHandler}>
-          {formArray.map((formElement) => {
-            return (
-          <div className="InputSentenceWrapper" key={formElement.id}>
-            <p>{Number(formElement.id) + 1}</p>
-            <svg className="DeleteSentence" onClick={(e) => this.removeSentence(formElement.id, e)} 
-                xmlns="http://www.w3.org/2000/svg" 
-                fill="#ccc" 
-                viewBox="0 0 510 510" 
-                x="0px" 
-                y="0px" 
-                width="20px" 
-                height="20px">
-              <path d="M336.559 68.611L231.016 174.165l105.543 105.549c15.699 15.705 15.699 
-                41.145 0 56.85-7.844 7.844-18.128 11.769-28.407 11.769-10.296 0-20.581-3.919-28.419-11.769L174.167 
-                231.003 68.609 336.563c-7.843 7.844-18.128 11.769-28.416 11.769-10.285 0-20.563-3.919-28.413-11.769-15.699-15.698-15.699-41.139
-                 0-56.85l105.54-105.549L11.774 68.611c-15.699-15.699-15.699-41.145 0-56.844 15.696-15.687 41.127-15.687 56.829 0l105.563 105.554L279.721 
-                 11.767c15.705-15.687 41.139-15.687 56.832 0 15.705 15.699 15.705 41.145.006 56.844z"/>
-            </svg>
+          <Mutation
+            mutation={ADD_LESSON}
+            onCompleted={data => this.completed(data)}>
+              {createLessonSet => (
+                <form 
+                  onSubmit={e => {
+                    e.preventDefault();
+                    if (!this.props.user) {
+                        this.props.togglemodal();
+                      } else {
+                        const title = this.state.title.value;
+                        const stateSentences = [...this.state.lessonFormArray];
+                        const sentences = stateSentences.map( sntnc => {
+                          let rObj = {};
+                          let alts =[];
+                          rObj['answer'] = sntnc.answer.value;
+                          rObj['sentence'] = sntnc.sentence.value;
+                          rObj['hint'] = sntnc.hint.value;
+                          rObj['alts'] = alts;
+                          for (let i = 0; i < sntnc.alts.length; i++){
+                            if (sntnc.alts[i] !== ""){
+                              alts.push(sntnc.alts[i]);
+                            } 
+                          }
+                      return rObj;  
+                      });
+                        createLessonSet({
+                          variables: {
+                          title,
+                          author: this.props.user.name,
+                          authorID: this.props.user.userID,
+                          sentences}
+                      });
+                      }
+                  }}>
+                {formArray.map((formElement) => {
+                  return (
+                    <div className="InputSentenceWrapper" key={formElement.id}>
+                      <p>{Number(formElement.id) + 1}</p>
+                       <svg className="DeleteSentence" onClick={(e) => this.removeSentence(formElement.id, e)} 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            fill="#ccc" 
+                            viewBox="0 0 510 510" 
+                            x="0px" 
+                            y="0px" 
+                            width="20px" 
+                            height="20px">
+                        <path d="M336.559 68.611L231.016 174.165l105.543 105.549c15.699 15.705 15.699 
+                            41.145 0 56.85-7.844 7.844-18.128 11.769-28.407 11.769-10.296 0-20.581-3.919-28.419-11.769L174.167 
+                            231.003 68.609 336.563c-7.843 7.844-18.128 11.769-28.416 11.769-10.285 0-20.563-3.919-28.413-11.769-15.699-15.698-15.699-41.139
+                             0-56.85l105.54-105.549L11.774 68.611c-15.699-15.699-15.699-41.145 0-56.844 15.696-15.687 41.127-15.687 56.829 0l105.563 105.554L279.721 
+                             11.767c15.705-15.687 41.139-15.687 56.832 0 15.705 15.699 15.705 41.145.006 56.844z"/>
+                      </svg>
 
-            <InputSentence 
+                    <InputSentence 
 
-                sentenceValue={formElement.config.sentence.value}
-                sentenceInvalid={!formElement.config.sentence.valid}
-                sentenceShouldValidate={formElement.config.sentence.validation}
-                sentenceTouched={formElement.config.sentence.touched}
-                sentenceChanged={(event) => this.inputChangedHandler(event, 'sentence', formElement.id)}
+                      sentenceValue={formElement.config.sentence.value}
+                      sentenceInvalid={!formElement.config.sentence.valid}
+                      sentenceShouldValidate={formElement.config.sentence.validation}
+                      sentenceTouched={formElement.config.sentence.touched}
+                      sentenceChanged={(event) => this.inputChangedHandler(event, 'sentence', formElement.id)}
+  
+                      answerValue={formElement.config.answer.value}
+                      answerInvalid={!formElement.config.answer.valid}
+                      answerShouldValidate={formElement.config.answer.validation}
+                      answerTouched={formElement.config.answer.touched}
+                      answerChanged={(event) => this.inputChangedHandler(event, 'answer', formElement.id)}
+      
+                      hintValue={formElement.config.hint.value}
+                      hintInvalid={!formElement.config.hint.valid}
+                      hintShouldValidate={formElement.config.hint.validation}
+                      hintTouched={formElement.config.hint.touched}
+                      hintChanged={(event) => this.inputChangedHandler(event, 'hint', formElement.id)}
 
-                answerValue={formElement.config.answer.value}
-                answerInvalid={!formElement.config.answer.valid}
-                answerShouldValidate={formElement.config.answer.validation}
-                answerTouched={formElement.config.answer.touched}
-                answerChanged={(event) => this.inputChangedHandler(event, 'answer', formElement.id)}
-
-                hintValue={formElement.config.hint.value}
-                hintInvalid={!formElement.config.hint.valid}
-                hintShouldValidate={formElement.config.hint.validation}
-                hintTouched={formElement.config.hint.touched}
-                hintChanged={(event) => this.inputChangedHandler(event, 'hint', formElement.id)}
-
-            />
+                    />
               
-            <div className="AltAddWrapper">{formElement.config.alts.array.map( (alt, index) => (
-              <div key={index}>
+                    <div className="AltAddWrapper">{formElement.config.alts.array.map( (alt, index) => (
+                      <div key={index}>
               
-                <InputAlt 
-                   onclick={(e) => this.removeAlt(formElement.id, index, e)}
-                   altValue={formElement.config.alts.array[index].value}
-                   altInvalid={!formElement.config.alts.array[index].valid}
-                   altShouldValidate={formElement.config.alts.array[index].validation}
-                   altTouched={formElement.config.alts.array[index].touched}
-                   altChanged={(event) => this.inputChangedAltHandler(event, formElement.id, index)}
-                />
+                        <InputAlt 
+                          onclick={(e) => this.removeAlt(formElement.id, index, e)}
+                          altValue={formElement.config.alts.array[index].value}
+                          altInvalid={!formElement.config.alts.array[index].valid}
+                          altShouldValidate={formElement.config.alts.array[index].validation}
+                          altTouched={formElement.config.alts.array[index].touched}
+                          altChanged={(event) => this.inputChangedAltHandler(event, formElement.id, index)}
+                        />
                 
                  
-              </div>
-                  ))}
-              <button className="AddAltButtonWrapper" disabled={this.state.addAltDisabled} onClick={(e) => this.addAlt(formElement.id, e)}>
-              <svg className="AddAlt" 
-              fill="#ccc" 
-              onMouseOver={() => this.altMouseOverEvent(formElement.id)}
-              onMouseOut={()=> this.altMouseOverEvent(formElement.id)}
-               xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 510 510" width="20px" height="20px">
-               
-                <path d="M256 0C114.844 0 0 114.844 0 256s114.844 256 256 256 256-114.844 256-256S397.156 
-                  0 256 0zm149.333 266.667a10.66 10.66 0 0 1-10.667 10.667H277.333v117.333a10.66 10.66 0 0 1-10.667
-                  0.667h-21.333a10.66 10.66 0 0 1-10.667-10.667V277.333H117.333a10.66 10.66 0 0 1-10.667-10.667v-21.333a10.66 10.66
-                  0 0 1 10.667-10.667h117.333V117.333a10.66 10.66 0 0 1 10.667-10.667h21.333a10.66 10.66 0 0 1 10.667 10.667v117.333h117.333a10.66
-                  10.66 0 0 1 10.667 10.667v21.334z"/>
-              </svg>
-              </button>
+                      </div>
+                    ))}
+                    <button className="AddAltButtonWrapper" disabled={this.state.addAltDisabled} onClick={(e) => this.addAlt(formElement.id, e)}>
+                      <svg className="AddAlt" 
+                        fill="#ccc" 
+                        onMouseOver={() => this.altMouseOverEvent(formElement.id)}
+                        onMouseOut={()=> this.altMouseOverEvent(formElement.id)}
+                        xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 510 510" width="20px" height="20px">
+                   
+                      <path d="M256 0C114.844 0 0 114.844 0 256s114.844 256 256 256 256-114.844 256-256S397.156 
+                        0 256 0zm149.333 266.667a10.66 10.66 0 0 1-10.667 10.667H277.333v117.333a10.66 10.66 0 0 1-10.667
+                        0.667h-21.333a10.66 10.66 0 0 1-10.667-10.667V277.333H117.333a10.66 10.66 0 0 1-10.667-10.667v-21.333a10.66 10.66
+                        0 0 1 10.667-10.667h117.333V117.333a10.66 10.66 0 0 1 10.667-10.667h21.333a10.66 10.66 0 0 1 10.667 10.667v117.333h117.333a10.66
+                        10.66 0 0 1 10.667 10.667v21.334z"/>
+                      </svg>
+                    </button>
+                    </div>
               <div className={formElement.config.alts.showDiv}>Add an alternate answer</div>
+            
+              
             </div>
-            
-          </div>
-          )
-        }
+            )
+          }
           )}
-
-            </form>
-
             <button className="ExerciseButton" disabled={this.state.addSentenceDisabled} onClick={() => this.addSentence()}>Add</button>
-            
-            
+            <button className="CreateButton" type="submit" disabled={!this.state.formIsValid}>Create</button>
+             </form>
+            )}
+          </Mutation>
         </div>
-        )
-     
+      );
 
     return (
       <div>
@@ -593,50 +636,20 @@ class CreateLesson extends Component {
           
         </div>
           {form}
-          <button className="CreateButton" disabled={!this.state.formIsValid} onClick={() => this._createLesson()}>Create</button>
+          
+          
         </div>
         
       </div>
     )
   }
-
-  _createLesson = async () => {
-    if (!this.props.user) {
-      this.props.togglemodal();
-    } else {
-      const title = this.state.title.value;
-      const stateSentences = [...this.state.lessonFormArray];
-      const sentences = stateSentences.map( sntnc => {
-        let rObj = {};
-        let alts =[];
-        rObj['answer'] = sntnc.answer.value;
-        rObj['sentence'] = sntnc.sentence.value;
-        rObj['hint'] = sntnc.hint.value;
-        rObj['alts'] = alts;
-        sntnc.alts.array.map( alt => {
-        return alts.push(alt.value);
-        })
-        return rObj;  
-      });
-      console.log("sentences", sentences);
-      await this.props.createLesson({
-
-        variables: {
-         title,
-         author: this.props.user.name,
-         authorID: this.props.user.userID,
-         sentences
-        }
-      });
-    }
-  }
 }
 
 const ADD_LESSON = gql`
-  # 2
   mutation CreateLesson($title: String!, $author: String!, $authorID: String!, $sentences: [SentenceInput]) {
     createLessonSet( title: $title, author: $author, authorID: $authorID, sentences: $sentences) {
       id
+      created
       title
       author
       authorID
@@ -656,5 +669,5 @@ const mapStateToProps = state => {
   }
 }
 
-const Container = graphql(ADD_LESSON, { name: 'createLesson' })(CreateLesson);
+const Container = withRouter(CreateLesson);
 export default connect(mapStateToProps)(Container);

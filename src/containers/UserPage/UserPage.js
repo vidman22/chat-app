@@ -30,12 +30,21 @@ class CreateGame extends Component {
 		let authorID = this.props.match.params.user;
     // console.log("authorID " + authorID);
 		return (
-				
+				<div className="UserPageWrapper">
+          <div className="SideBar">
+            <div className="SideBarHeader">
+              Lessons
+            </div>
+            <div className="SideBarHeader">
+              Classes
+            </div>
+          </div>
      			<Query 
-     			query={USER_LESSONS}
-     			variables={{ authorID }}>
+     			  query={USER_LESSONS}
+     			  variables={{ authorID }}
+            pollInterval={500}>
 
-      			{({ loading, error, data}) => {
+      			{({ loading, error, data, startPolling, stopPolling}) => {
 
         			if (loading) return <div className="spinner spinner-1"></div>;
         			if (error) return `Error! ${error.message}`;
@@ -45,6 +54,7 @@ class CreateGame extends Component {
             			{data.userLessons.map( (lesson, index) => (<Link key={index} to={`/lessons/${lesson.id}`}>
               			<LessonLink 
               			id={lesson.id}  
+                    delete={() => this.delete()}
               			title={lesson.title} 
               			author={lesson.author}
               			/>
@@ -53,10 +63,10 @@ class CreateGame extends Component {
             
           			</div>
           			);
-      			}}
-      			</Query>      
+      			 }}
+      		</Query>      
 
-
+        </div>
 			)
 	}
 

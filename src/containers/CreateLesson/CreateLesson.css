@@ -127,12 +127,13 @@
 
 .InputSentenceWrapper p{
   float: left;
-  margin: 5px 0 0 5px;
+  margin: 0 0 0 5px;
 }
 
 .DeleteSentence {
   float: right;
   margin: 5px 5px 0 0;
+  z-index: 99;
 }
 
 
@@ -176,8 +177,7 @@
 .CreateButton {
   width: 120px;
   height: 60px;
-  margin-left: 70%;
-  margin-top: -14px;
+  margin: 0 0 18px 80%;
   font-size: 18px;
   display: inline-block;
   clear: left;
@@ -252,5 +252,67 @@
 @keyframes caret {
   50% {
     border-right-color: transparent; 
+  }
+}
+
+@media screen and (max-width: 640px) {
+
+  .ExampleSentenceHeader {
+    margin-left: 0;
+  }
+  .FirstHalfExample,
+  .SecondHalfExample {
+    margin: 8px auto 8px auto;
+  }
+
+  .ExampleSentence ul {
+    margin: 10px auto 0 auto;
+    padding-left: 0;
+    float: left;
+    text-align: left;
+    list-style: none;
+  }
+
+  .CreateButton {
+    margin-left: 65%;
+  }
+
+  .LessonTitleInput {
+    width: 80%;
+    margin: 0 0 6px 0;
+    font-size: 30px;
+    height:30px;
+    line-height:30px;
+  }
+  .InputAnswer,
+  .InputHint,
+  .InputSentence {
+    width: 100%;
+    margin: 0 0 2px 0;
+    font-size: 20px;
+    height:25px;
+    line-height:20px;
+  }
+
+  .AltAddWrapper {
+    display: inline-block;
+    margin: 0 0 0 0;
+  }
+
+  .AddAltButtonWrapper {
+    margin-left: 25%;
+  }
+
+  .InputAnswer,
+  .InputHint {
+    width: 50%;
+  }
+
+  .DeleteSentence {
+    margin: -3px -8px 0 0;
+  }
+  .InputSentenceWrapper p{
+    float: left;
+    margin: -9px 0 0 -8px;
   }
 }

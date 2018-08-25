@@ -2,6 +2,18 @@
 /*#23A6D5 blue*/
 /*#00c4c3 mixed*/
 
+.CreatedDate {
+	display: block;
+	margin: 0 0 0 90%;
+	color: #ccc;
+	font-size: 14px;
+}
+
+.CreatedDate p{
+	display: inline-block;
+	margin: 0;
+}
+
 .LessonLinkTab {
 	display: block;
 	margin: 3% auto 0 auto;
@@ -29,12 +41,14 @@
 
 .LessonLinkTitle h1{
 	font-size: 40px;
+	margin: 0;
 	font-weight: bold;
 }
 
 .LessonLinkAuthor {
-	display: inline-block;
-	margin-left: 4%;
+	display: block;
+	margin:0 0 0 5%;
+	color: #ccc;
 }
 .LessonLinkAuthor p{
 	display: inline-block;
@@ -44,4 +58,27 @@
 .LessonLinkTab:hover {
 	/*border-right: 8px solid yellow; */
 	border-left: 8px solid yellow;
+}
+
+@media screen and (max-width: 640px) {
+	.LessonLinkTab {
+		width: 90%;
+		height: 
+	}
+	.LessonLinkTitle h1{
+		font-size: 30px;
+		font-weight: bold;
+		margin: 0;
+	}
+	.CreatedDate {
+	display: block;
+	margin: 0 0 0 73%;
+	color: #ccc;
+	font-size: 14px;
+}
+
+	.CreatedDate p{
+	display: inline-block;
+	margin: 0;
+}
 }

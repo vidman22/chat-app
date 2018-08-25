@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Players from '../../components/Players/Players';
+import PlayersWaiting from '../../components/Players/Players';
 import Teams from '../../components/Team/Team';
 import GameBoard from '../GameBoard/GameBoard';
 import Modal from '../../components/Modal/Modal';
@@ -38,7 +38,7 @@ class WaitingPage extends Component {
 
 
 	componentDidMount() {
-		console.log('props ', this.props);
+
 		this.initSocket();
 	}
 
@@ -72,14 +72,14 @@ class WaitingPage extends Component {
 		
 
 		socket.on('UPDATED_PLAYERS', (users) =>{
-			console.log("players updated ", users);
+			
 			let players = [...this.state.players];
 			players = users;
 
 			this.setState({
 				players
 			});
-			console.log(players.length);
+			
 			if (players.length >= 2) {
 				this.setState({
 					disabled: false
@@ -168,7 +168,6 @@ class WaitingPage extends Component {
 
 	playAgain() {
 		const { socket } = this.state;
-		this.loadGame();
 		this.setState({
 			openModal: false,
 			winner: null,
@@ -178,11 +177,12 @@ class WaitingPage extends Component {
 	};
 
 	addComponent() {
+		
 		let result;
 		switch(this.state.action) {
 			case 'players':
 			result = (
-					<Players 
+					<PlayersWaiting 
 						players={this.state.players} 
 						room={this.state.room} 
 						gamename={this.props.lesson.title}  
@@ -209,7 +209,7 @@ class WaitingPage extends Component {
 			case 'gameboard':
 			result = (
 				<div>
-					<GameBoard players={this.state.players} arrayofteams={this.state.arrayOfTeams} />
+					<GameBoard players={this.state.players} arrayofteams={this.state.arrayOfTeams} length={this.props.lesson.sentences.length}/>
 					<Modal show={this.state.openModal} playAgain={this.playAgain.bind(this)} winner={this.state.winner} sentences={this.props.lesson.sentences} />
 					{this.state.openModal ? <Backdrop show /> : null}
 				</div>
@@ -234,5 +234,6 @@ class WaitingPage extends Component {
 			)
 	}
 }
+
 
 export default withRouter(WaitingPage);

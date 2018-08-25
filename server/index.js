@@ -3,12 +3,16 @@ const app = express();
 const path = require('path');
 const server = require('http').Server(app);
 const mongoose = require('./config/mongoose');
+const passport = require('passport');
 const graphqlHTTP = require('express-graphql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { APP_SECRET, getUserId } = require('./oauth/config/utils');
+const { getUserId } = require('./oauth/config/utils');
+const keys = require('./oauth/config/keys');
+const APP_SECRET = keys.app.APP_SECRET;
 const cors = require('cors');
 const db = mongoose();
+const uuidv4 = require('uuid/v4');
 
 const LessonSet = require('./models/lessonSet');
 const User = require('./models/user');
@@ -33,53 +37,72 @@ const schema  = require('./graphql/typeDefs');
 
 
 var root = {
-	 
+		deleteLesson: async (args, ctx, info ) => {
+			const userID = getUserId(ctx.headers.authorization);
+
+			if (!userID) {
+				throw new Error('Not authenticated')
+			}
+			
+			return await LessonSet.deleteOne({ userID }, (err) => {
+				if (err) {
+					throw err 
+					return false
+				} else return true
+			});
+		},
+		updateLesson: async (args, ctx, info ) => {
+
+		},
 	 	lessonSet: async (args, ctx, info ) => {
-	 		console.log("lesson triggered ctx", ctx.headers.authorization );
+	 		
 	 		return await LessonSet.findById(args.id)
 	 	},
-	 	lessonSets: async (args, parent, ctx, info) => {
-	 		return await LessonSet.find()
+	 	lessonSets: async (args, ctx, info) => {
+	 		return await LessonSet.find();
 	 	},
 	 	user: async ({_id}) => {
 	 		return await User.findById(_id)
 	 	},
 	 	userLessons: async ( authorID ) => {
-	 		console.log('author id' , authorID)
+	 		
 	 		return await LessonSet.find(authorID);
 	 	},
 	 	createLessonSet: async ( {title, author, authorID, sentences}, ctx, info ) => {
-	 		const lessonSet = new LessonSet({ title, author, authorID, sentences });
+	 		const termNumber = sentences.length;
+	 		const lessonSet = new LessonSet({ title, author, authorID, sentences, termNumber });
 	 		return await lessonSet.save(); 
 	 		if (!lessonSet) {
       			throw new Error('Error');
    			}
-   			console.log("create lesson set success");
+   			
 	 	},
-	 	signUp: async ({ username, email, password }) => {
-	 		console.log("signUp triggered")
-	 		const hash = await bcrypt.hash(password, 12 )
-	 		const user = new User({username, email, picture: null, password: hash });
+	 	signUp: async ({ username, email, password }, ctx, inf0) => {
+
+	 		const hash = await bcrypt.hash(password, 12 );
+	 		const userID = uuidv4();
+	 		const user = new User({username, userID, email, picture: false, password: hash });
 	 		
 
 	 		const existingUser = await User.findOne({ email });
 
 	 		if ( existingUser) {
 	 			throw new Error('Email already used');
+	 		} else {
+	 			await user.save();
+
+	 			const token = jwt.sign({ userID }, APP_SECRET, {expiresIn: '12hr'});
+	 			const expiresIn = 7200;
+
+  				return {
+   			 		token,
+   			 		expiresIn,
+    				user
+  				}			
 	 		}
-	 		await user.save();
-
-	 		const token = jwt.sign({ userId: user.id }, APP_SECRET);
-	 		const expiresIn = 7200;
-
-  			return {
-   			 	token,
-   			 	expiresIn,
-    			user
-  			}			
 	 	},
 	 	login: async ({email, password}) => {
-	 		console.log("login triggered")
+	 		
 	 		const user = await User.findOne({ email });
 
 	 		if (!user) {
@@ -91,7 +114,7 @@ var root = {
 	 			throw new Error('Password is incorrect');
 	 		}
 
-	 		const token = jwt.sign({ userId: user.id }, APP_SECRET);
+	 		const token = jwt.sign({ userID: user.userID }, APP_SECRET, {expiresIn: '12hr'});
 	 		const expiresIn = 7200;
 
 	 		return {
@@ -101,19 +124,21 @@ var root = {
   			}
 	 	},
 	 	oAuthSignIn: async ({ email, username, picture, userID, token, expiresIn}) => {
-	 		console.log("oAuth signin email " + email);
-	 		console.log("oAuth signin name " + username);
-	 		console.log("oAuth signin picture " + picture);
-	 		console.log("oAuth signin userID " + userID);
-	 		console.log("oAuth signin token " + token);
-	 		console.log("oAuth signin expiresIn " + expiresIn);
+	 		// console.log("oAuth signin email " + email);
+	 		// console.log("oAuth signin name " + username);
+	 		// console.log("oAuth signin picture " + picture);
+	 		// console.log("oAuth signin userID " + userID);
+	 		// console.log("oAuth signin token " + token);
+	 		// console.log("oAuth signin expiresIn " + expiresIn);
 	 		let user = await User.findOne({ email });
+
+	 		// token = jwt.sign({ userID }, APP_SECRET, {expiresIn: '12hr'});
+	 		console.log('auth token', token);
 
 	 		if (!user ) {
 	 			user = new User({email, username, picture, userID });
 	 			await user.save(); 
-	 		} 
-	 		return {
+	 		} else return {
 	 			token,
 	 			expiresIn,
 	 			user
@@ -121,6 +146,7 @@ var root = {
 	 	}
 };
 
+app.use(passport.initialize());
 app.use('/graphql', cors(), graphqlHTTP({
   schema: schema,
   rootValue: root,

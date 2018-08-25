@@ -12,12 +12,14 @@ var lessonSetSchema = new Schema({
 	title: String,
 	author: String,
 	authorID: String,
-	date: { type: Date, default: Date.now},
+	created: { type: Date, default: Date.now},
+	updated: { type: Date, default: Date.now},
 	meta: {
 		votes: Number,
 		favs: Number
 	},
-    sentences: [SentenceSchema]
+    sentences: [SentenceSchema],
+    termNumber: Number,
 });
 
 

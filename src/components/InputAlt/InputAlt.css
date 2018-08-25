@@ -1,7 +1,7 @@
 .InputAltWrapper {
   width:50%;
   clear: both;
-  margin: 18px 0 9px 8%;
+  margin: 18px 0 9px 5%;
 }
 
 .InputAlt {
@@ -37,4 +37,28 @@
 
 .RemoveAlt:hover {
   display: initial;
+}
+
+@media screen and (max-width: 640px) {
+
+  .InputAltWrapper {
+    margin: 18px 0 9px 0;
+  }
+
+  .AltAddWrapper {
+    margin: 0 0 0 0;
+  }
+
+  .InputAlt {
+    width: 100%;
+    margin: 0 0 2px 0;
+    font-size: 20px;
+    height:25px;
+    line-height:20px;
+  }
+  .RemoveAlt {
+    display: inline-block;
+    float: left;
+    margin: 0 -22px 0 0;
+  }
 }

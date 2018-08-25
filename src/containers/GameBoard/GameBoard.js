@@ -1,27 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Player from '../../components/Player/Player';
 
 import './GameBoard.css'
 
 
 
-class GameBoard extends Component {
-
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			players: null
-		}
-	}
-
-
-
-	render() {
+const GameBoard = (props) => {
+	
 
 		const players = this.props.players.map((player, index) => {
 			return (
-				<Player key={index} name={player.playerName} score={player.score} /> 
+				<Player key={index} name={player.playerName} score={player.score} length={this.props.length} /> 
 
 				)
 		});
@@ -29,7 +18,7 @@ class GameBoard extends Component {
 		if (this.props.teams) {
 			teams = this.props.teams.map((team, index) => {
 				return (
-					<Player key={index} name={index} score={2} />
+					<Player key={index} name={index} score={2} length={this.props.length} />
 					)
 			});
 		}
@@ -41,7 +30,6 @@ class GameBoard extends Component {
 			</div>
 
 			)
-	}
 };
 
 export default GameBoard;
